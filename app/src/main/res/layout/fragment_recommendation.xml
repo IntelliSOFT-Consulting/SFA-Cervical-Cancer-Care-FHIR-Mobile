@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:padding="20dp"
+    tools:context=".details.child.RecommendationFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/patientRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingHorizontal="1dp"
+        tools:listitem="@layout/item_patient_impression" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/outlinedButton"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="8dp"
+        android:text="@string/send_recommendation_to_patient"
+        android:textAllCaps="false"
+        android:visibility="gone"
+        app:cornerRadius="30dp"
+        app:strokeWidth="2dp" />
+
+</RelativeLayout>
