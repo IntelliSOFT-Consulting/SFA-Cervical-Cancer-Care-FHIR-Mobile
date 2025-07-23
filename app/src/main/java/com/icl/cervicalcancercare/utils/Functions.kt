@@ -19,10 +19,13 @@ import com.google.android.material.button.MaterialButton
 import com.icl.cervicalcancercare.R
 import com.icl.cervicalcancercare.auth.LoginActivity
 import com.icl.cervicalcancercare.network.FormatterClass
+import java.util.UUID
 
 class Functions {
 
-
+      fun generateUuid(): String {
+        return UUID.randomUUID().toString()
+    }
     fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

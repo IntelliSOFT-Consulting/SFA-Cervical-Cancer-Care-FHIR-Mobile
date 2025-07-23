@@ -9,6 +9,7 @@ import com.icl.cervicalcancercare.MainActivity
 import com.icl.cervicalcancercare.models.ExtractedData
 import com.icl.cervicalcancercare.models.Login
 import com.icl.cervicalcancercare.models.UrlData
+import com.icl.cervicalcancercare.utils.Functions
 import com.icl.cervicalcancercare.viewmodels.AddPatientViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,11 +32,26 @@ class RetrofitCallsAuthentication {
     ) {
         CoroutineScope(Dispatchers.Main).launch {
             val job = Job()
+            val encounterId = Functions().generateUuid()
             CoroutineScope(Dispatchers.IO + job).launch {
-                handleDataProcessing(context, result, viewModel)
+                handleFhirProcessing(context, result, viewModel,encounterId)
+                handleDataProcessing(context, result, viewModel,encounterId)
             }
                 .join()
         }
+    }
+
+    fun handleFhirProcessing(
+        context: Context,
+        result: ExtractedData,
+        viewModel: AddPatientViewModel,
+        encounterId: String
+    ) {
+        val job = Job()
+        CoroutineScope(Dispatchers.IO + job)
+            .launch {
+                viewModel.createPatientObservations(context, result,encounterId)
+            }
     }
 
     fun extractAllSections(content: String): Map<String, String> {
@@ -58,7 +74,8 @@ class RetrofitCallsAuthentication {
     private fun handleDataProcessing(
         context: Context,
         data: ExtractedData,
-        viewModel: AddPatientViewModel
+        viewModel: AddPatientViewModel,
+        encounterId: String
     ) {
 
         val job1 = Job()
@@ -94,28 +111,10 @@ class RetrofitCallsAuthentication {
                                     messageToast = "Request successful.."
 
                                     val input = extractAllSections(response)
-                                    println("Server Response $response")
-                                    println("Server Response $input")
-//                                    val patientSummary =
-//                                        extractSection(response, "Patient Summary:")
-//                                    val treatmentOptions =
-//                                        extractSection(response, "1. Recommended Treatment Options")
-//                                    val diagnostics =
-//                                        extractSection(response, "2. Suggested Further Diagnostics")
-//                                    val followUp =
-//                                        extractSection(response, "3. Follow-Up Protocols")
-//                                    val notes =
-//                                        extractSection(response, "4. Notes & Considerations")
-
-//                                    println("Server Response -> Summary:\n$patientSummary")
-//                                    println("Server Response -> Treatment:\n$treatmentOptions")
-//                                    println("Server Response -> Diagnostics:\n$diagnostics")
-//                                    println("Server Response -> FollowUp:\n$followUp")
-//                                    println("Server Response -> Notes:\n$notes")
 
                                     val resourceId =
                                         FormatterClass().getSharedPref("resourceId", context)
-                                    viewModel.createRecommendations(input, "$resourceId", data)
+                                    viewModel.createRecommendations(input, "$resourceId", data,encounterId)
 
 
                                     if (context is Activity) {

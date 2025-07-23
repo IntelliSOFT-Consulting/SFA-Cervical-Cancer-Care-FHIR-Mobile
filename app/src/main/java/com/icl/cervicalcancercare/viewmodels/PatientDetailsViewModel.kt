@@ -85,7 +85,7 @@ class PatientDetailsViewModel(
                             )
                         }
 
-                    data = data.copy(impressions = impressions)
+                    data = data.copy(impressions = impressions.reversed())
                 }
 
             val patientId = if (it.resource.hasIdElement()) it.resource.idElement.idPart else ""
@@ -99,8 +99,6 @@ class PatientDetailsViewModel(
                 } else {
                     null
                 }
-//            val phone = if (it.resource.hasTelecom()) it.resource.telecom[0].value else ""
-//            get the phone from telecom where system is phone then email
             val phone =
                 if (it.resource.hasTelecom()) it.resource.telecom.filter { telecom -> telecom.system == ContactPoint.ContactPointSystem.PHONE }
                     .map { telecom -> telecom.value }.firstOrNull() ?: "" else ""

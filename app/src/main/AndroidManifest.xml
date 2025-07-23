@@ -20,7 +20,7 @@
         <activity
             android:name=".details.child.RecommendationDetailsActivity"
             android:exported="false"
-            android:theme="@style/Theme.CervicalCancerCare.NoActionBar" />
+            android:theme="@style/Theme.CervicalCancerCare" />
         <activity
             android:name=".assessment.AssessmentActivity"
             android:exported="false"
