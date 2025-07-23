@@ -30,6 +30,7 @@ import kotlinx.coroutines.withContext
 import org.hl7.fhir.r4.model.ClinicalImpression
 import org.hl7.fhir.r4.model.Coding
 import org.hl7.fhir.r4.model.Condition
+import org.hl7.fhir.r4.model.ContactPoint
 import org.hl7.fhir.r4.model.Encounter
 import org.hl7.fhir.r4.model.Observation
 import org.hl7.fhir.r4.model.Patient
@@ -98,11 +99,25 @@ class PatientDetailsViewModel(
                 } else {
                     null
                 }
-            val phone = if (it.resource.hasTelecom()) it.resource.telecom[0].value else ""
+//            val phone = if (it.resource.hasTelecom()) it.resource.telecom[0].value else ""
+//            get the phone from telecom where system is phone then email
+            val phone =
+                if (it.resource.hasTelecom()) it.resource.telecom.filter { telecom -> telecom.system == ContactPoint.ContactPointSystem.PHONE }
+                    .map { telecom -> telecom.value }.firstOrNull() ?: "" else ""
+            val email =
+                if (it.resource.hasTelecom()) it.resource.telecom.filter { telecom -> telecom.system == ContactPoint.ContactPointSystem.EMAIL }
+                    .map { telecom -> telecom.value }.firstOrNull() ?: "" else ""
+
+
             val city = if (it.resource.hasAddress()) it.resource.address[0].city else ""
             val country = if (it.resource.hasAddress()) it.resource.address[0].country else ""
             val isActive = it.resource.active
             val html: String = if (it.resource.hasText()) it.resource.text.div.valueAsString else ""
+            val identificationType =
+                if (it.resource.hasIdentifier()) it.resource.identifier[0].type.coding[0].display else "National ID Number"
+            val identificationNumber =
+                if (it.resource.hasIdentifier()) it.resource.identifier[0].value else ""
+
             data = data.copy(
                 basic = PatientItem(
                     id = patientId,
@@ -110,11 +125,14 @@ class PatientDetailsViewModel(
                     name = name,
                     gender = gender,
                     phone = phone,
+                    email = email,
                     dob = dob,
                     city = city,
                     country = country,
                     isActive = isActive,
                     html = html,
+                    identificationType = identificationType,
+                    identificationNumber = identificationNumber
                 )
             )
 

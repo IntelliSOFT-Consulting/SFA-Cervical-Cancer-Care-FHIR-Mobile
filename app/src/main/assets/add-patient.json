@@ -68,6 +68,22 @@
                   "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
                   "valueExpression": {
                     "language": "text/fhirpath",
+                    "expression": "%client.name.given",
+                    "name": "patientName"
+                  }
+                }
+              ],
+              "linkId": "PR-name-middle",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.name.given",
+              "type": "string",
+              "text": "Middle Name"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
                     "expression": "%client.name.family",
                     "name": "patientFamily"
                   }
@@ -77,7 +93,7 @@
               "definition": "http://hl7.org/fhir/StructureDefinition/datatypes#HumanName.family",
               "type": "string",
               "required": true,
-              "text": "Family Name"
+              "text": "Last Name"
             }
           ]
         },
@@ -126,84 +142,21 @@
               }
             },
             {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+              "valueBoolean": true
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
               "valueCode": "horizontal"
             }
           ],
-          "answerOption": [
+          "initial": [
             {
               "valueCoding": {
                 "system": "http://hl7.org/fhir/administrative-gender",
                 "code": "female",
-                "display": "Female",
-                "designation": [
-                  {
-                    "language": "sw",
-                    "value": "Mwanamke"
-                  }
-                ]
+                "display": "Female"
               }
-            }
-          ]
-        },
-        {
-          "linkId": "PR-telecom",
-          "type": "group",
-          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.telecom",
-          "item": [
-            {
-              "linkId": "PR-telecom-system",
-              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.telecom.system",
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
-                  "valueBoolean": true
-                }
-              ],
-              "type": "string",
-              "text": "system",
-              "initial": [
-                {
-                  "valueString": "phone"
-                }
-              ]
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
-                  "valueExpression": {
-                    "language": "text/fhirpath",
-                    "expression": "%client.telecom.value",
-                    "name": "patientTelecom"
-                  }
-                },
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
-                  "valueCodeableConcept": {
-                    "coding": [
-                      {
-                        "system": "http://hl7.org/fhir/questionnaire-item-control",
-                        "code": "phone-number",
-                        "display": "Phone Number"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
-                  "valueInteger": 10
-                },
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/minLength",
-                  "valueInteger": 10
-                }
-              ],
-              "linkId": "PR-telecom-value",
-              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.telecom.value",
-              "type": "string",
-              "required": true,
-              "text": "Phone Number"
             }
           ]
         },
@@ -344,6 +297,119 @@
           ]
         },
         {
+          "linkId": "PR-telecom-phone-section",
+          "type": "group",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.telecom",
+          "item": [
+            {
+              "linkId": "PR-telecom-system",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.telecom.system",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                }
+              ],
+              "type": "string",
+              "text": "system",
+              "initial": [
+                {
+                  "valueString": "phone"
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "%client.telecom.value",
+                    "name": "patientTelecom"
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "phone-number",
+                        "display": "Phone Number"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxLength",
+                  "valueInteger": 10
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/minLength",
+                  "valueInteger": 10
+                }
+              ],
+              "linkId": "PR-telecom-value",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.telecom.value",
+              "type": "string",
+              "required": true,
+              "text": "Phone Number"
+            }
+          ]
+        },
+        {
+          "linkId": "PR-telecom-email-section",
+          "type": "group",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.telecom",
+          "item": [
+            {
+              "linkId": "PR-telecom-system-email",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.telecom.system",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
+                }
+              ],
+              "type": "string",
+              "text": "system",
+              "initial": [
+                {
+                  "valueString": "email"
+                }
+              ]
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "%client.telecom.value",
+                    "name": "patientTelecomEmail"
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "email",
+                        "display": "Email Address"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "linkId": "PR-telecom-value-email",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.telecom.value",
+              "type": "string",
+              "text": "Email Address"
+            }
+          ]
+        },
+        {
           "linkId": "PR-address",
           "type": "group",
           "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address",
@@ -383,13 +449,22 @@
                     "expression": "%client.address.country",
                     "name": "patientCity"
                   }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+                  "valueBoolean": true
                 }
               ],
               "linkId": "PR-address-country",
               "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.country",
               "type": "string",
               "required": true,
-              "text": "Country"
+              "text": "Country",
+              "initial": [
+                {
+                  "valueString": "KENYA"
+                }
+              ]
             }
           ]
         }

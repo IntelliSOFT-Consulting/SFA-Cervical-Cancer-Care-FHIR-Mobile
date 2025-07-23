@@ -23,13 +23,14 @@ class PatientItemViewHolder(binding: ItemPatientBinding) :
         onItemClicked: (PatientItem) -> Unit,
     ) {
         this.name.text = patientItem.name
-        this.dobAge.text = "DOB: ${patientItem.dob}  (${
+        this.dobAge.text = " DOB: ${patientItem.dob}  (${
             getFormattedAge(
                 patientItem,
                 this.dobAge.context.resources
             )
         })"
-        this.nationalId.text = "National ID No: ${patientItem.id}"
+        this.nationalId.text =
+            " ${patientItem.identificationType} :  ${patientItem.identificationNumber}"
         try {
             val initials = Functions().getInitials(patientItem.name)
             val avatarBitmap = Functions().createAvatar(initials)

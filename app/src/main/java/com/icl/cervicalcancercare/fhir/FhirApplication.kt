@@ -32,7 +32,7 @@ class FhirApplication : Application(), DataCaptureConfig.Provider {
                 enableEncryptionIfSupported = false,
                 DatabaseErrorStrategy.RECREATE_AT_OPEN,
                 ServerConfiguration(
-                    "https://hapi.fhir.org/baseR4/",
+                    "https://sfa.intellisoftkenya.com/hapi/fhir/",
                     httpLogger =
                         HttpLogger(
                             HttpLogger.Configuration(

@@ -14,6 +14,7 @@ import com.google.android.fhir.search.search
 import com.icl.cervicalcancercare.models.PatientItem
 import java.time.ZoneId
 import kotlinx.coroutines.launch
+import org.hl7.fhir.r4.model.ContactPoint
 import org.hl7.fhir.r4.model.Patient
 
 /**
@@ -182,11 +183,21 @@ internal fun Patient.toPatientItem(position: Int): PatientItem {
         } else {
             null
         }
-    val phone = if (hasTelecom()) telecom[0].value else ""
+    val phone =
+        if (hasTelecom()) telecom.filter { telecom -> telecom.system == ContactPoint.ContactPointSystem.PHONE }
+            .map { telecom -> telecom.value }.firstOrNull() ?: "" else ""
+    val email =
+        if (hasTelecom()) telecom.filter { telecom -> telecom.system == ContactPoint.ContactPointSystem.EMAIL }
+            .map { telecom -> telecom.value }.firstOrNull() ?: "" else ""
+
     val city = if (hasAddress()) address[0].city else ""
     val country = if (hasAddress()) address[0].country else ""
     val isActive = active
     val html: String = if (hasText()) text.div.valueAsString else ""
+    val identificationType =
+        if (hasIdentifier()) identifier[0].type.coding[0].display else "National ID Number"
+    val identificationNumber =
+        if (hasIdentifier()) identifier[0].value else ""
 
     return PatientItem(
         id = position.toString(),
@@ -195,9 +206,12 @@ internal fun Patient.toPatientItem(position: Int): PatientItem {
         gender = gender ?: "",
         dob = dob,
         phone = phone ?: "",
+        email = email ?: "",
         city = city ?: "",
         country = country ?: "",
         isActive = isActive,
         html = html,
+        identificationType = identificationType,
+        identificationNumber = identificationNumber
     )
 }

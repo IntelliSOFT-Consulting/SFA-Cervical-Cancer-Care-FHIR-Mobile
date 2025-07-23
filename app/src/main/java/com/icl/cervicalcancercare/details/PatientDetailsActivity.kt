@@ -78,7 +78,10 @@ class PatientDetailsActivity : AppCompatActivity() {
                         val basic = data.basic
                         patientName.text = basic.name
                         tvPhone.text = basic.phone
+                        tvEmail.text = basic.email
                         tvDob.text = "${basic.dob}"
+                        tvIdentificationNumber.text = basic.identificationNumber
+                        tvIdentificationType.text = basic.identificationType
                         tvAge.text = getFormattedAge(basic, tvAge.context.resources)
                         try {
                             val initials = Functions().getInitials(basic.name)

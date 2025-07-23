@@ -65,10 +65,13 @@ data class PatientItem(
     val gender: String,
     val dob: LocalDate? = null,
     val phone: String,
+    val email: String,
     val city: String,
     val country: String,
     val isActive: Boolean,
     val html: String,
+    val identificationType: String? = null,
+    val identificationNumber: String? = null
 ) {
     override fun toString(): String = name
 }

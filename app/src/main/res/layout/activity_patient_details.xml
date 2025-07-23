@@ -61,6 +61,7 @@
 
             <!-- Email -->
             <TextView
+                android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="doreenm45@gmail.com"
@@ -137,12 +138,14 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_identification_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="National ID Number"
                         android:textColor="@android:color/white" />
 
                     <TextView
+                        android:id="@+id/tv_identification_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="371438"
