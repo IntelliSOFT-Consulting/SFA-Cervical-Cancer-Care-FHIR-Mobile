@@ -9,6 +9,7 @@ import com.icl.cervicalcancercare.R
 import com.icl.cervicalcancercare.databinding.ActivityLoginBinding
 import com.icl.cervicalcancercare.models.Login
 import com.icl.cervicalcancercare.network.RetrofitCallsAuthentication
+import com.icl.cervicalcancercare.utils.Functions
 
 class LoginActivity : AppCompatActivity() {
 
@@ -42,6 +43,25 @@ class LoginActivity : AppCompatActivity() {
                         binding.passwordInputLayout.error = "Please enter password"
                         return@setOnClickListener
                     }
+
+                    // check if there's internet connection & display a connection alert dialog
+                    if (!Functions().isInternetAvailable(this@LoginActivity)) {
+
+                        Functions().showConnectionAlertDialog(
+                            context = this@LoginActivity,
+                            title = "No Internet Connection",
+                            message = "An active internet connection is required.\nPlease check your internet connection and try again.",
+                            onConfirm = {
+                                // Perform delete logic
+                            },
+                            onCancel = {
+                                // Optional cancel logic
+                            }
+                        )
+
+                        return@setOnClickListener
+                    }
+
 
                     val dbSignIn = Login(username = email, password = password)
                     retrofitCallsAuthentication.loginUser(this@LoginActivity, dbSignIn)

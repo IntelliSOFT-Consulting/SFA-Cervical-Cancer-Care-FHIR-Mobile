@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.fab.setOnClickListener {
+            Functions().saveSharedPref("AddParentTitle", "Add New Patient", this@MainActivity)
             Functions().saveSharedPref("questionnaire", "add-patient.json", this@MainActivity)
             startActivity(Intent(this@MainActivity, AddPatientActivity::class.java))
         }

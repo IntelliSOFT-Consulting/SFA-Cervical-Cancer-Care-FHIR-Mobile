@@ -42,11 +42,11 @@ class AssessmentActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityAssessmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+//            insets
+//        }
 
         setSupportActionBar(binding.toolbar)
 
@@ -96,9 +96,23 @@ class AssessmentActivity : AppCompatActivity() {
     fun extractClinicalDataAsync(jsonString: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val result = extractClinicalDataFromJson(jsonString)
-            val resultJson = Gson().toJson(result)
+
+            val updatedData = if (result.screening_history.isEmpty()) {
+                result.copy(
+                    screening_history = mapOf(
+                        "last_screening_type" to " ",
+                        "last_screening_result" to " ",
+                        "date_of_last_screening" to "No Record",
+                        "hpv_test_result" to "",
+                        "pap_smear_result" to ""
+                    )
+                )
+            } else {
+                result
+            }
+            val resultJson = Gson().toJson(updatedData)
             Log.d("ExtractedData", resultJson)
-            retrofitCallsAuthentication.performAssessment(this@AssessmentActivity, result,viewModel)
+            retrofitCallsAuthentication.performAssessment(this@AssessmentActivity, updatedData,viewModel)
         }
     }
 
@@ -130,21 +144,43 @@ class AssessmentActivity : AppCompatActivity() {
                         .getString("display")
 
                 "screening_history" -> {
-                    val subItems = item.getJSONArray("item")
-                    for (j in 0 until subItems.length()) {
-                        val subItem = subItems.getJSONObject(j)
-                        val linkId = subItem.getString("linkId")
-                        val answer = subItem.getJSONArray("answer").getJSONObject(0)
-                        screeningHistory[linkId] = when {
-                            answer.has("valueDate") -> answer.getString("valueDate")
-                            answer.has("valueString") -> answer.getString("valueString")
-                            answer.has("valueCoding") -> answer.getJSONObject("valueCoding")
-                                .getString("display")
+                    val subItems = item.optJSONArray("item")
+                    if (subItems != null) {
+                        for (j in 0 until subItems.length()) {
+                            val subItem = subItems.optJSONObject(j) ?: continue
+                            val linkId = subItem.optString("linkId", "")
 
-                            else -> ""
+                            if (subItem.has("answer")) {
+                                val answerArray = subItem.optJSONArray("answer")
+                                if (answerArray != null && answerArray.length() > 0) {
+                                    val answer = answerArray.optJSONObject(0)
+                                    if (answer != null) {
+                                        val value = when {
+                                            answer.has("valueDate") -> answer.optString(
+                                                "valueDate",
+                                                ""
+                                            )
+
+                                            answer.has("valueString") -> answer.optString(
+                                                "valueString",
+                                                ""
+                                            )
+
+                                            answer.has("valueCoding") -> {
+                                                answer.optJSONObject("valueCoding")
+                                                    ?.optString("display", "") ?: ""
+                                            }
+
+                                            else -> ""
+                                        }
+                                        screeningHistory[linkId] = value
+                                    }
+                                }
+                            }
                         }
                     }
                 }
+
 
                 "clinical_findings" -> {
                     val subItems = item.getJSONArray("item")

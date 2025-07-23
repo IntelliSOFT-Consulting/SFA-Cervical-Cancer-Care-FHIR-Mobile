@@ -115,7 +115,7 @@ class RetrofitCallsAuthentication {
 
                                     val resourceId =
                                         FormatterClass().getSharedPref("resourceId", context)
-                                    viewModel.createRecommendations(input, "$resourceId",data)
+                                    viewModel.createRecommendations(input, "$resourceId", data)
 
 
                                     if (context is Activity) {
@@ -178,6 +178,7 @@ class RetrofitCallsAuthentication {
                                     val access_token = body.access_token
                                     formatter.saveSharedPref("access_token", access_token, context)
                                     formatter.saveSharedPref("isLoggedIn", "true", context)
+                                    formatter.saveSharedPref("userName", dbSignIn.username, context)
                                     messageToast = "Login successful.."
                                     val intent = Intent(context, MainActivity::class.java)
                                     intent.addFlags(

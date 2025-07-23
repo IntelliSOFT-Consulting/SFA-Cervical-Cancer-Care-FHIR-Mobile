@@ -65,6 +65,16 @@ class RecommendationFragment : Fragment() {
 
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        try {
+            patientDetailsViewModel.getPatientDetailData()
+        } catch (e: Exception) {
+            println("Error Encountered ${e.message}")
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val patientId = Functions().getSharedPref("resourceId", requireContext())
