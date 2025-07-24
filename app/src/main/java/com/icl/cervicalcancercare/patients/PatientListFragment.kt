@@ -1,5 +1,6 @@
 package com.icl.cervicalcancercare.patients
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
@@ -8,9 +9,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -81,7 +84,6 @@ class PatientListFragment : Fragment() {
                 confirmAction()
             }
         }
-
         fhirEngine = FhirApplication.Companion.fhirEngine(requireContext())
         patientListViewModel =
             ViewModelProvider(
@@ -92,9 +94,26 @@ class PatientListFragment : Fragment() {
                 ),
             )
                 .get(PatientListViewModel::class.java)
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
+        binding.searchInput.apply {
+            addTextChangedListener(
+                onTextChanged = { text, _, _, _ ->
+                    patientListViewModel.setPatientGivenName(text.toString())
+                },
+            )
+            setOnFocusChangeListener { view, hasFocus ->
+                if (!hasFocus) {
+                    imm.hideSoftInputFromWindow(view.windowToken, 0)
+                }
+            }
+        }
         val adapter1 = PatientAdapter(this::onPatientItemClicked)
+        patientListViewModel.patientCount.observe(viewLifecycleOwner) {
+//            binding.patientCount.text = "$it Patient(s)"
+        }
         patientListViewModel.liveSearchedPatients.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = View.GONE
             adapter1.submitList(it)
         }
         binding.patientRecycler.apply {

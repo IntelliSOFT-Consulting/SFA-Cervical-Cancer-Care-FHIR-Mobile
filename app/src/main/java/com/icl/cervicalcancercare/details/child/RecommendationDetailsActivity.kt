@@ -29,7 +29,7 @@ class RecommendationDetailsActivity : AppCompatActivity() {
         }
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar.apply { title = "Patient Summary" }
+        supportActionBar.apply { title = "Recommendation" }
         val json = intent.getStringExtra("impression_json")
         val impression = Gson().fromJson(json, PatientImpression::class.java)
 
