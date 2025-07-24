@@ -1,15 +1,22 @@
 package com.icl.cervicalcancercare.details.child
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.icl.cervicalcancercare.R
+import androidx.fragment.app.Fragment
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.icl.cervicalcancercare.assessment.AssessmentActivity
 import com.icl.cervicalcancercare.databinding.FragmentOverviewBinding
 import com.icl.cervicalcancercare.utils.Functions
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,15 +59,89 @@ class OverviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnAdd.apply {
+        binding.apply {
 
-            setOnClickListener {
-                Functions().saveSharedPref("questionnaire", "assessment.json", requireContext())
-                Functions().saveSharedPref("AddParentTitle", "Assessment", requireContext())
-                val intent = Intent(requireContext(), AssessmentActivity::class.java)
-                startActivity(intent)
+            btnAdd.apply {
+
+                setOnClickListener {
+                    Functions().saveSharedPref("questionnaire", "assessment.json", requireContext())
+                    Functions().saveSharedPref("AddParentTitle", "Assessment", requireContext())
+                    val intent = Intent(requireContext(), AssessmentActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+
+            pieChart.apply {
+
+                setUsePercentValues(true)
+                description.isEnabled = false
+                setExtraOffsets(5f, 10f, 5f, 5f)
+
+                setDragDecelerationFrictionCoef(0.95f)
+
+//                setCenterTextTypeface(tfLight)
+                centerText = generateCenterSpannableText()
+
+                isDrawHoleEnabled = true
+                setHoleColor(Color.WHITE)
+
+                setTransparentCircleColor(Color.WHITE)
+                setTransparentCircleAlpha(110)
+
+                holeRadius = 58f
+                transparentCircleRadius = 61f
+
+                setDrawCenterText(true)
+
+                setRotationAngle(0f)
+
+                // enable rotation of the chart by touch
+                isRotationEnabled = true
+                isHighlightPerTapEnabled = true
+
+
+                // chart.setUnit(" €");
+                // chart.setDrawUnitsInChart(true);
+
+                // add a selection listener
+//                setOnChartValueSelectedListener(this)
+//
+//                seekBarX.setProgress(4)
+//                seekBarY.setProgress(10)
+//
+//                animateY(1400, Easing.EaseInOutQuad)
+//
+//
+//                // chart.spin(2000, 0, 360);
+//                val l: Legend = chart.getLegend()
+//                l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP)
+//                l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT)
+//                l.setOrientation(Legend.LegendOrientation.VERTICAL)
+//                l.setDrawInside(false)
+//                l.setXEntrySpace(7f)
+//                l.setYEntrySpace(0f)
+//                l.setYOffset(0f)
+//
+//
+//                // entry label styling
+//                setEntryLabelColor(Color.WHITE)
+//                setEntryLabelTypeface(tfRegular)
+//                setEntryLabelTextSize(12f)
             }
         }
+
+
+    }
+
+    private fun generateCenterSpannableText(): CharSequence {
+        val s = SpannableString("MPAndroidChart\ndeveloped by Philipp Jahoda")
+        s.setSpan(RelativeSizeSpan(1.7f), 0, 14, 0)
+        s.setSpan(StyleSpan(Typeface.NORMAL), 14, s.length - 15, 0)
+        s.setSpan(ForegroundColorSpan(Color.GRAY), 14, s.length - 15, 0)
+        s.setSpan(RelativeSizeSpan(.8f), 14, s.length - 15, 0)
+        s.setSpan(StyleSpan(Typeface.ITALIC), s.length - 14, s.length, 0)
+        s.setSpan(ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length - 14, s.length, 0)
+        return s
     }
 
     companion object {

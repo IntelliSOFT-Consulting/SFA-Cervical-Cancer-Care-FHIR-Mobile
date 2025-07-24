@@ -70,6 +70,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.6.0")
 
-//    Lotie
+//    Lottie
     implementation("com.airbnb.android:lottie:6.6.6")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }
