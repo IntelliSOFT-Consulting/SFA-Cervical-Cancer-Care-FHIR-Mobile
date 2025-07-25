@@ -2,6 +2,10 @@ package com.icl.cervicalcancercare.details
 
 import android.content.res.Resources
 import android.os.Bundle
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -9,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.fhir.FhirEngine
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.icl.cervicalcancercare.R
@@ -104,6 +109,41 @@ class PatientDetailsActivity : AppCompatActivity() {
                 else -> "Overview"
             }
         }.attach()
+
+        binding.apply {
+            btnContactPatient.apply {
+                setOnClickListener {
+                    showContactOptions()
+                }
+            }
+        }
+    }
+
+    private fun showContactOptions() {
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_layout, null)
+
+        val whatsappCheck = view.findViewById<CheckBox>(R.id.whatsappCheck)
+        val emailCheck = view.findViewById<CheckBox>(R.id.emailCheck)
+        val smsCheck = view.findViewById<CheckBox>(R.id.smsCheck)
+        val sendBtn = view.findViewById<Button>(R.id.sendBtn)
+
+        sendBtn.setOnClickListener {
+            val selectedChannels = mutableListOf<String>()
+            if (whatsappCheck.isChecked) selectedChannels.add("WhatsApp")
+            if (emailCheck.isChecked) selectedChannels.add("Email")
+            if (smsCheck.isChecked) selectedChannels.add("SMS")
+
+            Toast.makeText(
+                this,
+                "Sending via: ${selectedChannels.joinToString()}",
+                Toast.LENGTH_SHORT
+            ).show()
+            dialog.dismiss()
+        }
+
+        dialog.setContentView(view)
+        dialog.show()
     }
 
     private fun getFormattedAge(

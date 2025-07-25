@@ -12,10 +12,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.google.android.gms.common.util.DeviceProperties.isTablet
 import com.icl.cervicalcancercare.assessment.AssessmentActivity
 import com.icl.cervicalcancercare.databinding.FragmentOverviewBinding
+import com.icl.cervicalcancercare.models.PieItem
 import com.icl.cervicalcancercare.utils.Functions
+import kotlin.collections.withIndex
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -59,6 +67,9 @@ class OverviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        displayProjectedRates()
+
         binding.apply {
 
             btnAdd.apply {
@@ -70,67 +81,66 @@ class OverviewFragment : Fragment() {
                     startActivity(intent)
                 }
             }
+        }
+    }
 
-            pieChart.apply {
+    private fun displayProjectedRates() {
+        val pie: MutableList<PieItem> = mutableListOf()
+        pie.add(
+            PieItem(
+                "90",
+                "Survival",
+                "#1EAF5F"
+            )
+        )
+        pie.add(
+            PieItem(
+                "90",
+                "Survival",
+                "#1EAF5F"
+            )
+        )
 
-                setUsePercentValues(true)
-                description.isEnabled = false
-                setExtraOffsets(5f, 10f, 5f, 5f)
-
-                setDragDecelerationFrictionCoef(0.95f)
-
-//                setCenterTextTypeface(tfLight)
-                centerText = generateCenterSpannableText()
-
-                isDrawHoleEnabled = true
-                setHoleColor(Color.WHITE)
-
-                setTransparentCircleColor(Color.WHITE)
-                setTransparentCircleAlpha(110)
-
-                holeRadius = 58f
-                transparentCircleRadius = 61f
-
-                setDrawCenterText(true)
-
-                setRotationAngle(0f)
-
-                // enable rotation of the chart by touch
-                isRotationEnabled = true
-                isHighlightPerTapEnabled = true
-
-
-                // chart.setUnit(" €");
-                // chart.setDrawUnitsInChart(true);
-
-                // add a selection listener
-//                setOnChartValueSelectedListener(this)
-//
-//                seekBarX.setProgress(4)
-//                seekBarY.setProgress(10)
-//
-//                animateY(1400, Easing.EaseInOutQuad)
-//
-//
-//                // chart.spin(2000, 0, 360);
-//                val l: Legend = chart.getLegend()
-//                l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP)
-//                l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT)
-//                l.setOrientation(Legend.LegendOrientation.VERTICAL)
-//                l.setDrawInside(false)
-//                l.setXEntrySpace(7f)
-//                l.setYEntrySpace(0f)
-//                l.setYOffset(0f)
-//
-//
-//                // entry label styling
-//                setEntryLabelColor(Color.WHITE)
-//                setEntryLabelTypeface(tfRegular)
-//                setEntryLabelTextSize(12f)
-            }
+        val pieShades: ArrayList<Int> = ArrayList()
+        val entries = ArrayList<PieEntry>()
+        for ((i, entry) in pie.withIndex()) {
+            entries.add(PieEntry(entry.value.toFloat(), entry.label))
+            pieShades.add(Color.parseColor(entry.color))
         }
 
+        val ourSet = PieDataSet(entries, "")
+        val data = PieData(ourSet)
 
+        ourSet.sliceSpace = 1f
+        ourSet.colors = pieShades
+        data.setValueTextColor(Color.WHITE)
+        data.setValueTextSize(10f)
+        binding.apply {
+
+            pieChart.data = data
+            pieChart.legend.setDrawInside(false)
+            pieChart.legend.isEnabled = true
+
+            pieChart.legend.orientation = Legend.LegendOrientation.HORIZONTAL
+            pieChart.legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+            pieChart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
+
+
+            pieChart.legend.isWordWrapEnabled = true
+            pieChart.legend.xEntrySpace = 10f
+            pieChart.legend.yEntrySpace = 10f
+            pieChart.legend.yOffset = 10f
+            pieChart.legend.xOffset = 10f
+            pieChart.extraTopOffset = 15f
+            pieChart.extraBottomOffset = 15f
+            pieChart.extraLeftOffset = 0f
+            pieChart.extraRightOffset = 50f
+            pieChart.animateY(1400, Easing.EaseInOutQuad)
+            pieChart.isDrawHoleEnabled = false
+            pieChart.description.isEnabled = false
+            pieChart.setDrawEntryLabels(false)
+            pieChart.invalidate()
+        }
     }
 
     private fun generateCenterSpannableText(): CharSequence {

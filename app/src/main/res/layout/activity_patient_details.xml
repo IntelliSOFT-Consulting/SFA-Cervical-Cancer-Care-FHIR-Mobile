@@ -176,6 +176,7 @@
                     app:strokeWidth="2dp" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_contact_patient"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

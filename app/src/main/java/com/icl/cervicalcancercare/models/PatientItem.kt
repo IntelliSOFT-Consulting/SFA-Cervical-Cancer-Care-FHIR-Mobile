@@ -23,7 +23,11 @@ data class DataProcessingResponse(
 enum class UrlData(var message: Int) {
     BASE_URL(R.string.base_url),
 }
-
+data class PieItem(
+    val value: String,
+    val label: String,
+    val color: String
+)
 
 data class ExtractedData(
     val patient_age: Int?,

@@ -116,6 +116,7 @@ class RecommendationFragment : Fragment() {
                 startActivity(intent)
             }
         }
+
     }
 
     private fun onItemClicked(data: PatientImpression) {
