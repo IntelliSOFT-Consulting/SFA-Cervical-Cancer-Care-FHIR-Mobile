@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,26 +8,44 @@
     android:padding="20dp"
     tools:context=".details.child.RecommendationFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/patientRecycler"
+    <!-- Content Stack: RecyclerView + Send Button -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingHorizontal="1dp"
-        tools:listitem="@layout/item_patient_impression" />
+        android:orientation="vertical">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/outlinedButton"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="match_parent"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/patientRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            tools:listitem="@layout/item_patient_impression" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/outlinedButton"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/send_recommendation_to_patient"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            app:cornerRadius="30dp"
+            app:strokeWidth="2dp" />
+    </LinearLayout>
+
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddRecommendation"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="8dp"
-        android:text="@string/send_recommendation_to_patient"
-        android:textAllCaps="false"
-        android:visibility="gone"
-        app:cornerRadius="30dp"
-        app:strokeWidth="2dp" />
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
+        android:contentDescription="@string/add_recommendation"
+        android:foregroundTint="@color/white"
+        app:backgroundTint="@color/primary"
+        app:srcCompat="@drawable/baseline_add_circle_outline_24"
+        app:tint="@color/white" />
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

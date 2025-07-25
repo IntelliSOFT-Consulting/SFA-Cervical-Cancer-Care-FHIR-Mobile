@@ -15,6 +15,7 @@ import com.google.android.fhir.FhirEngine
 import com.google.gson.Gson
 import com.icl.cervicalcancercare.R
 import com.icl.cervicalcancercare.adapters.RecommendationsAdapter
+import com.icl.cervicalcancercare.assessment.AssessmentActivity
 import com.icl.cervicalcancercare.databinding.FragmentRecommendationBinding
 import com.icl.cervicalcancercare.fhir.FhirApplication
 import com.icl.cervicalcancercare.models.PatientImpression
@@ -107,6 +108,14 @@ class RecommendationFragment : Fragment() {
 
         }
         patientDetailsViewModel.getPatientDetailData()
+        binding.apply {
+            fabAddRecommendation.setOnClickListener {
+                Functions().saveSharedPref("questionnaire", "assessment.json", requireContext())
+                Functions().saveSharedPref("AddParentTitle", "Assessment", requireContext())
+                val intent = Intent(requireContext(), AssessmentActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 
     private fun onItemClicked(data: PatientImpression) {

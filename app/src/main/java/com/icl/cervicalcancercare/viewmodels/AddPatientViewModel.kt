@@ -255,6 +255,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                 )
                     .entryFirstRep
             if (entry.resource !is Patient) {
+                isPatientSaved.value = false
                 return@launch
             }
             val patient = entry.resource as Patient

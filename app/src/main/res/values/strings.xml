@@ -50,4 +50,5 @@
     <string name="support_tool">Clinical Decision \nSupport Tool for \nCancer Management</string>
     <string name="go_to_diagnosis">Go to Diagnosis</string>
     <string name="send_recommendation_to_patient">Send Recommendation to Patient</string>
+    <string name="add_recommendation">Add Recommendation</string>
 </resources>
