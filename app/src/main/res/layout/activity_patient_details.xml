@@ -163,7 +163,7 @@
                 android:padding="16dp">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/outlinedButton"
+                    android:id="@+id/btn_edit_patient"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

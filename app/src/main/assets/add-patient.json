@@ -115,52 +115,6 @@
           "text": "Date of Birth"
         },
         {
-          "linkId": "patient-0-gender",
-          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.gender",
-          "type": "choice",
-          "text": "Gender",
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
-              "valueExpression": {
-                "system": "http://hl7.org/fhir/administrative-gender",
-                "language": "text/fhirpath",
-                "expression": "%client.gender",
-                "name": "patientGender"
-              }
-            },
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
-              "valueCodeableConcept": {
-                "coding": [
-                  {
-                    "system": "http://hl7.org/fhir/questionnaire-item-control",
-                    "code": "radio-button",
-                    "display": "Radio Button"
-                  }
-                ]
-              }
-            },
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
-              "valueBoolean": true
-            },
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
-              "valueCode": "horizontal"
-            }
-          ],
-          "initial": [
-            {
-              "valueCoding": {
-                "system": "http://hl7.org/fhir/administrative-gender",
-                "code": "female",
-                "display": "Female"
-              }
-            }
-          ]
-        },
-        {
           "linkId": "PR-identify",
           "type": "group",
           "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.identifier",
@@ -406,65 +360,6 @@
               "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.telecom.value",
               "type": "string",
               "text": "Email Address"
-            }
-          ]
-        },
-        {
-          "linkId": "PR-address",
-          "type": "group",
-          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address",
-          "item": [
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
-                  "valueExpression": {
-                    "language": "text/fhirpath",
-                    "expression": "%client.address.city",
-                    "name": "patientCity"
-                  }
-                },
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
-                  "valueBoolean": true
-                }
-              ],
-              "linkId": "PR-address-city",
-              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.city",
-              "type": "string",
-              "required": true,
-              "text": "City",
-              "initial": [
-                {
-                  "valueString": "CANCER-CENTER-TEST"
-                }
-              ]
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
-                  "valueExpression": {
-                    "language": "text/fhirpath",
-                    "expression": "%client.address.country",
-                    "name": "patientCity"
-                  }
-                },
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
-                  "valueBoolean": true
-                }
-              ],
-              "linkId": "PR-address-country",
-              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.country",
-              "type": "string",
-              "required": true,
-              "text": "Country",
-              "initial": [
-                {
-                  "valueString": "KENYA"
-                }
-              ]
             }
           ]
         }

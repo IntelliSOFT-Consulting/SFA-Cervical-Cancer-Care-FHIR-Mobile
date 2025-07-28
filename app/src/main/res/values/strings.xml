@@ -51,4 +51,8 @@
     <string name="go_to_diagnosis">Go to Diagnosis</string>
     <string name="send_recommendation_to_patient">Send Recommendation to Patient</string>
     <string name="add_recommendation">Add Recommendation</string>
+    <string name="edit_patient">Edit Patient</string>
+    <string name="inputs_missing">Enter all required fields</string>
+    <string name="message_patient_updated">Patient details updated</string>
+    <string name="view_recommendations">View Recommendations</string>
 </resources>

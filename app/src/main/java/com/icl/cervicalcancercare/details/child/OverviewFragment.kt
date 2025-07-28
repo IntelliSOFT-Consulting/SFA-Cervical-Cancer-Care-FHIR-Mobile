@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.PieData
@@ -19,6 +20,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.gms.common.util.DeviceProperties.isTablet
+import com.icl.cervicalcancercare.R
 import com.icl.cervicalcancercare.assessment.AssessmentActivity
 import com.icl.cervicalcancercare.databinding.FragmentOverviewBinding
 import com.icl.cervicalcancercare.models.PieItem
@@ -68,17 +70,17 @@ class OverviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        displayProjectedRates()
+//        displayProjectedRates()
 
         binding.apply {
 
-            btnAdd.apply {
-
+            btnViewRecommendation.apply {
                 setOnClickListener {
-                    Functions().saveSharedPref("questionnaire", "assessment.json", requireContext())
-                    Functions().saveSharedPref("AddParentTitle", "Assessment", requireContext())
-                    val intent = Intent(requireContext(), AssessmentActivity::class.java)
-                    startActivity(intent)
+                    val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager)
+                    val nextPage = viewPager.currentItem + 1
+                    if (nextPage < (viewPager.adapter?.itemCount ?: 0)) {
+                        viewPager.setCurrentItem(nextPage, true)
+                    }
                 }
             }
         }
