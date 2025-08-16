@@ -391,13 +391,13 @@
                   "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
                   "valueExpression": {
                     "language": "text/fhirpath",
-                    "expression": "%client.address.country",
+                    "expression": "%client.address.district",
                     "name": "patientCity"
                   }
                 }
               ],
               "linkId": "PR-address-sub-county",
-              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.country",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.district",
               "type": "string",
               "required": true,
               "text": "Sub County"

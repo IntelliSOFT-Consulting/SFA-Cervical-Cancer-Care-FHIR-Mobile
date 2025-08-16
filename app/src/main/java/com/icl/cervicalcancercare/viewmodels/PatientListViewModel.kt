@@ -199,6 +199,11 @@ internal fun Patient.toPatientItem(position: Int): PatientItem {
     val identificationNumber =
         if (hasIdentifier()) identifier[0].value else ""
 
+    val county = if (hasAddress()) addressFirstRep.city else ""
+    val sub_county = if (hasAddress()) addressFirstRep.district else ""
+    val ward = if (hasAddress()) addressFirstRep.state else ""
+
+
     return PatientItem(
         id = position.toString(),
         resourceId = patientId,
@@ -212,6 +217,9 @@ internal fun Patient.toPatientItem(position: Int): PatientItem {
         isActive = isActive,
         html = html,
         identificationType = identificationType,
-        identificationNumber = identificationNumber
+        identificationNumber = identificationNumber,
+        county = county,
+        sub_county = sub_county,
+        ward = ward
     )
 }

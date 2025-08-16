@@ -76,7 +76,10 @@ data class PatientItem(
     val isActive: Boolean,
     val html: String,
     val identificationType: String? = null,
-    val identificationNumber: String? = null
+    val identificationNumber: String? = null,
+    val county: String = "",
+    val sub_county: String = "",
+    val ward: String = ""
 ) {
     override fun toString(): String = name
 }
