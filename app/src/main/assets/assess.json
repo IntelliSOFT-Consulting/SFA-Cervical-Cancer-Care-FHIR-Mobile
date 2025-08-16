@@ -1,0 +1,2271 @@
+{
+  "resourceType": "Questionnaire",
+  "id": "cervical-cancer-clinical-assessment",
+  "meta": {
+    "profile": [
+      "http://hl7.org/fhir/4.0/StructureDefinition/Questionnaire"
+    ]
+  },
+  "title": "Cervical Cancer Clinical Assessment",
+  "status": "active",
+  "date": "2025-07-22",
+  "publisher": "Kiprotich Japheth (jkiprotich@intellisoftkenya.com)",
+  "approvalDate": "2025-07-24",
+  "lastReviewDate": "2025-07-24",
+  "item": [
+    {
+      "linkId": "facility_information",
+      "text": "Facility Information",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ]
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "date",
+          "text": "Date",
+          "type": "date",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/entryFormat",
+              "valueString": "yyyy-mm-dd"
+            },
+            {
+              "url": "http://ehelse.no/fhir/StructureDefinition/validationtext",
+              "valueString": "Cannot be a date in the future"
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+              "valueDate": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/cqf-calculatedValue",
+                    "valueExpression": {
+                      "language": "text/fhirpath",
+                      "expression": "today()"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "county",
+          "text": "County",
+          "type": "string"
+        },
+        {
+          "linkId": "sub_county",
+          "text": "Sub County",
+          "type": "string"
+        },
+        {
+          "linkId": "provider_name",
+          "text": "Service Provider Name",
+          "type": "string"
+        },
+        {
+          "linkId": "facility_name",
+          "text": "Facility Name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "linkId": "medical_history",
+      "text": "Medical History",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ]
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "family_medical_history",
+          "text": "Family Medical History",
+          "type": "display"
+        },
+        {
+          "linkId": "family_history_breast_cancer",
+          "text": "Family History of Breast Cancer",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "no",
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "family_history_hypertension",
+          "text": "Family History of Hypertension",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "no",
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "family_history_diabetes",
+          "text": "Family History of Diabetes",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "no",
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "family_history_mental_health",
+          "text": "Family History of Mental Health Disorders",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "no",
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "family_history_mental_health_specify",
+          "text": "If Yes, specify",
+          "type": "string",
+          "enableWhen": [
+            {
+              "question": "family_history_mental_health",
+              "operator": "=",
+              "answerCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "personal_medical_history",
+          "text": "Personal Medical History",
+          "type": "display"
+        },
+        {
+          "linkId": "personal_hypertension",
+          "text": "Are you diagnosed with Hypertension",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "no",
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "personal_hypertension_treatment",
+          "text": "If yes, are you on treatment",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "no",
+                "display": "No"
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "personal_hypertension",
+              "operator": "=",
+              "answerCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "personal_diabetes",
+          "text": "Are you diagnosed with Diabetes",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "no",
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "personal_diabetes_treatment",
+          "text": "If yes, are you on treatment",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "no",
+                "display": "No"
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "personal_diabetes",
+              "operator": "=",
+              "answerCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "risk_reproductive_history",
+      "text": "Risk Factors of NCDs",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ]
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "smoking",
+          "text": "Smoking",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "no",
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "alcohol_consumption",
+          "text": "Alcohol Consumption",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "no",
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "reproductive_health_history",
+          "text": "Reproductive Health History",
+          "type": "display"
+        },
+        {
+          "linkId": "number_of_pregnancies",
+          "text": "Number of Pregnancies",
+          "type": "integer"
+        },
+        {
+          "linkId": "number_of_births",
+          "text": "Number of Births (Parity)",
+          "type": "integer"
+        },
+        {
+          "linkId": "age_first_sexual_intercourse",
+          "text": "Age at First Sexual Intercourse",
+          "type": "integer"
+        },
+        {
+          "linkId": "contraception",
+          "text": "Contraception",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "no",
+                "display": "No"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "contraception_specify",
+          "text": "If yes, specify",
+          "type": "string",
+          "enableWhen": [
+            {
+              "question": "contraception",
+              "operator": "=",
+              "answerCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "number_of_sexual_partners",
+          "text": "Number of Sexual Partners",
+          "type": "integer"
+        },
+        {
+          "linkId": "hiv_status",
+          "text": "HIV Status",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "positive",
+                "display": "Positive"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "negative",
+                "display": "Negative"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "unknown",
+                "display": "Unknown"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "on_arv_treatment",
+          "text": "If positive, are you on ARV Treatment",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "no",
+                "display": "No"
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "hiv_status",
+              "operator": "=",
+              "answerCoding": {
+                "code": "positive",
+                "display": "Positive"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "arv_start_date",
+          "text": "ARV Start Date",
+          "type": "date",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/entryFormat",
+              "valueString": "yyyy-mm-dd"
+            },
+            {
+              "url": "http://ehelse.no/fhir/StructureDefinition/validationtext",
+              "valueString": "Cannot be a date in the future"
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+              "valueDate": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/cqf-calculatedValue",
+                    "valueExpression": {
+                      "language": "text/fhirpath",
+                      "expression": "today()"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "on_arv_treatment",
+              "operator": "=",
+              "answerCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "physical_measurements",
+      "text": "Physical Measurements",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ]
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "weight_kg",
+          "text": "Weight (kg)",
+          "type": "decimal"
+        },
+        {
+          "linkId": "height_cm",
+          "text": "Height (cm)",
+          "type": "decimal"
+        },
+        {
+          "linkId": "bmi",
+          "text": "BMI",
+          "type": "decimal"
+        },
+        {
+          "linkId": "waist_circumference_cm",
+          "text": "Waist Circumference (cm)",
+          "type": "decimal"
+        },
+        {
+          "linkId": "blood_pressure",
+          "text": "Blood Pressure Measurement",
+          "type": "display"
+        },
+        {
+          "linkId": "first_reading_systolic",
+          "text": "First Reading - Systolic (mmHg)",
+          "type": "decimal"
+        },
+        {
+          "linkId": "first_reading_diastolic",
+          "text": "First Reading - Diastolic (mmHg)",
+          "type": "decimal"
+        },
+        {
+          "linkId": "second_reading_systolic",
+          "text": "Second Reading - Systolic (mmHg)",
+          "type": "decimal"
+        },
+        {
+          "linkId": "second_reading_diastolic",
+          "text": "Second Reading - Diastolic (mmHg)",
+          "type": "decimal"
+        }
+      ]
+    },
+    {
+      "linkId": "cervical_cancer_screening",
+      "text": "Cervical Cancer Screening",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ]
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "type_of_visit",
+          "text": "Type of Visit",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "hpv_testing",
+                "display": "HPV Testing"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "via_testing",
+                "display": "VIA Testing"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "pap_smear",
+                "display": "Pap Smear"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "hpv_testing_group",
+          "text": "HPV Testing",
+          "type": "group",
+          "enableWhen": [
+            {
+              "question": "type_of_visit",
+              "operator": "=",
+              "answerCoding": {
+                "code": "hpv_testing",
+                "display": "HPV Testing"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "hpv_testing_status",
+              "text": "Status",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "done",
+                    "display": "Done"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "not_done",
+                    "display": "Not Done"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "not_applicable",
+                    "display": "Not Applicable"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "hpv_sample_date",
+              "text": "HPV Sample Date",
+              "type": "date",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/entryFormat",
+                  "valueString": "yyyy-mm-dd"
+                },
+                {
+                  "url": "http://ehelse.no/fhir/StructureDefinition/validationtext",
+                  "valueString": "Cannot be a date in the future"
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+                  "valueDate": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/StructureDefinition/cqf-calculatedValue",
+                        "valueExpression": {
+                          "language": "text/fhirpath",
+                          "expression": "today()"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "enableWhen": [
+                {
+                  "question": "hpv_testing_status",
+                  "operator": "=",
+                  "answerCoding": {
+                    "code": "done",
+                    "display": "Done"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "self_sampling",
+              "text": "Self-Sampling",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "yes",
+                    "display": "Yes"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "no",
+                    "display": "No"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "hpv_results",
+              "text": "HPV Results",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "positive",
+                    "display": "Positive"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "negative",
+                    "display": "Negative"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "hpv_action",
+              "text": "Action",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "referred",
+                    "display": "Referred"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "follow_up",
+                    "display": "Follow up"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "1yr_followup",
+                    "display": "HPV Follow-up (1 Year After Positive Test)"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "3_5yr_routine_screening",
+                    "display": "Routine HPV Screening (3–5 Years After Negative Test)"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "via_testing_group",
+          "text": "VIA Testing",
+          "type": "group",
+          "enableWhen": [
+            {
+              "question": "type_of_visit",
+              "operator": "=",
+              "answerCoding": {
+                "code": "via_testing",
+                "display": "VIA Testing"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "via_testing_status",
+              "text": "Status",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "done",
+                    "display": "Done"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "not_done",
+                    "display": "Not Done"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "not_applicable",
+                    "display": "Not Applicable"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "via_testing_results",
+              "text": "VIA Results",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "positive",
+                    "display": "Positive"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "negative",
+                    "display": "Negative"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "suspected_cancer",
+                    "display": "Suspected Cancer"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "via_testing_action",
+              "text": "Action",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "follow_up",
+                    "display": "Follow up"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "referred",
+                    "display": "Referred"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "via-treatment",
+              "text": "Pre-cancerous Treatment",
+              "type": "group",
+              "item": [
+                {
+                  "linkId": "via-treatment-cryotherapy",
+                  "text": "Cryotherapy",
+                  "type": "group",
+                  "item": [
+                    {
+                      "linkId": "cryotherapy-status",
+                      "text": "Cryotherapy Status",
+                      "type": "choice",
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "radio-button",
+                                "display": "Radio Button"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                          "valueCode": "horizontal"
+                        }
+                      ],
+                      "answerOption": [
+                        {
+                          "valueCoding": {
+                            "code": "done",
+                            "display": "Done"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "code": "not_done",
+                            "display": "Not Done"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "code": "not_applicable",
+                            "display": "Not Applicable"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "cryotherapy-sva",
+                      "text": "Single Visit Approach (SVA)",
+                      "type": "choice",
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "radio-button",
+                                "display": "Radio Button"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                          "valueCode": "horizontal"
+                        }
+                      ],
+                      "answerOption": [
+                        {
+                          "valueCoding": {
+                            "code": "yes",
+                            "display": "Yes"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "code": "no",
+                            "display": "No"
+                          }
+                        }
+                      ],
+                      "enableWhen": [
+                        {
+                          "question": "cryotherapy-status",
+                          "operator": "=",
+                          "answerCoding": {
+                            "code": "done"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "cryotherapy-reason",
+                      "text": "If not Done",
+                      "type": "choice",
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "radio-button",
+                                "display": "Radio Button"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                          "valueCode": "horizontal"
+                        }
+                      ],
+                      "answerOption": [
+                        {
+                          "valueCoding": {
+                            "code": "referred",
+                            "display": "Referred"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "code": "postponed",
+                            "display": "Postponed"
+                          }
+                        }
+                      ],
+                      "enableWhen": [
+                        {
+                          "question": "cryotherapy-status",
+                          "operator": "=",
+                          "answerCoding": {
+                            "code": "not_done"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "cryotherapy-postponed-reason",
+                      "text": "Reason for postponement",
+                      "type": "string",
+                      "enableWhen": [
+                        {
+                          "question": "cryotherapy-reason",
+                          "operator": "=",
+                          "answerCoding": {
+                            "code": "postponed"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "linkId": "via-treatment-thermal-ablation",
+                  "text": "Thermal Ablation",
+                  "type": "group",
+                  "item": [
+                    {
+                      "linkId": "thermal-status",
+                      "text": "Thermal Ablation Status",
+                      "type": "choice",
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "radio-button",
+                                "display": "Radio Button"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                          "valueCode": "horizontal"
+                        }
+                      ],
+                      "answerOption": [
+                        {
+                          "valueCoding": {
+                            "code": "done",
+                            "display": "Done"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "code": "not_done",
+                            "display": "Not Done"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "code": "not_applicable",
+                            "display": "Not Applicable"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "thermal-sva",
+                      "text": "Single Visit Approach (SVA)",
+                      "type": "choice",
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "radio-button",
+                                "display": "Radio Button"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                          "valueCode": "horizontal"
+                        }
+                      ],
+                      "answerOption": [
+                        {
+                          "valueCoding": {
+                            "code": "yes",
+                            "display": "Yes"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "code": "no",
+                            "display": "No"
+                          }
+                        }
+                      ],
+                      "enableWhen": [
+                        {
+                          "question": "thermal-status",
+                          "operator": "=",
+                          "answerCoding": {
+                            "code": "done"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "thermal-reason",
+                      "text": "If not Done",
+                      "type": "choice",
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "radio-button",
+                                "display": "Radio Button"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                          "valueCode": "horizontal"
+                        }
+                      ],
+                      "answerOption": [
+                        {
+                          "valueCoding": {
+                            "code": "referred",
+                            "display": "Referred"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "code": "postponed",
+                            "display": "Postponed"
+                          }
+                        }
+                      ],
+                      "enableWhen": [
+                        {
+                          "question": "thermal-status",
+                          "operator": "=",
+                          "answerCoding": {
+                            "code": "not_done"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "thermal-postponed-reason",
+                      "text": "Reason for postponement",
+                      "type": "string",
+                      "enableWhen": [
+                        {
+                          "question": "thermal-reason",
+                          "operator": "=",
+                          "answerCoding": {
+                            "code": "postponed"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "linkId": "via-treatment-leep",
+                  "text": "LEEP",
+                  "type": "group",
+                  "item": [
+                    {
+                      "linkId": "leep-status",
+                      "text": "LEEP Status",
+                      "type": "choice",
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "radio-button",
+                                "display": "Radio Button"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                          "valueCode": "horizontal"
+                        }
+                      ],
+                      "answerOption": [
+                        {
+                          "valueCoding": {
+                            "code": "done",
+                            "display": "Done"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "code": "not_done",
+                            "display": "Not Done"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "code": "not_applicable",
+                            "display": "Not Applicable"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "leep-sva",
+                      "text": "Single Visit Approach (SVA)",
+                      "type": "choice",
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "radio-button",
+                                "display": "Radio Button"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                          "valueCode": "horizontal"
+                        }
+                      ],
+                      "answerOption": [
+                        {
+                          "valueCoding": {
+                            "code": "yes",
+                            "display": "Yes"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "code": "no",
+                            "display": "No"
+                          }
+                        }
+                      ],
+                      "enableWhen": [
+                        {
+                          "question": "leep-status",
+                          "operator": "=",
+                          "answerCoding": {
+                            "code": "done"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "leep-reason",
+                      "text": "If not Done",
+                      "type": "choice",
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                          "valueCodeableConcept": {
+                            "coding": [
+                              {
+                                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                                "code": "radio-button",
+                                "display": "Radio Button"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                          "valueCode": "horizontal"
+                        }
+                      ],
+                      "answerOption": [
+                        {
+                          "valueCoding": {
+                            "code": "referred",
+                            "display": "Referred"
+                          }
+                        },
+                        {
+                          "valueCoding": {
+                            "code": "postponed",
+                            "display": "Postponed"
+                          }
+                        }
+                      ],
+                      "enableWhen": [
+                        {
+                          "question": "leep-status",
+                          "operator": "=",
+                          "answerCoding": {
+                            "code": "not_done"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "linkId": "leep-postponed-reason",
+                      "text": "Reason for postponement",
+                      "type": "string",
+                      "enableWhen": [
+                        {
+                          "question": "leep-reason",
+                          "operator": "=",
+                          "answerCoding": {
+                            "code": "postponed"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "via_follow_up",
+              "text": "Follow Up",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "follow_up_1yr_thermo_rad",
+                    "display": "Follow-Up (1 Year After Thermo Ablation or RAD)"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "routine_screening_1yr_neg",
+                    "display": "Routine Screening (1 Year After Initial Negative Test)"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "pap_smear",
+          "text": "Pap Smear",
+          "type": "group",
+          "enableWhen": [
+            {
+              "question": "type_of_visit",
+              "operator": "=",
+              "answerCoding": {
+                "code": "pap_smear",
+                "display": "Pap Smear"
+              }
+            }
+          ],
+          "item": [
+            {
+              "linkId": "pap_smear_done",
+              "text": "Status",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "done",
+                    "display": "Done"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "not_done",
+                    "display": "Not Done"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "not_applicable",
+                    "display": "Not Applicable"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "pap_smear_results",
+              "text": "Results",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "positive",
+                    "display": "Positive"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "negative",
+                    "display": "Negative"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "pap_smear_action",
+              "text": "Action",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "follow_up",
+                    "display": "Follow up"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "referred",
+                    "display": "Referred"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "breast_cancer_screening",
+      "text": "Breast Cancer Screening",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ]
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "breast_examination_cbe",
+          "text": "Breast Examination (CBE)",
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "normal",
+                "display": "Normal"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "abnormal",
+                "display": "Abnormal"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "not_applicable",
+                "display": "Not Applicable"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "not_done",
+                "display": "Not Done"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "breast_imaging",
+          "text": "Breast Imaging",
+          "type": "group",
+          "item": [
+            {
+              "linkId": "breast_ultrasound",
+              "text": "Breast Ultrasound",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "yes",
+                    "display": "Yes"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "no",
+                    "display": "No"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "not_applicable",
+                    "display": "Not Applicable"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "ultrasound_result",
+              "text": "Ultrasound Result",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "birads_0",
+                    "display": "BIRADS 0 – Need additional imaging evaluation"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_1",
+                    "display": "BIRADS 1 – Negative"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_2",
+                    "display": "BIRADS 2 – Benign finding"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_3",
+                    "display": "BIRADS 3 – Probably benign finding"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_4",
+                    "display": "BIRADS 4 – Suspicious abnormality"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_5",
+                    "display": "BIRADS 5 – Highly suggestive of malignancy"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_6",
+                    "display": "BIRADS 6 – Biopsy proven carcinoma"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_7",
+                    "display": "BIRADS 7 – Not applicable"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_8",
+                    "display": "BIRADS 8 – Not Done"
+                  }
+                }
+              ],
+              "enableWhen": [
+                {
+                  "question": "breast_ultrasound",
+                  "operator": "=",
+                  "answerCoding": {
+                    "code": "yes",
+                    "display": "Yes"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "mammography",
+              "text": "Mammography",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "yes",
+                    "display": "Yes"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "no",
+                    "display": "No"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "not_applicable",
+                    "display": "Not Applicable"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "mammography_result",
+              "text": "Mammography Result",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "birads_0",
+                    "display": "BIRADS 0 – Need additional imaging evaluation"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_1",
+                    "display": "BIRADS 1 – Negative"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_2",
+                    "display": "BIRADS 2 – Benign finding"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_3",
+                    "display": "BIRADS 3 – Probably benign finding"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_4",
+                    "display": "BIRADS 4 – Suspicious abnormality"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_5",
+                    "display": "BIRADS 5 – Highly suggestive of malignancy"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_6",
+                    "display": "BIRADS 6 – Biopsy proven carcinoma"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_7",
+                    "display": "BIRADS 7 – Not applicable"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "birads_8",
+                    "display": "BIRADS 8 – Not Done"
+                  }
+                }
+              ],
+              "enableWhen": [
+                {
+                  "question": "mammography",
+                  "operator": "=",
+                  "answerCoding": {
+                    "code": "yes",
+                    "display": "Yes"
+                  }
+                }
+              ]
+            },
+            {
+              "linkId": "breast_action",
+              "text": "Action",
+              "type": "choice",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "radio-button",
+                        "display": "Radio Button"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+                  "valueCode": "horizontal"
+                }
+              ],
+              "answerOption": [
+                {
+                  "valueCoding": {
+                    "code": "referred",
+                    "display": "Referred"
+                  }
+                },
+                {
+                  "valueCoding": {
+                    "code": "follow_up",
+                    "display": "Follow Up"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "linkId": "user_question",
+          "text": "Do you have any specific questions?",
+          "type": "string"
+        }
+      ]
+    }
+  ]
+}

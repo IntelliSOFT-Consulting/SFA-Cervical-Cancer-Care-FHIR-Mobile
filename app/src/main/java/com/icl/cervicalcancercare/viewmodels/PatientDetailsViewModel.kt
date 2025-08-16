@@ -18,6 +18,7 @@ import com.google.android.fhir.search.search
 import com.icl.cervicalcancercare.models.PatientImpression
 import com.icl.cervicalcancercare.models.PatientItem
 import com.icl.cervicalcancercare.models.PatientSummary
+import com.icl.cervicalcancercare.models.Reco
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
@@ -78,10 +79,24 @@ class PatientDetailsViewModel(
                             val findings = impression.finding.map { finding ->
                                 finding.basis
                             }
+                            val code = impression.finding.map { dt ->
+                                dt.itemCodeableConcept
+                            }
+                            // let's create a list of Reco
+                            val recoList = mutableListOf<Reco>()
+                            impression.finding.forEach { r ->
+                                recoList.add(
+                                    Reco(
+                                        r?.itemCodeableConcept?.codingFirstRep?.display ?: "",
+                                        r.basis
+                                    )
+                                )
+                            }
                             PatientImpression(
                                 impression.status?.display ?: "Unknown",
                                 basis = findings,
-                                summary = impression.summary ?: "No Summary provided"
+                                summary = impression.summary ?: "No Summary provided",
+                                updatedData = recoList
                             )
                         }
 

@@ -76,11 +76,17 @@ class OverviewFragment : Fragment() {
 
             btnViewRecommendation.apply {
                 setOnClickListener {
-                    val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager)
-                    val nextPage = viewPager.currentItem + 1
-                    if (nextPage < (viewPager.adapter?.itemCount ?: 0)) {
-                        viewPager.setCurrentItem(nextPage, true)
-                    }
+//                    val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager)
+//                    val nextPage = viewPager.currentItem + 1
+//                    if (nextPage < (viewPager.adapter?.itemCount ?: 0)) {
+//                        viewPager.setCurrentItem(nextPage, true)
+//                    }
+
+
+                    Functions().saveSharedPref("questionnaire", "assess.json", requireContext())
+                    Functions().saveSharedPref("AddParentTitle", "Assessment", requireContext())
+                    val intent = Intent(requireContext(), AssessmentActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }

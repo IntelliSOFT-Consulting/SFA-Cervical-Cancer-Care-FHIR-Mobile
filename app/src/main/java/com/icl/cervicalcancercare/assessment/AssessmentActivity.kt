@@ -9,8 +9,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import ca.uhn.fhir.context.FhirContext
@@ -20,7 +18,35 @@ import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import com.icl.cervicalcancercare.R
 import com.icl.cervicalcancercare.databinding.ActivityAssessmentBinding
+import com.icl.cervicalcancercare.models.BloodPressure
+import com.icl.cervicalcancercare.models.BpReading
+import com.icl.cervicalcancercare.models.BreastAction
+import com.icl.cervicalcancercare.models.BreastExam
+import com.icl.cervicalcancercare.models.BreastScreening
+import com.icl.cervicalcancercare.models.CervicalScreening
+import com.icl.cervicalcancercare.models.ClientFacility
+import com.icl.cervicalcancercare.models.ClientIdentification
+import com.icl.cervicalcancercare.models.ClinicalFindings
+import com.icl.cervicalcancercare.models.Contraception
+import com.icl.cervicalcancercare.models.Diagnosis
 import com.icl.cervicalcancercare.models.ExtractedData
+import com.icl.cervicalcancercare.models.FamilyHistory
+import com.icl.cervicalcancercare.models.Hiv
+import com.icl.cervicalcancercare.models.HpvTesting
+import com.icl.cervicalcancercare.models.LlmRequest
+import com.icl.cervicalcancercare.models.Measurements
+import com.icl.cervicalcancercare.models.MedicationsAllergies
+import com.icl.cervicalcancercare.models.Meta
+import com.icl.cervicalcancercare.models.NcdRiskFactors
+import com.icl.cervicalcancercare.models.PapSmear
+import com.icl.cervicalcancercare.models.Payload
+import com.icl.cervicalcancercare.models.PersonalHistory
+import com.icl.cervicalcancercare.models.PreCancerTreatment
+import com.icl.cervicalcancercare.models.PriorTreatment
+import com.icl.cervicalcancercare.models.ReproductiveHealth
+import com.icl.cervicalcancercare.models.Residence
+import com.icl.cervicalcancercare.models.TreatmentStatus
+import com.icl.cervicalcancercare.models.ViaTesting
 import com.icl.cervicalcancercare.network.RetrofitCallsAuthentication
 import com.icl.cervicalcancercare.utils.Functions
 import com.icl.cervicalcancercare.utils.ProgressDialogManager
@@ -28,7 +54,12 @@ import com.icl.cervicalcancercare.viewmodels.AddPatientViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.json.JSONObject
+import java.io.File
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import kotlin.getValue
 
 class AssessmentActivity : AppCompatActivity() {
@@ -86,10 +117,170 @@ class AssessmentActivity : AppCompatActivity() {
             val jsonParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
             val questionnaireResponseString =
                 jsonParser.encodeResourceToString(questionnaireResponse)
-            Log.e("response", questionnaireResponseString)
+            Log.e("Response", questionnaireResponseString)
             println("Response $questionnaireResponseString")
-            extractClinicalDataAsync(questionnaireResponseString)
+//            extractClinicalDataAsync(questionnaireResponseString)
+            File(filesDir, "response.json").writeText(questionnaireResponseString)
 
+            val flattened = mutableListOf<Pair<String, String>>()
+            flattenResponseItems(questionnaireResponse.item, flattened)
+            flattened.forEach { (linkId, value) ->
+                println("Flatten:::: $linkId -> $value")
+            }
+            val nowUtc = OffsetDateTime.now(ZoneOffset.UTC)
+            val isoString = nowUtc.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+
+            Log.d("Date", isoString)
+            val payload = Payload(
+                meta = Meta(
+                    submitted_at = isoString,
+                    source_app_version = "demo-1.0.0"
+                ),
+                client_facility = ClientFacility(
+                    date = null,
+                    county = null,
+                    sub_county = null,
+                    facility_name = null,
+                    service_provider_name = null
+                ),
+                client_identification = ClientIdentification(
+                    patient_id = "12345",
+                    full_name = null,
+                    age_years = 42,
+                    phone_number = null,
+                    residence = Residence(
+                        county = null,
+                        sub_county = null,
+                        ward = null
+                    )
+                ),
+                family_history = FamilyHistory(
+                    breast_cancer = "unknown",
+                    hypertension = "unknown",
+                    diabetes = "unknown",
+                    mental_health_disorders = "unknown",
+                    notes = null
+                ),
+                personal_history = PersonalHistory(
+                    hypertension = Diagnosis("unknown", "unknown"),
+                    diabetes = Diagnosis("unknown", "unknown")
+                ),
+                ncd_risk_factors = NcdRiskFactors(
+                    smoking = "unknown",
+                    alcohol = "unknown"
+                ),
+                reproductive_health = ReproductiveHealth(
+                    gravida = null,
+                    parity = 4,
+                    age_at_first_sex = null,
+                    contraception = Contraception(
+                        uses_contraception = "unknown",
+                        method = null
+                    ),
+                    number_of_sex_partners = null,
+                    menopausal_status = "pre-menopausal"
+                ),
+                hiv = Hiv(
+                    status = "positive",
+                    on_art = "yes",
+                    art_start_date = null,
+                    adherence = "good"
+                ),
+                measurements = Measurements(
+                    weight_kg = null,
+                    height_cm = null,
+                    bmi = null,
+                    waist_circumference_cm = null,
+                    bp = BloodPressure(
+                        reading_1 = BpReading(null, null),
+                        reading_2 = BpReading(null, null)
+                    )
+                ),
+                cervical_screening = CervicalScreening(
+                    type_of_visit = "via",
+                    hpv_testing = HpvTesting(
+                        done = "done",
+                        sample_date = null,
+                        self_sampling = "unknown",
+                        result = "positive",
+                        action = listOf("follow_up")
+                    ),
+                    via_testing = ViaTesting(
+                        done = "done",
+                        result = "positive",
+                        action = listOf("follow_up")
+                    ),
+                    pap_smear = PapSmear(
+                        done = "done",
+                        result = "positive",
+                        action = listOf("follow_up")
+                    ),
+                    pre_cancer_treatment = PreCancerTreatment(
+                        cryotherapy = TreatmentStatus("not_done", "unknown", null, null),
+                        thermal_ablation = TreatmentStatus("not_applicable", "unknown", null, null),
+                        leep = TreatmentStatus("done", "unknown", null, null)
+                    )
+                ),
+                breast_screening = BreastScreening(
+                    cbe = "not_applicable",
+                    ultrasound = BreastExam("not_applicable", null),
+                    mammography = BreastExam("not_applicable", null),
+                    action = BreastAction(null, null)
+                ),
+                clinical_findings = ClinicalFindings(
+                    presenting_symptoms = listOf("post-coital bleeding", "pelvic pain"),
+                    lesion_visible = true,
+                    lesion_description = "ulcerative lesion on cervix",
+                    cancer_stage = "IB2"
+                ),
+                medications_allergies = MedicationsAllergies(
+                    comorbidities = listOf("hypertension"),
+                    current_medications = listOf("nifedipine"),
+                    allergies = listOf("none")
+                ),
+                prior_treatment = PriorTreatment(
+                    cryotherapy = false,
+                    leep = true,
+                    radiation = false,
+                    chemotherapy = false
+                ),
+                llm_request = LlmRequest(
+                    use_case = "clinical_decision_support",
+                    user_question = flattened.firstOrNull { it.first == "user_question" }?.second
+                        ?: ""
+                )
+            )
+            retrofitCallsAuthentication.performUpdatedAssessment(
+                this@AssessmentActivity,
+                payload,
+                viewModel
+            )
+        }
+    }
+
+    fun flattenResponseItems(
+        items: List<QuestionnaireResponse.QuestionnaireResponseItemComponent>,
+        result: MutableList<Pair<String, String>>
+    ) {
+        items.forEach { item ->
+            // if the item has answers, convert the first answer to String (valueCoding / valueString / valueDecimal / etc)
+            if (item.answer.isNotEmpty()) {
+                val answer = item.answer.first()
+                val value = when {
+                    answer.hasValueCoding() -> answer.valueCoding.code
+                    answer.hasValueStringType() -> answer.valueStringType.value
+                    answer.hasValueDateType() -> answer.valueDateType.valueAsString
+                    answer.hasValueIntegerType() -> answer.valueIntegerType.value.toString()
+                    answer.hasValueDecimalType() -> answer.valueDecimalType.value.toString()
+                    else -> ""
+                }
+                result.add(item.linkId to value)
+            }
+
+            // go deeper recursively
+            if (item.item.isNotEmpty()) {
+                flattenResponseItems(item.item, result)
+            }
         }
     }
 
@@ -112,7 +303,11 @@ class AssessmentActivity : AppCompatActivity() {
             }
             val resultJson = Gson().toJson(updatedData)
             Log.d("ExtractedData", resultJson)
-            retrofitCallsAuthentication.performAssessment(this@AssessmentActivity, updatedData,viewModel)
+            retrofitCallsAuthentication.performAssessment(
+                this@AssessmentActivity,
+                updatedData,
+                viewModel
+            )
         }
     }
 

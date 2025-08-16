@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.icl.cervicalcancercare.MainActivity
 import com.icl.cervicalcancercare.models.ExtractedData
 import com.icl.cervicalcancercare.models.Login
+import com.icl.cervicalcancercare.models.Payload
 import com.icl.cervicalcancercare.models.UrlData
 import com.icl.cervicalcancercare.utils.Functions
 import com.icl.cervicalcancercare.viewmodels.AddPatientViewModel
@@ -34,11 +35,40 @@ class RetrofitCallsAuthentication {
             val job = Job()
             val encounterId = Functions().generateUuid()
             CoroutineScope(Dispatchers.IO + job).launch {
-                handleFhirProcessing(context, result, viewModel,encounterId)
-                handleDataProcessing(context, result, viewModel,encounterId)
+                handleFhirProcessing(context, result, viewModel, encounterId)
+                handleDataProcessing(context, result, viewModel, encounterId)
             }
                 .join()
         }
+    }
+
+    fun performUpdatedAssessment(
+        context: Context,
+        result: Payload,
+        viewModel: AddPatientViewModel
+    ) {
+        CoroutineScope(Dispatchers.Main).launch {
+            val job = Job()
+            val encounterId = Functions().generateUuid()
+            CoroutineScope(Dispatchers.IO + job).launch {
+                //   handleFhirProcessing(context, result, viewModel,encounterId)
+                handleUpdatedDataProcessing(context, result, viewModel, encounterId)
+            }
+                .join()
+        }
+    }
+
+    fun handleUpdatedFhirProcessing(
+        context: Context,
+        result: Payload,
+        viewModel: AddPatientViewModel,
+        encounterId: String
+    ) {
+        val job = Job()
+        CoroutineScope(Dispatchers.IO + job)
+            .launch {
+                //  viewModel.createPatientObservations(context, result,encounterId)
+            }
     }
 
     fun handleFhirProcessing(
@@ -50,7 +80,7 @@ class RetrofitCallsAuthentication {
         val job = Job()
         CoroutineScope(Dispatchers.IO + job)
             .launch {
-                viewModel.createPatientObservations(context, result,encounterId)
+                viewModel.createPatientObservations(context, result, encounterId)
             }
     }
 
@@ -69,6 +99,84 @@ class RetrofitCallsAuthentication {
             RegexOption.DOT_MATCHES_ALL
         )
         return regex.find(content)?.groups?.get(1)?.value?.trim()
+    }
+
+    private fun handleUpdatedDataProcessing(
+        context: Context,
+        data: Payload,
+        viewModel: AddPatientViewModel,
+        encounterId: String
+    ) {
+
+        val job1 = Job()
+        CoroutineScope(Dispatchers.Main + job1).launch {
+            val progressDialog = ProgressDialog(context)
+            progressDialog.setTitle("Please wait..")
+            progressDialog.setMessage("Processing data...")
+            progressDialog.setCanceledOnTouchOutside(false)
+            progressDialog.show()
+
+            var messageToast = ""
+            val job = Job()
+            CoroutineScope(Dispatchers.IO + job)
+                .launch {
+                    val formatter = FormatterClass()
+                    val token = formatter.getSharedPref("access_token", context)
+                    val baseUrl = context.getString(UrlData.BASE_URL.message)
+                    val apiService =
+                        RetrofitBuilder.getRetrofit(baseUrl, context).create(Interface::class.java)
+                    try {
+
+                        val apiInterface = apiService.processUpdatedData(data, "Bearer $token")
+                        if (apiInterface.isSuccessful) {
+
+                            val statusCode = apiInterface.code()
+                            val body = apiInterface.body()
+
+                            if (statusCode == 200 || statusCode == 201) {
+
+                                if (body != null) {
+
+                                    val response = body.response
+                                    messageToast = "Request successful.."
+
+                                    val input = extractAllSections(response)
+
+                                    val resourceId =
+                                        FormatterClass().getSharedPref("resourceId", context)
+                                    viewModel.createUpdatedRecommendations(
+                                        input,
+                                        "$resourceId",
+                                        data,
+                                        encounterId
+                                    )
+
+
+                                    if (context is Activity) {
+                                        context.finish()
+                                    }
+                                } else {
+                                    messageToast = "Error: Body is null"
+                                }
+                            } else {
+                                messageToast = "Error: The request was not successful"
+                            }
+                        } else {
+                            apiInterface.errorBody()?.let {
+                                messageToast =
+                                    "Encountered problems processing data. Please try again."
+                            }
+                        }
+                    } catch (e: Exception) {
+                        messageToast = "Error encountered processing data, please try again"
+                    }
+                }
+                .join()
+            CoroutineScope(Dispatchers.Main).launch {
+                progressDialog.dismiss()
+                Toast.makeText(context, messageToast, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun handleDataProcessing(
@@ -114,7 +222,12 @@ class RetrofitCallsAuthentication {
 
                                     val resourceId =
                                         FormatterClass().getSharedPref("resourceId", context)
-                                    viewModel.createRecommendations(input, "$resourceId", data,encounterId)
+                                    viewModel.createRecommendations(
+                                        input,
+                                        "$resourceId",
+                                        data,
+                                        encounterId
+                                    )
 
 
                                     if (context is Activity) {

@@ -35,17 +35,27 @@ class RecommendationDetailsActivity : AppCompatActivity() {
 
         binding.apply {
 
-            impression.basis.forEach {
-                // add a label for each basis
-                val fieldView = createCustomField(it)
-                parentLayout.addView(fieldView)
+            if (impression.updatedData.isNotEmpty()) {
+                impression.updatedData.forEach {
+                    val fieldView = createCustomField(it.question, true)
+                    val answerView = createCustomField(it.answer, false)
+                    parentLayout.addView(fieldView)
+                    parentLayout.addView(answerView)
+                }
+            } else {
+
+                impression.basis.forEach {
+                    // add a label for each basis
+                    val fieldView = createCustomField(it, false)
+                    parentLayout.addView(fieldView)
+                }
             }
         }
 
 
     }
 
-    private fun createCustomField(string: String): View {
+    private fun createCustomField(string: String, isBold: Boolean): View {
         // Create the main LinearLayout to hold the views
         val layout = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -64,9 +74,13 @@ class RecommendationDetailsActivity : AppCompatActivity() {
         // First TextView (label)
         val label = TextView(this).apply {
             text = string
-            textSize = 12f
-//            setTextColor(android.graphics.Color.BLACK)
-            typeface = ResourcesCompat.getFont(this@RecommendationDetailsActivity, R.font.inter)
+            textSize = if (isBold) 14f else 12f
+            typeface = if (isBold) {
+                ResourcesCompat.getFont(this@RecommendationDetailsActivity, R.font.intersemi)
+
+            } else {
+                ResourcesCompat.getFont(this@RecommendationDetailsActivity, R.font.inter)
+            }
             layoutParams = LinearLayout.LayoutParams(
                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f
             )

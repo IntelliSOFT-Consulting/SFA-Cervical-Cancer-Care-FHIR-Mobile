@@ -15,6 +15,7 @@ import com.google.android.fhir.datacapture.validation.Invalid
 import com.google.android.fhir.datacapture.validation.QuestionnaireResponseValidator
 import com.icl.cervicalcancercare.fhir.FhirApplication
 import com.icl.cervicalcancercare.models.ExtractedData
+import com.icl.cervicalcancercare.models.Payload
 import com.icl.cervicalcancercare.network.FormatterClass
 import com.icl.cervicalcancercare.patients.AddPatientActivity.Companion.QUESTIONNAIRE_FILE_PATH_KEY
 import kotlinx.coroutines.launch
@@ -57,6 +58,43 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
      * @param questionnaireResponse patient registration questionnaire response
      */
 
+
+    fun createUpdatedRecommendations(
+        input: Map<String, String>,
+        patientId: String,
+        dataSource: Payload,
+        encounterId: String
+    ) {
+        viewModelScope.launch {
+
+            val subjectReference = Reference("Patient/$patientId")
+            val encounterReference = Reference("Encounter/$encounterId")
+            val data = ClinicalImpression()
+            data.subject = subjectReference
+            data.encounter = encounterReference
+            data.summary = dataSource.llm_request.user_question
+            data.status = ClinicalImpression.ClinicalImpressionStatus.COMPLETED
+            input.forEach { (key, value) ->
+
+                val valueCodeableConcept = CodeableConcept()
+                    .addCoding(
+                        Coding()
+                            .setSystem("https://acme.lab/resultcodes")
+                            .setCode(key)
+                            .setDisplay(key)
+                    )
+                    .setText(key)
+
+                val finding = ClinicalImpression.ClinicalImpressionFindingComponent()
+                finding.basis = value
+                finding.itemCodeableConcept = valueCodeableConcept
+                data.addFinding(finding)
+
+            }
+
+            fhirEngine.create(data)
+        }
+    }
 
     fun createRecommendations(
         input: Map<String, String>,

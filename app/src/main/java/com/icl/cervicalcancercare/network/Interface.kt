@@ -4,6 +4,7 @@ import com.icl.cervicalcancercare.models.DataProcessingResponse
 import com.icl.cervicalcancercare.models.ExtractedData
 import com.icl.cervicalcancercare.models.Login
 import com.icl.cervicalcancercare.models.LoginResponse
+import com.icl.cervicalcancercare.models.Payload
 import retrofit2.Response
 
 import retrofit2.http.Body
@@ -19,6 +20,12 @@ interface Interface {
     @POST("query_clinical_decision_making")
     suspend fun processData(
         @Body data: ExtractedData,
+        @Header("Authorization") token: String?
+    ): Response<DataProcessingResponse>
+
+    @POST("query_clinical_decision_making")
+    suspend fun processUpdatedData(
+        @Body data: Payload,
         @Header("Authorization") token: String?
     ): Response<DataProcessingResponse>
 
