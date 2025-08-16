@@ -362,6 +362,64 @@
               "text": "Email Address"
             }
           ]
+        },
+        {
+          "linkId": "PR-address",
+          "type": "group",
+          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address",
+          "item": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "%client.address.city",
+                    "name": "patientCity"
+                  }
+                }
+              ],
+              "linkId": "PR-address-county",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.city",
+              "type": "string",
+              "required": true,
+              "text": "County"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "%client.address.country",
+                    "name": "patientCity"
+                  }
+                }
+              ],
+              "linkId": "PR-address-sub-county",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.country",
+              "type": "string",
+              "required": true,
+              "text": "Sub County"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "valueExpression": {
+                    "language": "text/fhirpath",
+                    "expression": "%client.address.state",
+                    "name": "patientCity"
+                  }
+                }
+              ],
+              "linkId": "PR-address-ward",
+              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.state",
+              "type": "string",
+              "required": true,
+              "text": "Ward"
+            }
+          ]
         }
       ]
     }

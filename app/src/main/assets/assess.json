@@ -1245,7 +1245,7 @@
                   "type": "group",
                   "item": [
                     {
-                      "linkId": "cryotherapy-status",
+                      "linkId": "cryotherapy_status",
                       "text": "Cryotherapy Status",
                       "type": "choice",
                       "extension": [
@@ -1288,7 +1288,7 @@
                       ]
                     },
                     {
-                      "linkId": "cryotherapy-sva",
+                      "linkId": "cryotherapy_sva",
                       "text": "Single Visit Approach (SVA)",
                       "type": "choice",
                       "extension": [
@@ -1325,7 +1325,7 @@
                       ],
                       "enableWhen": [
                         {
-                          "question": "cryotherapy-status",
+                          "question": "cryotherapy_status",
                           "operator": "=",
                           "answerCoding": {
                             "code": "done"
@@ -1334,7 +1334,7 @@
                       ]
                     },
                     {
-                      "linkId": "cryotherapy-reason",
+                      "linkId": "cryotherapy_reason",
                       "text": "If not Done",
                       "type": "choice",
                       "extension": [
@@ -1371,7 +1371,7 @@
                       ],
                       "enableWhen": [
                         {
-                          "question": "cryotherapy-status",
+                          "question": "cryotherapy_status",
                           "operator": "=",
                           "answerCoding": {
                             "code": "not_done"
@@ -1380,12 +1380,12 @@
                       ]
                     },
                     {
-                      "linkId": "cryotherapy-postponed-reason",
+                      "linkId": "cryotherapy_postponed_reason",
                       "text": "Reason for postponement",
                       "type": "string",
                       "enableWhen": [
                         {
-                          "question": "cryotherapy-reason",
+                          "question": "cryotherapy_reason",
                           "operator": "=",
                           "answerCoding": {
                             "code": "postponed"
@@ -1401,7 +1401,7 @@
                   "type": "group",
                   "item": [
                     {
-                      "linkId": "thermal-status",
+                      "linkId": "thermal_status",
                       "text": "Thermal Ablation Status",
                       "type": "choice",
                       "extension": [
@@ -1444,7 +1444,7 @@
                       ]
                     },
                     {
-                      "linkId": "thermal-sva",
+                      "linkId": "thermal_sva",
                       "text": "Single Visit Approach (SVA)",
                       "type": "choice",
                       "extension": [
@@ -1481,7 +1481,7 @@
                       ],
                       "enableWhen": [
                         {
-                          "question": "thermal-status",
+                          "question": "thermal_status",
                           "operator": "=",
                           "answerCoding": {
                             "code": "done"
@@ -1490,7 +1490,7 @@
                       ]
                     },
                     {
-                      "linkId": "thermal-reason",
+                      "linkId": "thermal_reason",
                       "text": "If not Done",
                       "type": "choice",
                       "extension": [
@@ -1527,7 +1527,7 @@
                       ],
                       "enableWhen": [
                         {
-                          "question": "thermal-status",
+                          "question": "thermal_status",
                           "operator": "=",
                           "answerCoding": {
                             "code": "not_done"
@@ -1536,12 +1536,12 @@
                       ]
                     },
                     {
-                      "linkId": "thermal-postponed-reason",
+                      "linkId": "thermal_postponed_reason",
                       "text": "Reason for postponement",
                       "type": "string",
                       "enableWhen": [
                         {
-                          "question": "thermal-reason",
+                          "question": "thermal_reason",
                           "operator": "=",
                           "answerCoding": {
                             "code": "postponed"
@@ -1557,7 +1557,7 @@
                   "type": "group",
                   "item": [
                     {
-                      "linkId": "leep-status",
+                      "linkId": "leep_status",
                       "text": "LEEP Status",
                       "type": "choice",
                       "extension": [
@@ -1600,7 +1600,7 @@
                       ]
                     },
                     {
-                      "linkId": "leep-sva",
+                      "linkId": "leep_sva",
                       "text": "Single Visit Approach (SVA)",
                       "type": "choice",
                       "extension": [
@@ -1637,7 +1637,7 @@
                       ],
                       "enableWhen": [
                         {
-                          "question": "leep-status",
+                          "question": "leep_status",
                           "operator": "=",
                           "answerCoding": {
                             "code": "done"
@@ -1646,7 +1646,7 @@
                       ]
                     },
                     {
-                      "linkId": "leep-reason",
+                      "linkId": "leep_reason",
                       "text": "If not Done",
                       "type": "choice",
                       "extension": [
@@ -1683,7 +1683,7 @@
                       ],
                       "enableWhen": [
                         {
-                          "question": "leep-status",
+                          "question": "leep_status",
                           "operator": "=",
                           "answerCoding": {
                             "code": "not_done"
@@ -1692,12 +1692,12 @@
                       ]
                     },
                     {
-                      "linkId": "leep-postponed-reason",
+                      "linkId": "leep_postponed_reason",
                       "text": "Reason for postponement",
                       "type": "string",
                       "enableWhen": [
                         {
-                          "question": "leep-reason",
+                          "question": "leep_reason",
                           "operator": "=",
                           "answerCoding": {
                             "code": "postponed"

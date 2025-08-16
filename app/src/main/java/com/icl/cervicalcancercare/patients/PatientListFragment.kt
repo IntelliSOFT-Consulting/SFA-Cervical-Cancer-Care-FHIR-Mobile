@@ -94,7 +94,8 @@ class PatientListFragment : Fragment() {
                 ),
             )
                 .get(PatientListViewModel::class.java)
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         binding.searchInput.apply {
             addTextChangedListener(
@@ -187,10 +188,14 @@ class PatientListFragment : Fragment() {
     private fun onPatientItemClicked(data: PatientItem) {
         Functions().saveSharedPref("resourceId", data.resourceId, requireContext())
 
+        Functions().saveSharedPref("full_name", data.name, requireContext())
+
+        Functions().saveSharedPref("phone", data.phone, requireContext())
         // Get Patient Age and Save to preferences
         val age = getFormattedAge(
             data,
         )
+
         println("Current Age ${extractAgeNumber(age)}")
         Functions().saveSharedPref("age", extractAgeNumber(age).toString(), requireContext())
         startActivity(Intent(requireContext(), PatientDetailsActivity::class.java))

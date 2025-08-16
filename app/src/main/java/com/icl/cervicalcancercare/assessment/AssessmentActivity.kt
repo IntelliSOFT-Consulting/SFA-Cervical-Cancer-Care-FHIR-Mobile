@@ -47,6 +47,7 @@ import com.icl.cervicalcancercare.models.ReproductiveHealth
 import com.icl.cervicalcancercare.models.Residence
 import com.icl.cervicalcancercare.models.TreatmentStatus
 import com.icl.cervicalcancercare.models.ViaTesting
+import com.icl.cervicalcancercare.network.FormatterClass
 import com.icl.cervicalcancercare.network.RetrofitCallsAuthentication
 import com.icl.cervicalcancercare.utils.Functions
 import com.icl.cervicalcancercare.utils.ProgressDialogManager
@@ -106,6 +107,11 @@ class AssessmentActivity : AppCompatActivity() {
         }
     }
 
+    fun extractedResponse(flattened: MutableList<Pair<String, String>>, key: String): String {
+        return flattened.firstOrNull { it.first == key }?.second
+            ?: ""
+    }
+
     private fun onSubmitAction() {
         lifecycleScope.launch {
             val questionnaireFragment =
@@ -137,17 +143,22 @@ class AssessmentActivity : AppCompatActivity() {
                     source_app_version = "demo-1.0.0"
                 ),
                 client_facility = ClientFacility(
-                    date = null,
-                    county = null,
-                    sub_county = null,
-                    facility_name = null,
-                    service_provider_name = null
+                    date = extractedResponse(flattened, "date"),
+                    county = extractedResponse(flattened, "county"),
+                    sub_county = extractedResponse(flattened, "sub_county"),
+                    facility_name = extractedResponse(flattened, "facility_name"),
+                    service_provider_name = extractedResponse(flattened, "provider_name")
                 ),
                 client_identification = ClientIdentification(
-                    patient_id = "12345",
-                    full_name = null,
-                    age_years = 42,
-                    phone_number = null,
+                    patient_id = Functions().getSharedPref(
+                        "resourceId",
+                        this@AssessmentActivity
+                    ) ?: "",
+                    full_name = Functions().getSharedPref("full_name", this@AssessmentActivity)
+                        ?: "",
+                    age_years = calculatePatientAgeInYears(),
+                    phone_number = Functions().getSharedPref("phone", this@AssessmentActivity)
+                        ?: "",
                     residence = Residence(
                         county = null,
                         sub_county = null,
@@ -155,77 +166,153 @@ class AssessmentActivity : AppCompatActivity() {
                     )
                 ),
                 family_history = FamilyHistory(
-                    breast_cancer = "unknown",
-                    hypertension = "unknown",
-                    diabetes = "unknown",
-                    mental_health_disorders = "unknown",
-                    notes = null
+                    breast_cancer = extractedResponse(flattened, "family_history_breast_cancer"),
+                    hypertension = extractedResponse(flattened, "family_history_hypertension"),
+                    diabetes = extractedResponse(flattened, "family_history_diabetes"),
+                    mental_health_disorders = extractedResponse(
+                        flattened,
+                        "family_history_mental_health"
+                    ),
+                    notes = extractedResponse(flattened, "family_history_mental_health_specify")
                 ),
                 personal_history = PersonalHistory(
-                    hypertension = Diagnosis("unknown", "unknown"),
-                    diabetes = Diagnosis("unknown", "unknown")
+                    hypertension = Diagnosis(
+                        diagnosed = extractedResponse(
+                            flattened,
+                            "personal_hypertension"
+                        ),
+                        on_treatment = extractedResponse(
+                            flattened,
+                            "personal_hypertension_treatment"
+                        )
+                    ),
+                    diabetes = Diagnosis(
+                        diagnosed = extractedResponse(
+                            flattened,
+                            "personal_diabetes"
+                        ),
+                        on_treatment = extractedResponse(flattened, "personal_diabetes_treatment")
+                    )
                 ),
                 ncd_risk_factors = NcdRiskFactors(
-                    smoking = "unknown",
-                    alcohol = "unknown"
+                    smoking = extractedResponse(flattened, "smoking"),
+                    alcohol = extractedResponse(flattened, "alcohol_consumption")
                 ),
                 reproductive_health = ReproductiveHealth(
-                    gravida = null,
-                    parity = 4,
-                    age_at_first_sex = null,
+                    gravida = extractedResponse(flattened, "number_of_pregnancies").toInt(),
+                    parity = extractedResponse(flattened, "number_of_births").toInt(),
+                    age_at_first_sex = extractedResponse(
+                        flattened,
+                        "age_first_sexual_intercourse"
+                    ).toInt(),
                     contraception = Contraception(
-                        uses_contraception = "unknown",
-                        method = null
+                        uses_contraception = extractedResponse(flattened, "contraception"),
+                        method = extractedResponse(flattened, "contraception_specify")
                     ),
-                    number_of_sex_partners = null,
+                    number_of_sex_partners = extractedResponse(
+                        flattened,
+                        "number_of_sexual_partners"
+                    ).toInt(),
                     menopausal_status = "pre-menopausal"
                 ),
                 hiv = Hiv(
-                    status = "positive",
-                    on_art = "yes",
-                    art_start_date = null,
+                    status = extractedResponse(flattened, "hiv_status"),
+                    on_art = extractedResponse(flattened, "on_arv_treatment"),
+                    art_start_date = extractedResponse(flattened, "arv_start_date"),
                     adherence = "good"
                 ),
                 measurements = Measurements(
-                    weight_kg = null,
-                    height_cm = null,
-                    bmi = null,
-                    waist_circumference_cm = null,
+                    weight_kg = extractedResponse(flattened, "weight_kg").toDouble(),
+                    height_cm = extractedResponse(flattened, "height_cm").toDouble(),
+                    bmi = extractedResponse(flattened, "bmi").toDouble(),
+                    waist_circumference_cm = extractedResponse(
+                        flattened,
+                        "waist_circumference_cm"
+                    ).toDouble(),
                     bp = BloodPressure(
-                        reading_1 = BpReading(null, null),
-                        reading_2 = BpReading(null, null)
+                        reading_1 = BpReading(
+                            systolic = extractedResponse(
+                                flattened,
+                                "first_reading_systolic"
+                            ).toInt(),
+                            diastolic = extractedResponse(
+                                flattened,
+                                "first_reading_diastolic"
+                            ).toInt()
+                        ),
+                        reading_2 = BpReading(
+                            extractedResponse(
+                                flattened,
+                                "second_reading_systolic"
+                            ).toInt(),
+                            extractedResponse(flattened, "second_reading_diastolic").toInt()
+                        )
                     )
                 ),
                 cervical_screening = CervicalScreening(
-                    type_of_visit = "via",
+                    type_of_visit = extractedResponse(flattened, "type_of_visit"),
                     hpv_testing = HpvTesting(
-                        done = "done",
-                        sample_date = null,
-                        self_sampling = "unknown",
-                        result = "positive",
-                        action = listOf("follow_up")
+                        done = extractedResponse(flattened, "hpv_testing_status"),
+                        sample_date = extractedResponse(flattened, "hpv_sample_date"),
+                        self_sampling = extractedResponse(flattened, "self_sampling"),
+                        result = extractedResponse(
+                            flattened, "hpv_results"
+                        ),
+                        action = listOf(extractedResponse(flattened, "hpv_action"))
                     ),
                     via_testing = ViaTesting(
-                        done = "done",
-                        result = "positive",
-                        action = listOf("follow_up")
+                        done = extractedResponse(flattened, "via_testing_status"),
+                        result = extractedResponse(flattened, "via_testing_results"),
+                        action = listOf(extractedResponse(flattened, "via_testing_action"))
                     ),
                     pap_smear = PapSmear(
-                        done = "done",
-                        result = "positive",
-                        action = listOf("follow_up")
+                        done = extractedResponse(flattened, "pap_smear_done"),
+                        result = extractedResponse(flattened, "pap_smear_results"),
+                        action = listOf(extractedResponse(flattened, "pap_smear_action"))
                     ),
                     pre_cancer_treatment = PreCancerTreatment(
-                        cryotherapy = TreatmentStatus("not_done", "unknown", null, null),
-                        thermal_ablation = TreatmentStatus("not_applicable", "unknown", null, null),
-                        leep = TreatmentStatus("done", "unknown", null, null)
+                        cryotherapy = TreatmentStatus(
+                            status = extractedResponse(
+                                flattened,
+                                "cryotherapy_status"
+                            ),
+                            single_visit_approach = extractedResponse(flattened, "cryotherapy_sva"),
+                            if_not_done = extractedResponse(flattened, "cryotherapy_reason"),
+                            extractedResponse(flattened, "cryotherapy_postponed_reason")
+                        ),
+                        thermal_ablation = TreatmentStatus(
+                            status = extractedResponse(flattened, "thermal_status"),
+                            single_visit_approach = extractedResponse(flattened, "thermal_sva"),
+                            if_not_done = extractedResponse(flattened, "thermal_reason"),
+                            postponed_reason = extractedResponse(
+                                flattened,
+                                "thermal_postponed_reason"
+                            )
+                        ),
+                        leep = TreatmentStatus(
+                            status = extractedResponse(flattened, "leep_status"),
+                            single_visit_approach = extractedResponse(flattened, "leep_sva"),
+                            if_not_done = extractedResponse(flattened, "leep_reason"),
+                            postponed_reason = extractedResponse(flattened, "leep_postponed_reason")
+                        )
                     )
                 ),
                 breast_screening = BreastScreening(
-                    cbe = "not_applicable",
-                    ultrasound = BreastExam("not_applicable", null),
-                    mammography = BreastExam("not_applicable", null),
-                    action = BreastAction(null, null)
+                    cbe = extractedResponse(flattened, "breast_examination_cbe"),
+                    ultrasound = BreastExam(
+                        done = extractedResponse(
+                            flattened,
+                            "breast_ultrasound"
+                        ), birads = extractedResponse(flattened, "ultrasound_result")
+                    ),
+                    mammography = BreastExam(
+                        done = extractedResponse(flattened, "mammography"),
+                        birads = extractedResponse(flattened, "mammography_result")
+                    ),
+                    action = BreastAction(
+                        referred = extractedResponse(flattened, "breast_action"),
+                        follow_up = extractedResponse(flattened, "breast_action")
+                    )
                 ),
                 clinical_findings = ClinicalFindings(
                     presenting_symptoms = listOf("post-coital bleeding", "pelvic pain"),

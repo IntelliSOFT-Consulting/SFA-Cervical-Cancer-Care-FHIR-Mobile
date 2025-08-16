@@ -301,7 +301,6 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
             fhirEngine.create(patient)
             isPatientSaved.value = true
 
-
         }
     }
 
