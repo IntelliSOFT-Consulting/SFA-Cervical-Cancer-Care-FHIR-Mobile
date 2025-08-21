@@ -153,9 +153,6 @@ class AssessmentActivity : AppCompatActivity() {
             ?: ""
     }
 
-    fun safeStringToInt(value: String?, default: Int = 0): Int {
-        return value?.toDoubleOrNull()?.toInt() ?: default
-    }
 
     private fun onSubmitAction() {
         lifecycleScope.launch {
@@ -251,29 +248,29 @@ class AssessmentActivity : AppCompatActivity() {
                     alcohol = extractedResponse(flattened, "alcohol_consumption")
                 ),
                 reproductive_health = ReproductiveHealth(
-                    gravida = safeStringToInt(
+                    gravida =
                         extractedResponse(
                             flattened,
                             "number_of_pregnancies"
-                        )
-                    ),
-                    parity = safeStringToInt(extractedResponse(flattened, "number_of_births")),
-                    age_at_first_sex = safeStringToInt(
+
+                        ),
+                    parity = extractedResponse(flattened, "number_of_births"),
+                    age_at_first_sex =
                         extractedResponse(
                             flattened,
                             "age_first_sexual_intercourse"
-                        )
-                    ),
+
+                        ),
                     contraception = Contraception(
                         uses_contraception = extractedResponse(flattened, "contraception"),
                         method = extractedResponse(flattened, "contraception_specify")
                     ),
-                    number_of_sex_partners = safeStringToInt(
+                    number_of_sex_partners =
                         extractedResponse(
                             flattened,
                             "number_of_sexual_partners"
-                        )
-                    ),
+
+                        ),
                     menopausal_status = "pre-menopausal"
                 ),
                 hiv = Hiv(
@@ -292,31 +289,31 @@ class AssessmentActivity : AppCompatActivity() {
                     ).toDoubleOrNull() ?: 0.0,
                     bp = BloodPressure(
                         reading_1 = BpReading(
-                            systolic = safeStringToInt(
+                            systolic =
                                 extractedResponse(
                                     flattened,
                                     "first_reading_systolic"
-                                )
-                            ),
-                            diastolic = safeStringToInt(
+
+                                ),
+                            diastolic =
                                 extractedResponse(
                                     flattened,
                                     "first_reading_diastolic"
+
                                 )
-                            )
                         ),
                         reading_2 = BpReading(
-                            safeStringToInt(
-                                extractedResponse(
-                                    flattened,
-                                    "second_reading_systolic"
-                                )
+
+                            extractedResponse(
+                                flattened,
+                                "second_reading_systolic"
+
                             ),
-                            safeStringToInt(
-                                extractedResponse(
-                                    flattened,
-                                    "second_reading_diastolic"
-                                )
+
+                            extractedResponse(
+                                flattened,
+                                "second_reading_diastolic"
+
                             )
                         )
                     )
@@ -350,7 +347,10 @@ class AssessmentActivity : AppCompatActivity() {
                             ),
                             single_visit_approach = extractedResponse(flattened, "cryotherapy_sva"),
                             if_not_done = extractedResponse(flattened, "cryotherapy_reason"),
-                            extractedResponse(flattened, "cryotherapy_postponed_reason")
+                            postponed_reason = extractedResponse(
+                                flattened,
+                                "cryotherapy_postponed_reason"
+                            )
                         ),
                         thermal_ablation = TreatmentStatus(
                             status = extractedResponse(flattened, "thermal_status"),
@@ -390,10 +390,7 @@ class AssessmentActivity : AppCompatActivity() {
                             extractedResponse(flattened, "mammography_result")
                         )
                     ),
-                    action = BreastAction(
-                        referred = extractedResponse(flattened, "breast_action"),
-                        follow_up = extractedResponse(flattened, "breast_action")
-                    )
+                    action = extractedResponse(flattened, "breast_action")
                 ),
                 clinical_findings = ClinicalFindings(
                     presenting_symptoms = extractedResponse(
@@ -403,7 +400,10 @@ class AssessmentActivity : AppCompatActivity() {
                         ","
                     )
                         .map { it.trim() },
-                    lesion_visible = extractedResponse(flattened, "breast_action") == "Yes",
+                    lesion_visible = extractedResponse(
+                        flattened,
+                        "lesion_visible"
+                    ).lowercase() == "true",
                     lesion_description = extractedResponse(flattened, "lesion_description"),
                     cancer_stage = extractedResponse(flattened, "cancer_stage")
                 ),
@@ -416,10 +416,13 @@ class AssessmentActivity : AppCompatActivity() {
                         .map { it.trim() }
                 ),
                 prior_treatment = PriorTreatment(
-                    cryotherapy = extractedResponse(flattened, "cryotherapy") == "yes",
-                    leep = extractedResponse(flattened, "LEEP") == "yes",
-                    radiation = extractedResponse(flattened, "radiation") == "yes",
-                    chemotherapy = extractedResponse(flattened, "chemotherapy") == "yes"
+                    cryotherapy = extractedResponse(flattened, "cryotherapy").lowercase() == "true",
+                    leep = extractedResponse(flattened, "LEEP").lowercase() == "true",
+                    radiation = extractedResponse(flattened, "radiation").lowercase() == "true",
+                    chemotherapy = extractedResponse(
+                        flattened,
+                        "chemotherapy"
+                    ).lowercase() == "true"
                 ),
                 llm_request = LlmRequest(
                     use_case = "clinical_decision_support",
@@ -454,6 +457,7 @@ class AssessmentActivity : AppCompatActivity() {
             if (item.answer.isNotEmpty()) {
                 val answer = item.answer.first()
                 val value = when {
+                    answer.hasValueBooleanType() -> answer.valueBooleanType.value.toString()
                     answer.hasValueCoding() -> answer.valueCoding.code
                     answer.hasValueStringType() -> answer.valueStringType.value
                     answer.hasValueDateType() -> answer.valueDateType.valueAsString
@@ -643,11 +647,11 @@ class AssessmentActivity : AppCompatActivity() {
         )
     }
 
-    private fun calculatePatientAgeInYears(): Int {
-        var age = 0
+    private fun calculatePatientAgeInYears(): String {
+        var age = "0"
         val dob = Functions().getSharedPref("age", this@AssessmentActivity)
         if (dob != null) {
-            age = dob.toInt()
+            age = dob
         }
         return age
     }

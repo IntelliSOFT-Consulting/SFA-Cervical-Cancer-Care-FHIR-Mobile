@@ -31,7 +31,7 @@ data class PieItem(
 )
 
 data class ExtractedData(
-    val patient_age: Int?,
+    val patient_age: String?,
     val parity: Int?,
     val menopausal_status: String?,
     val hiv_status: String?,
@@ -131,7 +131,7 @@ data class ClientFacility(
 data class ClientIdentification(
     val patient_id: String,
     val full_name: String?,
-    val age_years: Int,
+    val age_years: String,
     val phone_number: String?,
     val residence: Residence
 )
@@ -156,11 +156,11 @@ data class Diagnosis(val diagnosed: String, val on_treatment: String)
 data class NcdRiskFactors(val smoking: String, val alcohol: String)
 
 data class ReproductiveHealth(
-    val gravida: Int?,
-    val parity: Int,
-    val age_at_first_sex: Int?,
+    val gravida: String?,
+    val parity: String,
+    val age_at_first_sex: String?,
     val contraception: Contraception,
-    val number_of_sex_partners: Int?,
+    val number_of_sex_partners: String?,
     val menopausal_status: String
 )
 
@@ -186,7 +186,7 @@ data class BloodPressure(
     val reading_2: BpReading
 )
 
-data class BpReading(val systolic: Int?, val diastolic: Int?)
+data class BpReading(val systolic: String?, val diastolic: String?)
 
 data class CervicalScreening(
     val type_of_visit: String,
@@ -224,7 +224,7 @@ data class BreastScreening(
     val cbe: String,
     val ultrasound: BreastExam,
     val mammography: BreastExam,
-    val action: BreastAction
+    val action: String
 )
 
 data class BreastExam(val done: String, val birads: String?)
