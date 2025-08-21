@@ -26,6 +26,7 @@ import com.icl.cervicalcancercare.databinding.ActivityAddPatientBinding
 import com.icl.cervicalcancercare.databinding.ActivityPatientDetailsBinding
 import com.icl.cervicalcancercare.fhir.FhirApplication
 import com.icl.cervicalcancercare.models.PatientItem
+import com.icl.cervicalcancercare.network.FormatterClass
 import com.icl.cervicalcancercare.patients.AddPatientActivity
 import com.icl.cervicalcancercare.patients.EditPatientActivity
 import com.icl.cervicalcancercare.utils.Functions
@@ -108,6 +109,23 @@ class PatientDetailsActivity : AppCompatActivity() {
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
+
+
+                        FormatterClass().saveSharedPref(
+                            "county",
+                            data.basic.county.toString(),
+                            this@PatientDetailsActivity
+                        )
+                        FormatterClass().saveSharedPref(
+                            "sub_county",
+                            data.basic.sub_county.toString(),
+                            this@PatientDetailsActivity
+                        )
+                        FormatterClass().saveSharedPref(
+                            "ward",
+                            data.basic.ward.toString(),
+                            this@PatientDetailsActivity
+                        )
                     }
                 }
             }

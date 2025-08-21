@@ -122,14 +122,16 @@ class PatientDetailsViewModel(
                     .map { telecom -> telecom.value }.firstOrNull() ?: "" else ""
 
 
-            val city = if (it.resource.hasAddress()) it.resource.address[0].city else ""
-            val country = if (it.resource.hasAddress()) it.resource.address[0].country else ""
             val isActive = it.resource.active
             val html: String = if (it.resource.hasText()) it.resource.text.div.valueAsString else ""
             val identificationType =
                 if (it.resource.hasIdentifier()) it.resource.identifier[0].type.coding[0].display else "National ID Number"
             val identificationNumber =
                 if (it.resource.hasIdentifier()) it.resource.identifier[0].value else ""
+            val county = if (it.resource.hasAddress()) it.resource.addressFirstRep.city else ""
+            val sub_county =
+                if (it.resource.hasAddress()) it.resource.addressFirstRep.district else ""
+            val ward = if (it.resource.hasAddress()) it.resource.addressFirstRep.state else ""
 
             data = data.copy(
                 basic = PatientItem(
@@ -140,12 +142,13 @@ class PatientDetailsViewModel(
                     phone = phone,
                     email = email,
                     dob = dob,
-                    city = city,
-                    country = country,
                     isActive = isActive,
                     html = html,
                     identificationType = identificationType,
-                    identificationNumber = identificationNumber
+                    identificationNumber = identificationNumber,
+                    county = county,
+                    sub_county = sub_county,
+                    ward = ward
                 )
             )
 

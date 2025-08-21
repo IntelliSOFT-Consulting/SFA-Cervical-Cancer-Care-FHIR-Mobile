@@ -71,15 +71,13 @@ data class PatientItem(
     val dob: LocalDate? = null,
     val phone: String,
     val email: String,
-    val city: String,
-    val country: String,
     val isActive: Boolean,
     val html: String,
     val identificationType: String? = null,
     val identificationNumber: String? = null,
-    val county: String = "",
-    val sub_county: String = "",
-    val ward: String = ""
+    val county: String? = "",
+    val sub_county: String? = "",
+    val ward: String? = ""
 ) {
     override fun toString(): String = name
 }
@@ -203,11 +201,11 @@ data class HpvTesting(
     val sample_date: String?,
     val self_sampling: String,
     val result: String,
-    val action: List<String>
+    val action: String
 )
 
-data class ViaTesting(val done: String, val result: String, val action: List<String>)
-data class PapSmear(val done: String, val result: String, val action: List<String>)
+data class ViaTesting(val done: String, val result: String, val action: String)
+data class PapSmear(val done: String, val result: String, val action: String)
 
 data class PreCancerTreatment(
     val cryotherapy: TreatmentStatus,

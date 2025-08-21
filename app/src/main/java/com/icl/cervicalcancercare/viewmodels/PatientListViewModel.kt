@@ -190,8 +190,6 @@ internal fun Patient.toPatientItem(position: Int): PatientItem {
         if (hasTelecom()) telecom.filter { telecom -> telecom.system == ContactPoint.ContactPointSystem.EMAIL }
             .map { telecom -> telecom.value }.firstOrNull() ?: "" else ""
 
-    val city = if (hasAddress()) address[0].city else ""
-    val country = if (hasAddress()) address[0].country else ""
     val isActive = active
     val html: String = if (hasText()) text.div.valueAsString else ""
     val identificationType =
@@ -212,8 +210,6 @@ internal fun Patient.toPatientItem(position: Int): PatientItem {
         dob = dob,
         phone = phone ?: "",
         email = email ?: "",
-        city = city ?: "",
-        country = country ?: "",
         isActive = isActive,
         html = html,
         identificationType = identificationType,

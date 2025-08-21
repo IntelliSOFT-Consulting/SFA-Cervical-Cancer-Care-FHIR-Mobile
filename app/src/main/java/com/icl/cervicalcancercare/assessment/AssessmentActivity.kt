@@ -10,14 +10,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import ca.uhn.fhir.context.FhirContext
 import ca.uhn.fhir.context.FhirVersionEnum
+import com.google.android.fhir.FhirEngine
 import com.google.android.fhir.datacapture.QuestionnaireFragment
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import com.icl.cervicalcancercare.R
 import com.icl.cervicalcancercare.databinding.ActivityAssessmentBinding
+import com.icl.cervicalcancercare.fhir.FhirApplication
 import com.icl.cervicalcancercare.models.BloodPressure
 import com.icl.cervicalcancercare.models.BpReading
 import com.icl.cervicalcancercare.models.BreastAction
@@ -52,6 +55,8 @@ import com.icl.cervicalcancercare.network.RetrofitCallsAuthentication
 import com.icl.cervicalcancercare.utils.Functions
 import com.icl.cervicalcancercare.utils.ProgressDialogManager
 import com.icl.cervicalcancercare.viewmodels.AddPatientViewModel
+import com.icl.cervicalcancercare.viewmodels.PatientDetailsViewModel
+import com.icl.cervicalcancercare.viewmodels.factories.PatientDetailsViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,14 +66,17 @@ import java.io.File
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import kotlin.collections.set
 import kotlin.getValue
 
 class AssessmentActivity : AppCompatActivity() {
     private val viewModel: AddPatientViewModel by viewModels()
+
     private var retrofitCallsAuthentication = RetrofitCallsAuthentication()
     private lateinit var binding:
             ActivityAssessmentBinding
-
+    private lateinit var fhirEngine: FhirEngine
+    private lateinit var patientDetailsViewModel: PatientDetailsViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -105,11 +113,48 @@ class AssessmentActivity : AppCompatActivity() {
         ) { _, _ ->
             onBackPressed()
         }
+
+        val patientId = Functions().getSharedPref("resourceId", this@AssessmentActivity)
+        fhirEngine = FhirApplication.fhirEngine(this)
+        patientDetailsViewModel =
+            ViewModelProvider(
+                this,
+                PatientDetailsViewModelFactory(
+                    this@AssessmentActivity.application, fhirEngine, "$patientId"
+                ),
+            )
+                .get(PatientDetailsViewModel::class.java)
+
+        patientDetailsViewModel.getPatientDetailData()
+        patientDetailsViewModel.livePatientData.observe(this) { data ->
+            if (data != null) {
+
+                FormatterClass().saveSharedPref(
+                    "county",
+                    data.basic?.county.toString(),
+                    this@AssessmentActivity
+                )
+                FormatterClass().saveSharedPref(
+                    "sub_county",
+                    data.basic?.sub_county.toString(),
+                    this@AssessmentActivity
+                )
+                FormatterClass().saveSharedPref(
+                    "ward",
+                    data.basic?.ward.toString(),
+                    this@AssessmentActivity
+                )
+            }
+        }
     }
 
     fun extractedResponse(flattened: MutableList<Pair<String, String>>, key: String): String {
         return flattened.firstOrNull { it.first == key }?.second
             ?: ""
+    }
+
+    fun safeStringToInt(value: String?, default: Int = 0): Int {
+        return value?.toDoubleOrNull()?.toInt() ?: default
     }
 
     private fun onSubmitAction() {
@@ -137,6 +182,7 @@ class AssessmentActivity : AppCompatActivity() {
             val isoString = nowUtc.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
 
             Log.d("Date", isoString)
+
             val payload = Payload(
                 meta = Meta(
                     submitted_at = isoString,
@@ -160,9 +206,15 @@ class AssessmentActivity : AppCompatActivity() {
                     phone_number = Functions().getSharedPref("phone", this@AssessmentActivity)
                         ?: "",
                     residence = Residence(
-                        county = null,
-                        sub_county = null,
-                        ward = null
+                        county = Functions().getSharedPref("county", this@AssessmentActivity)
+                            ?: "",
+                        sub_county = Functions().getSharedPref(
+                            "sub_county",
+                            this@AssessmentActivity
+                        )
+                            ?: "",
+                        ward = Functions().getSharedPref("ward", this@AssessmentActivity)
+                            ?: ""
                     )
                 ),
                 family_history = FamilyHistory(
@@ -199,20 +251,29 @@ class AssessmentActivity : AppCompatActivity() {
                     alcohol = extractedResponse(flattened, "alcohol_consumption")
                 ),
                 reproductive_health = ReproductiveHealth(
-                    gravida = extractedResponse(flattened, "number_of_pregnancies").toInt(),
-                    parity = extractedResponse(flattened, "number_of_births").toInt(),
-                    age_at_first_sex = extractedResponse(
-                        flattened,
-                        "age_first_sexual_intercourse"
-                    ).toInt(),
+                    gravida = safeStringToInt(
+                        extractedResponse(
+                            flattened,
+                            "number_of_pregnancies"
+                        )
+                    ),
+                    parity = safeStringToInt(extractedResponse(flattened, "number_of_births")),
+                    age_at_first_sex = safeStringToInt(
+                        extractedResponse(
+                            flattened,
+                            "age_first_sexual_intercourse"
+                        )
+                    ),
                     contraception = Contraception(
                         uses_contraception = extractedResponse(flattened, "contraception"),
                         method = extractedResponse(flattened, "contraception_specify")
                     ),
-                    number_of_sex_partners = extractedResponse(
-                        flattened,
-                        "number_of_sexual_partners"
-                    ).toInt(),
+                    number_of_sex_partners = safeStringToInt(
+                        extractedResponse(
+                            flattened,
+                            "number_of_sexual_partners"
+                        )
+                    ),
                     menopausal_status = "pre-menopausal"
                 ),
                 hiv = Hiv(
@@ -222,30 +283,41 @@ class AssessmentActivity : AppCompatActivity() {
                     adherence = "good"
                 ),
                 measurements = Measurements(
-                    weight_kg = extractedResponse(flattened, "weight_kg").toDouble(),
-                    height_cm = extractedResponse(flattened, "height_cm").toDouble(),
-                    bmi = extractedResponse(flattened, "bmi").toDouble(),
+                    weight_kg = extractedResponse(flattened, "weight_kg").toDoubleOrNull() ?: 0.0,
+                    height_cm = extractedResponse(flattened, "height_cm").toDoubleOrNull() ?: 0.0,
+                    bmi = extractedResponse(flattened, "bmi").toDoubleOrNull() ?: 0.0,
                     waist_circumference_cm = extractedResponse(
                         flattened,
                         "waist_circumference_cm"
-                    ).toDouble(),
+                    ).toDoubleOrNull() ?: 0.0,
                     bp = BloodPressure(
                         reading_1 = BpReading(
-                            systolic = extractedResponse(
-                                flattened,
-                                "first_reading_systolic"
-                            ).toInt(),
-                            diastolic = extractedResponse(
-                                flattened,
-                                "first_reading_diastolic"
-                            ).toInt()
+                            systolic = safeStringToInt(
+                                extractedResponse(
+                                    flattened,
+                                    "first_reading_systolic"
+                                )
+                            ),
+                            diastolic = safeStringToInt(
+                                extractedResponse(
+                                    flattened,
+                                    "first_reading_diastolic"
+                                )
+                            )
                         ),
                         reading_2 = BpReading(
-                            extractedResponse(
-                                flattened,
-                                "second_reading_systolic"
-                            ).toInt(),
-                            extractedResponse(flattened, "second_reading_diastolic").toInt()
+                            safeStringToInt(
+                                extractedResponse(
+                                    flattened,
+                                    "second_reading_systolic"
+                                )
+                            ),
+                            safeStringToInt(
+                                extractedResponse(
+                                    flattened,
+                                    "second_reading_diastolic"
+                                )
+                            )
                         )
                     )
                 ),
@@ -258,17 +330,17 @@ class AssessmentActivity : AppCompatActivity() {
                         result = extractedResponse(
                             flattened, "hpv_results"
                         ),
-                        action = listOf(extractedResponse(flattened, "hpv_action"))
+                        action = extractedResponse(flattened, "hpv_action")
                     ),
                     via_testing = ViaTesting(
                         done = extractedResponse(flattened, "via_testing_status"),
                         result = extractedResponse(flattened, "via_testing_results"),
-                        action = listOf(extractedResponse(flattened, "via_testing_action"))
+                        action = extractedResponse(flattened, "via_testing_action")
                     ),
                     pap_smear = PapSmear(
                         done = extractedResponse(flattened, "pap_smear_done"),
                         result = extractedResponse(flattened, "pap_smear_results"),
-                        action = listOf(extractedResponse(flattened, "pap_smear_action"))
+                        action = extractedResponse(flattened, "pap_smear_action")
                     ),
                     pre_cancer_treatment = PreCancerTreatment(
                         cryotherapy = TreatmentStatus(
@@ -303,11 +375,20 @@ class AssessmentActivity : AppCompatActivity() {
                         done = extractedResponse(
                             flattened,
                             "breast_ultrasound"
-                        ), birads = extractedResponse(flattened, "ultrasound_result")
+                        ), birads = extractBiradsNumberAsString(
+                            extractedResponse(flattened, "ultrasound_result")
+                        )
                     ),
                     mammography = BreastExam(
-                        done = extractedResponse(flattened, "mammography"),
-                        birads = extractedResponse(flattened, "mammography_result")
+                        done =
+                            extractedResponse(
+                                flattened,
+                                "mammography"
+
+                            ),
+                        birads = extractBiradsNumberAsString(
+                            extractedResponse(flattened, "mammography_result")
+                        )
                     ),
                     action = BreastAction(
                         referred = extractedResponse(flattened, "breast_action"),
@@ -315,21 +396,30 @@ class AssessmentActivity : AppCompatActivity() {
                     )
                 ),
                 clinical_findings = ClinicalFindings(
-                    presenting_symptoms = listOf("post-coital bleeding", "pelvic pain"),
-                    lesion_visible = true,
-                    lesion_description = "ulcerative lesion on cervix",
-                    cancer_stage = "IB2"
+                    presenting_symptoms = extractedResponse(
+                        flattened,
+                        "presenting_symptoms"
+                    ).split(
+                        ","
+                    )
+                        .map { it.trim() },
+                    lesion_visible = extractedResponse(flattened, "breast_action") == "Yes",
+                    lesion_description = extractedResponse(flattened, "lesion_description"),
+                    cancer_stage = extractedResponse(flattened, "cancer_stage")
                 ),
                 medications_allergies = MedicationsAllergies(
-                    comorbidities = listOf("hypertension"),
-                    current_medications = listOf("nifedipine"),
-                    allergies = listOf("none")
+                    comorbidities = extractedResponse(flattened, "comorbidities").split(",")
+                        .map { it.trim() },
+                    current_medications = extractedResponse(flattened, "medications").split(",")
+                        .map { it.trim() },
+                    allergies = extractedResponse(flattened, "allergies").split(",")
+                        .map { it.trim() }
                 ),
                 prior_treatment = PriorTreatment(
-                    cryotherapy = false,
-                    leep = true,
-                    radiation = false,
-                    chemotherapy = false
+                    cryotherapy = extractedResponse(flattened, "cryotherapy") == "yes",
+                    leep = extractedResponse(flattened, "LEEP") == "yes",
+                    radiation = extractedResponse(flattened, "radiation") == "yes",
+                    chemotherapy = extractedResponse(flattened, "chemotherapy") == "yes"
                 ),
                 llm_request = LlmRequest(
                     use_case = "clinical_decision_support",
@@ -337,6 +427,9 @@ class AssessmentActivity : AppCompatActivity() {
                         ?: ""
                 )
             )
+
+            val payloadString = Gson().toJson(payload)
+            println("Payload String Data:::: $payloadString")
             retrofitCallsAuthentication.performUpdatedAssessment(
                 this@AssessmentActivity,
                 payload,
@@ -344,6 +437,13 @@ class AssessmentActivity : AppCompatActivity() {
             )
         }
     }
+
+    fun extractBiradsNumberAsString(biradsString: String?): String {
+        return biradsString
+            ?.substringAfter("_")  // get the part after "_"
+            ?: "0"                 // fallback to "0" if null or invalid
+    }
+
 
     fun flattenResponseItems(
         items: List<QuestionnaireResponse.QuestionnaireResponseItemComponent>,

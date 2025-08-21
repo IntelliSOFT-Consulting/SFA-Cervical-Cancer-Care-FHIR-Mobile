@@ -64,22 +64,26 @@
         {
           "linkId": "county",
           "text": "County",
-          "type": "string"
+          "type": "string",
+          "required": true
         },
         {
           "linkId": "sub_county",
           "text": "Sub County",
-          "type": "string"
+          "type": "string",
+          "required": true
         },
         {
           "linkId": "provider_name",
           "text": "Service Provider Name",
-          "type": "string"
+          "type": "string",
+          "required": true
         },
         {
           "linkId": "facility_name",
           "text": "Facility Name",
-          "type": "string"
+          "type": "string",
+          "required": true
         }
       ]
     },
@@ -111,6 +115,7 @@
           "linkId": "family_history_breast_cancer",
           "text": "Family History of Breast Cancer",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -148,6 +153,7 @@
           "linkId": "family_history_hypertension",
           "text": "Family History of Hypertension",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -185,6 +191,7 @@
           "linkId": "family_history_diabetes",
           "text": "Family History of Diabetes",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -222,6 +229,7 @@
           "linkId": "family_history_mental_health",
           "text": "Family History of Mental Health Disorders",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -259,6 +267,7 @@
           "linkId": "family_history_mental_health_specify",
           "text": "If Yes, specify",
           "type": "string",
+          "required": true,
           "enableWhen": [
             {
               "question": "family_history_mental_health",
@@ -279,6 +288,7 @@
           "linkId": "personal_hypertension",
           "text": "Are you diagnosed with Hypertension",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -316,6 +326,7 @@
           "linkId": "personal_hypertension_treatment",
           "text": "If yes, are you on treatment",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -363,6 +374,7 @@
           "linkId": "personal_diabetes",
           "text": "Are you diagnosed with Diabetes",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -400,6 +412,7 @@
           "linkId": "personal_diabetes_treatment",
           "text": "If yes, are you on treatment",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -468,6 +481,7 @@
           "linkId": "smoking",
           "text": "Smoking",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -505,6 +519,7 @@
           "linkId": "alcohol_consumption",
           "text": "Alcohol Consumption",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -546,22 +561,26 @@
         {
           "linkId": "number_of_pregnancies",
           "text": "Number of Pregnancies",
-          "type": "integer"
+          "type": "integer",
+          "required": true
         },
         {
           "linkId": "number_of_births",
           "text": "Number of Births (Parity)",
-          "type": "integer"
+          "type": "integer",
+          "required": true
         },
         {
           "linkId": "age_first_sexual_intercourse",
           "text": "Age at First Sexual Intercourse",
-          "type": "integer"
+          "type": "integer",
+          "required": true
         },
         {
           "linkId": "contraception",
           "text": "Contraception",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -599,6 +618,7 @@
           "linkId": "contraception_specify",
           "text": "If yes, specify",
           "type": "string",
+          "required": true,
           "enableWhen": [
             {
               "question": "contraception",
@@ -613,12 +633,14 @@
         {
           "linkId": "number_of_sexual_partners",
           "text": "Number of Sexual Partners",
-          "type": "integer"
+          "type": "integer",
+          "required": true
         },
         {
           "linkId": "hiv_status",
           "text": "HIV Status",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -662,6 +684,7 @@
           "linkId": "on_arv_treatment",
           "text": "If positive, are you on ARV Treatment",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -768,22 +791,26 @@
         {
           "linkId": "weight_kg",
           "text": "Weight (kg)",
-          "type": "decimal"
+          "type": "decimal",
+          "required": true
         },
         {
           "linkId": "height_cm",
           "text": "Height (cm)",
-          "type": "decimal"
+          "type": "decimal",
+          "required": true
         },
         {
           "linkId": "bmi",
           "text": "BMI",
-          "type": "decimal"
+          "type": "decimal",
+          "required": true
         },
         {
           "linkId": "waist_circumference_cm",
           "text": "Waist Circumference (cm)",
-          "type": "decimal"
+          "type": "decimal",
+          "required": true
         },
         {
           "linkId": "blood_pressure",
@@ -793,22 +820,26 @@
         {
           "linkId": "first_reading_systolic",
           "text": "First Reading - Systolic (mmHg)",
-          "type": "decimal"
+          "type": "integer",
+          "required": true
         },
         {
           "linkId": "first_reading_diastolic",
           "text": "First Reading - Diastolic (mmHg)",
-          "type": "decimal"
+          "type": "integer",
+          "required": true
         },
         {
           "linkId": "second_reading_systolic",
           "text": "Second Reading - Systolic (mmHg)",
-          "type": "decimal"
+          "type": "integer",
+          "required": true
         },
         {
           "linkId": "second_reading_diastolic",
           "text": "Second Reading - Diastolic (mmHg)",
-          "type": "decimal"
+          "type": "integer",
+          "required": true
         }
       ]
     },
@@ -835,6 +866,7 @@
           "linkId": "type_of_visit",
           "text": "Type of Visit",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -883,8 +915,7 @@
               "question": "type_of_visit",
               "operator": "=",
               "answerCoding": {
-                "code": "hpv_testing",
-                "display": "HPV Testing"
+                "code": "hpv_testing"
               }
             }
           ],
@@ -893,6 +924,7 @@
               "linkId": "hpv_testing_status",
               "text": "Status",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -975,6 +1007,7 @@
               "linkId": "self_sampling",
               "text": "Self-Sampling",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1012,6 +1045,7 @@
               "linkId": "hpv_results",
               "text": "HPV Results",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1049,6 +1083,7 @@
               "linkId": "hpv_action",
               "text": "Action",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1105,8 +1140,7 @@
               "question": "type_of_visit",
               "operator": "=",
               "answerCoding": {
-                "code": "via_testing",
-                "display": "VIA Testing"
+                "code": "via_testing"
               }
             }
           ],
@@ -1115,6 +1149,7 @@
               "linkId": "via_testing_status",
               "text": "Status",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1158,6 +1193,7 @@
               "linkId": "via_testing_results",
               "text": "VIA Results",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1201,6 +1237,7 @@
               "linkId": "via_testing_action",
               "text": "Action",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1248,6 +1285,7 @@
                       "linkId": "cryotherapy_status",
                       "text": "Cryotherapy Status",
                       "type": "choice",
+                      "required": true,
                       "extension": [
                         {
                           "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1291,6 +1329,7 @@
                       "linkId": "cryotherapy_sva",
                       "text": "Single Visit Approach (SVA)",
                       "type": "choice",
+                      "required": true,
                       "extension": [
                         {
                           "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1337,6 +1376,7 @@
                       "linkId": "cryotherapy_reason",
                       "text": "If not Done",
                       "type": "choice",
+                      "required": true,
                       "extension": [
                         {
                           "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1383,6 +1423,7 @@
                       "linkId": "cryotherapy_postponed_reason",
                       "text": "Reason for postponement",
                       "type": "string",
+                      "required": true,
                       "enableWhen": [
                         {
                           "question": "cryotherapy_reason",
@@ -1404,6 +1445,7 @@
                       "linkId": "thermal_status",
                       "text": "Thermal Ablation Status",
                       "type": "choice",
+                      "required": true,
                       "extension": [
                         {
                           "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1447,6 +1489,7 @@
                       "linkId": "thermal_sva",
                       "text": "Single Visit Approach (SVA)",
                       "type": "choice",
+                      "required": true,
                       "extension": [
                         {
                           "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1493,6 +1536,7 @@
                       "linkId": "thermal_reason",
                       "text": "If not Done",
                       "type": "choice",
+                      "required": true,
                       "extension": [
                         {
                           "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1539,6 +1583,7 @@
                       "linkId": "thermal_postponed_reason",
                       "text": "Reason for postponement",
                       "type": "string",
+                      "required": true,
                       "enableWhen": [
                         {
                           "question": "thermal_reason",
@@ -1560,6 +1605,7 @@
                       "linkId": "leep_status",
                       "text": "LEEP Status",
                       "type": "choice",
+                      "required": true,
                       "extension": [
                         {
                           "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1603,6 +1649,7 @@
                       "linkId": "leep_sva",
                       "text": "Single Visit Approach (SVA)",
                       "type": "choice",
+                      "required": true,
                       "extension": [
                         {
                           "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1649,6 +1696,7 @@
                       "linkId": "leep_reason",
                       "text": "If not Done",
                       "type": "choice",
+                      "required": true,
                       "extension": [
                         {
                           "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1695,6 +1743,7 @@
                       "linkId": "leep_postponed_reason",
                       "text": "Reason for postponement",
                       "type": "string",
+                      "required": true,
                       "enableWhen": [
                         {
                           "question": "leep_reason",
@@ -1713,6 +1762,7 @@
               "linkId": "via_follow_up",
               "text": "Follow Up",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1757,8 +1807,7 @@
               "question": "type_of_visit",
               "operator": "=",
               "answerCoding": {
-                "code": "pap_smear",
-                "display": "Pap Smear"
+                "code": "pap_smear"
               }
             }
           ],
@@ -1767,6 +1816,7 @@
               "linkId": "pap_smear_done",
               "text": "Status",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1810,6 +1860,7 @@
               "linkId": "pap_smear_results",
               "text": "Results",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1847,6 +1898,7 @@
               "linkId": "pap_smear_action",
               "text": "Action",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1885,6 +1937,227 @@
       ]
     },
     {
+      "linkId": "clinical_findings",
+      "text": "Clinical Findings",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ]
+          }
+        }
+      ],
+      "item": [
+        {
+          "type": "string",
+          "required": true,
+          "linkId": "presenting_symptoms",
+          "text": "Presenting Symptoms",
+          "item": [
+            {
+              "linkId": "presenting_symptoms_helpText",
+              "type": "display",
+              "text": "comma-separated list",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "help",
+                        "display": "Help-Button"
+                      }
+                    ],
+                    "text": "Help-Button"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "boolean",
+          "linkId": "lesion_visible",
+          "text": "Lesion Visible",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ]
+        },
+        {
+          "type": "string",
+          "required": true,
+          "linkId": "lesion_description",
+          "text": "Lesion Description"
+        },
+        {
+          "type": "string",
+          "required": true,
+          "linkId": "cancer_stage",
+          "text": "Cancer Stage"
+        },
+        {
+          "type": "string",
+          "required": true,
+          "linkId": "comorbidities",
+          "text": "Comorbidities",
+          "item": [
+            {
+              "linkId": "comorbidities_helpText",
+              "type": "display",
+              "text": "comma-separated list",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "help",
+                        "display": "Help-Button"
+                      }
+                    ],
+                    "text": "Help-Button"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "string",
+          "required": true,
+          "linkId": "medications",
+          "text": "Medications",
+          "item": [
+            {
+              "linkId": "medications_helpText",
+              "type": "display",
+              "text": "comma-separated list",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "help",
+                        "display": "Help-Button"
+                      }
+                    ],
+                    "text": "Help-Button"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "string",
+          "required": true,
+          "linkId": "allergies",
+          "text": "Allergies",
+          "item": [
+            {
+              "linkId": "allergies_helpText",
+              "type": "display",
+              "text": "comma-separated list",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+                  "valueCodeableConcept": {
+                    "coding": [
+                      {
+                        "system": "http://hl7.org/fhir/questionnaire-item-control",
+                        "code": "help",
+                        "display": "Help-Button"
+                      }
+                    ],
+                    "text": "Help-Button"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "prior_treatment",
+      "text": "Prior Treatment",
+      "type": "group",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+          "valueCodeableConcept": {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/questionnaire-item-control",
+                "code": "page",
+                "display": "Page"
+              }
+            ]
+          }
+        }
+      ],
+      "item": [
+        {
+          "linkId": "cryotherapy",
+          "text": "Cryotherapy",
+          "type": "boolean",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ]
+        },
+        {
+          "linkId": "LEEP",
+          "text": "LEEP",
+          "type": "boolean",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ]
+        },
+        {
+          "linkId": "radiation",
+          "text": "Radiation",
+          "type": "boolean",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ]
+        },
+        {
+          "linkId": "chemotherapy",
+          "text": "Chemotherapy",
+          "type": "boolean",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "linkId": "breast_cancer_screening",
       "text": "Breast Cancer Screening",
       "type": "group",
@@ -1907,6 +2180,7 @@
           "linkId": "breast_examination_cbe",
           "text": "Breast Examination (CBE)",
           "type": "choice",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -1961,6 +2235,7 @@
               "linkId": "breast_ultrasound",
               "text": "Breast Ultrasound",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -2004,6 +2279,7 @@
               "linkId": "ultrasound_result",
               "text": "Ultrasound Result",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -2093,6 +2369,7 @@
               "linkId": "mammography",
               "text": "Mammography",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -2136,6 +2413,7 @@
               "linkId": "mammography_result",
               "text": "Mammography Result",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -2225,6 +2503,7 @@
               "linkId": "breast_action",
               "text": "Action",
               "type": "choice",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
@@ -2263,7 +2542,8 @@
         {
           "linkId": "user_question",
           "text": "Do you have any specific questions?",
-          "type": "string"
+          "type": "text",
+          "required": true
         }
       ]
     }
