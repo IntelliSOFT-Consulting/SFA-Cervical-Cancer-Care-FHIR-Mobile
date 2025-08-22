@@ -271,13 +271,17 @@ class AssessmentActivity : AppCompatActivity() {
                             "number_of_sexual_partners"
 
                         ),
-                    menopausal_status = "pre-menopausal"
+                    menopausal_status = extractedResponse(
+                        flattened,
+                        "number_of_sexual_partners"
+
+                    )
                 ),
                 hiv = Hiv(
                     status = extractedResponse(flattened, "hiv_status"),
                     on_art = extractedResponse(flattened, "on_arv_treatment"),
                     art_start_date = extractedResponse(flattened, "arv_start_date"),
-                    adherence = "good"
+                    adherence = extractedResponse(flattened, "art_adherence")
                 ),
                 measurements = Measurements(
                     weight_kg = extractedResponse(flattened, "weight_kg").toDoubleOrNull() ?: 0.0,

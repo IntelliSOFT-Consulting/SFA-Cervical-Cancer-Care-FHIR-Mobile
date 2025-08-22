@@ -637,6 +637,43 @@
           "required": true
         },
         {
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "linkId": "menopausal_status",
+          "text": "Menopausal Status",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "pre-menopausal",
+                "display": "Pre-menopausal"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "post-menopausal",
+                "display": "Post-menopausal"
+              }
+            }
+          ]
+        },
+        {
           "linkId": "hiv_status",
           "text": "HIV Status",
           "type": "choice",
@@ -753,6 +790,59 @@
                     }
                   }
                 ]
+              }
+            }
+          ],
+          "enableWhen": [
+            {
+              "question": "on_arv_treatment",
+              "operator": "=",
+              "answerCoding": {
+                "code": "yes",
+                "display": "Yes"
+              }
+            }
+          ]
+        },
+        {
+          "type": "choice",
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "radio-button",
+                    "display": "Radio Button"
+                  }
+                ]
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-choiceOrientation",
+              "valueCode": "horizontal"
+            }
+          ],
+          "linkId": "art_adherence",
+          "text": "ART Adherence",
+          "answerOption": [
+            {
+              "valueCoding": {
+                "code": "Good",
+                "display": "Good"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Bad",
+                "display": "Bad"
+              }
+            },
+            {
+              "valueCoding": {
+                "code": "Unknown",
+                "display": "Unknown"
               }
             }
           ],
