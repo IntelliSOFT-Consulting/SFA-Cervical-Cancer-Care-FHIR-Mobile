@@ -3,6 +3,7 @@ package com.icl.cervicalcancercare.models
 import com.icl.cervicalcancercare.R
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Serializer
+import org.hl7.fhir.r4.model.Location
 import java.time.LocalDate
 
 data class Login(
@@ -13,6 +14,59 @@ data class Login(
 data class LoginResponse(
     val access_token: String,
     val token_type: String
+)
+
+data class FhirBundle(
+    val resourceType: String,
+    val id: String,
+    val type: String,
+    val link: List<FhirLink>?,
+    val entry: List<FhirEntry>?
+)
+
+data class FhirLink(
+    val relation: String,
+    val url: String
+)
+
+data class FhirEntry(
+    val fullUrl: String,
+    val resource: LocationResource,
+    val search: SearchInfo
+)
+
+data class LocationResource(
+    val resourceType: String,
+    val id: String,
+    val meta: MetaResponse,
+    val name: String,
+    val type: List<LocationType>,
+    val partOf: PartOf? = null // optional
+)
+
+data class MetaResponse(
+    val versionId: String,
+    val lastUpdated: String,
+    val source: String
+)
+
+data class LocationType(
+    val coding: List<LocationCoding>
+)
+
+data class LocationCoding(
+    val system: String,
+    val code: String,
+    val display: String
+)
+
+data class PartOf(
+    val reference: String,
+    val display: String
+)
+
+data class SearchInfo(
+    val mode: String
 )
 
 

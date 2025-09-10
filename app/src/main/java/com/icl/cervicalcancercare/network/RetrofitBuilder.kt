@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitBuilder {
 
-    fun getRetrofit(BASE_URL: String, context: Context): Retrofit {
+    fun getRetrofit(baseUrl: String, context: Context): Retrofit {
 
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -22,7 +22,7 @@ object RetrofitBuilder {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build() //Doesn't require the adapter

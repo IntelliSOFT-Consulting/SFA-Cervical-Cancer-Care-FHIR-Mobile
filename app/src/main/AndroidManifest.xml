@@ -9,6 +9,7 @@
     <application
         android:name=".fhir.FhirApplication"
         android:allowBackup="true"
+        android:allowClearUserData="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -16,7 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CervicalCancerCare"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".auth.LocationDownloaderActivity"
+            android:exported="false" />
         <activity
             android:name=".patients.EditPatientActivity"
             android:exported="false"

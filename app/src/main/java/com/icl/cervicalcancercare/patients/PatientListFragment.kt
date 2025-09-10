@@ -140,8 +140,8 @@ class PatientListFragment : Fragment() {
         val messageText = dialogView.findViewById<TextView>(R.id.dialogMessage)
         val dialogTitle = dialogView.findViewById<TextView>(R.id.dialogTitle)
 
-        dialogTitle.text = "Log Out?"
-        messageText.text = "Are you sure you want to Log Out?"
+        dialogTitle.text = getString(R.string.log_out)
+        messageText.text = getString(R.string.are_you_sure_you_want_to_log_out)
 
         confirmButton.setOnClickListener {
             // handle confirm action

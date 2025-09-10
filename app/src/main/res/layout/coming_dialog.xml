@@ -16,6 +16,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
+        app:lottie_repeatCount="1000"
         app:lottie_rawRes="@raw/coming"
         app:lottie_repeatMode="restart" />
 

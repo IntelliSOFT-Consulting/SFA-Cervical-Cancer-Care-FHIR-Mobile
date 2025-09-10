@@ -32,7 +32,7 @@ class SplashActivity : AppCompatActivity() {
             delay(3000) // 3 seconds
             val loggedIn = FormatterClass().getSharedPref("isLoggedIn", this@SplashActivity)
             if (loggedIn != null) {
-                val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                val intent = Intent(this@SplashActivity, LocationDownloaderActivity::class.java)
                 startActivity(intent)
                 this@SplashActivity.finish()
             } else {

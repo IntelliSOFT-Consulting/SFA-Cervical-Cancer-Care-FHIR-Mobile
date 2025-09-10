@@ -55,4 +55,6 @@
     <string name="inputs_missing">Enter all required fields</string>
     <string name="message_patient_updated">Patient details updated</string>
     <string name="view_recommendations">View Recommendations</string>
+    <string name="log_out">Log Out?</string>
+    <string name="are_you_sure_you_want_to_log_out">Are you sure you want to Log Out?</string>
 </resources>

@@ -12,6 +12,24 @@
   "publisher": "Kiprotich Japheth (jkiprotich@intellisoftkenya.com)",
   "approvalDate": "2025-07-24",
   "lastReviewDate": "2025-07-24",
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/variable",
+      "valueExpression": {
+        "name": "countyName",
+        "language": "text/fhirpath",
+        "expression": "%resource.descendants().where(linkId='county').answer.value.reference"
+      }
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/variable",
+      "valueExpression": {
+        "name": "subCountyName",
+        "language": "text/fhirpath",
+        "expression": "%resource.descendants().where(linkId='sub_county').answer.value.reference"
+      }
+    }
+  ],
   "item": [
     {
       "linkId": "facility_information",
@@ -36,6 +54,7 @@
           "linkId": "date",
           "text": "Date",
           "type": "date",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/entryFormat",
@@ -61,17 +80,90 @@
             }
           ]
         },
+
         {
           "linkId": "county",
-          "text": "County",
-          "type": "string",
-          "required": true
+          "text": "County ",
+          "type": "reference",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Location?partof=Location/0&_sort=name"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn",
+              "extension": [
+                {
+                  "url": "path",
+                  "valueString": "name"
+                },
+                {
+                  "url": "forDisplay",
+                  "valueBoolean": true
+                }
+              ]
+            }
+          ]
         },
         {
+          "type": "reference",
           "linkId": "sub_county",
-          "text": "Sub County",
-          "type": "string",
-          "required": true
+          "text": "Subcounty ",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Location?partof={{%countyName}}&_sort=name"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn",
+              "extension": [
+                {
+                  "url": "path",
+                  "valueString": "name"
+                },
+                {
+                  "url": "forDisplay",
+                  "valueBoolean": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "reference",
+          "linkId": "ward",
+          "text": "Ward ",
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression",
+              "valueExpression": {
+                "language": "application/x-fhir-query",
+                "expression": "Location?partof={{%subCountyName}}&_sort=name"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn",
+              "extension": [
+                {
+                  "url": "path",
+                  "valueString": "name"
+                },
+                {
+                  "url": "forDisplay",
+                  "valueBoolean": true
+                }
+              ]
+            }
+          ]
         },
         {
           "linkId": "provider_name",
@@ -658,6 +750,7 @@
           ],
           "linkId": "menopausal_status",
           "text": "Menopausal Status",
+          "required": true,
           "answerOption": [
             {
               "valueCoding": {
@@ -769,6 +862,7 @@
           "linkId": "arv_start_date",
           "text": "ARV Start Date",
           "type": "date",
+          "required": true,
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/entryFormat",
@@ -826,6 +920,7 @@
           ],
           "linkId": "art_adherence",
           "text": "ART Adherence",
+          "required": true,
           "answerOption": [
             {
               "valueCoding": {
@@ -1058,6 +1153,7 @@
               "linkId": "hpv_sample_date",
               "text": "HPV Sample Date",
               "type": "date",
+              "required": true,
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/entryFormat",

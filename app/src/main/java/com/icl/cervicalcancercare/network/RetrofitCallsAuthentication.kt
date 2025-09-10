@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import com.icl.cervicalcancercare.MainActivity
+import com.icl.cervicalcancercare.auth.LocationDownloaderActivity
 import com.icl.cervicalcancercare.models.ExtractedData
 import com.icl.cervicalcancercare.models.Login
 import com.icl.cervicalcancercare.models.Payload
@@ -22,7 +23,7 @@ class RetrofitCallsAuthentication {
 
         CoroutineScope(Dispatchers.Main).launch {
             val job = Job()
-            CoroutineScope(Dispatchers.IO + job).launch { starLogin(context, dbSignIn) }.join()
+            CoroutineScope(Dispatchers.IO + job).launch { startLogin(context, dbSignIn) }.join()
         }
     }
 
@@ -257,7 +258,7 @@ class RetrofitCallsAuthentication {
         }
     }
 
-    private fun starLogin(context: Context, dbSignIn: Login) {
+    private fun startLogin(context: Context, dbSignIn: Login) {
 
         val job1 = Job()
         CoroutineScope(Dispatchers.Main + job1).launch {
@@ -292,7 +293,7 @@ class RetrofitCallsAuthentication {
                                     formatter.saveSharedPref("isLoggedIn", "true", context)
                                     formatter.saveSharedPref("userName", dbSignIn.username, context)
                                     messageToast = "Login successful.."
-                                    val intent = Intent(context, MainActivity::class.java)
+                                    val intent = Intent(context, LocationDownloaderActivity::class.java)
                                     intent.addFlags(
                                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     )
