@@ -45,6 +45,7 @@
         android:contentDescription="@string/add_recommendation"
         android:foregroundTint="@color/white"
         app:backgroundTint="@color/primary"
+        android:visibility="gone"
         app:srcCompat="@drawable/baseline_add_circle_outline_24"
         app:tint="@color/white" />
 

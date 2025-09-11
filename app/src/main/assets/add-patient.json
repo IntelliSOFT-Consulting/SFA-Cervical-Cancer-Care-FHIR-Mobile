@@ -8,7 +8,22 @@
     "Patient"
   ],
   "extension": [
-
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/variable",
+      "valueExpression": {
+        "name": "countyName",
+        "language": "text/fhirpath",
+        "expression": "%resource.descendants().where(linkId='county').answer.value.reference"
+      }
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/variable",
+      "valueExpression": {
+        "name": "subCountyName",
+        "language": "text/fhirpath",
+        "expression": "%resource.descendants().where(linkId='sub_county').answer.value.reference"
+      }
+    },
     {
       "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-launchContext",
       "extension": [
@@ -106,6 +121,28 @@
                 "language": "text/fhirpath",
                 "expression": "%client.birthDate",
                 "name": "patientBirthDate"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/entryFormat",
+              "valueString": "yyyy-mm-dd"
+            },
+            {
+              "url": "http://ehelse.no/fhir/StructureDefinition/validationtext",
+              "valueString": "Cannot be a date in the future"
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/maxValue",
+              "valueDate": {
+                "extension": [
+                  {
+                    "url": "http://hl7.org/fhir/StructureDefinition/cqf-calculatedValue",
+                    "valueExpression": {
+                      "language": "text/fhirpath",
+                      "expression": "today()"
+                    }
+                  }
+                ]
               }
             }
           ],
@@ -367,58 +404,90 @@
         {
           "linkId": "PR-address",
           "type": "group",
-          "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address",
           "item": [
             {
+              "linkId": "county",
+              "text": "County",
+              "type": "reference",
+              "required": true,
               "extension": [
                 {
-                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression",
                   "valueExpression": {
-                    "language": "text/fhirpath",
-                    "expression": "%client.address.city",
-                    "name": "patientCity"
+                    "language": "application/x-fhir-query",
+                    "expression": "Location?partof=Location/0&_sort=name"
                   }
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn",
+                  "extension": [
+                    {
+                      "url": "path",
+                      "valueString": "name"
+                    },
+                    {
+                      "url": "forDisplay",
+                      "valueBoolean": true
+                    }
+                  ]
                 }
-              ],
-              "linkId": "PR-address-county",
-              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.city",
-              "type": "string",
-              "required": true,
-              "text": "County"
+              ]
             },
             {
+              "linkId": "sub_county",
+              "type": "reference",
+              "text": "Subcounty",
+              "required": true,
               "extension": [
                 {
-                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression",
                   "valueExpression": {
-                    "language": "text/fhirpath",
-                    "expression": "%client.address.district",
-                    "name": "patientCity"
+                    "language": "application/x-fhir-query",
+                    "expression": "Location?partof={{%countyName}}&_sort=name"
                   }
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn",
+                  "extension": [
+                    {
+                      "url": "path",
+                      "valueString": "name"
+                    },
+                    {
+                      "url": "forDisplay",
+                      "valueBoolean": true
+                    }
+                  ]
                 }
-              ],
-              "linkId": "PR-address-sub-county",
-              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.district",
-              "type": "string",
-              "required": true,
-              "text": "Sub County"
+              ]
             },
             {
+              "linkId": "ward",
+              "type": "reference",
+              "text": "Ward",
+              "required": true,
               "extension": [
                 {
-                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-initialExpression",
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-answerExpression",
                   "valueExpression": {
-                    "language": "text/fhirpath",
-                    "expression": "%client.address.state",
-                    "name": "patientCity"
+                    "language": "application/x-fhir-query",
+                    "expression": "Location?partof={{%subCountyName}}&_sort=name"
                   }
+                },
+                {
+                  "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-choiceColumn",
+                  "extension": [
+                    {
+                      "url": "path",
+                      "valueString": "name"
+                    },
+                    {
+                      "url": "forDisplay",
+                      "valueBoolean": true
+                    }
+                  ]
                 }
-              ],
-              "linkId": "PR-address-ward",
-              "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.address.state",
-              "type": "string",
-              "required": true,
-              "text": "Ward"
+              ]
             }
           ]
         }

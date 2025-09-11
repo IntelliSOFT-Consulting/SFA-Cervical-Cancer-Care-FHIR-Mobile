@@ -110,7 +110,7 @@ class RecommendationFragment : Fragment() {
         patientDetailsViewModel.getPatientDetailData()
         binding.apply {
             fabAddRecommendation.setOnClickListener {
-                Functions().saveSharedPref("questionnaire", "assessment.json", requireContext())
+                Functions().saveSharedPref("questionnaire", "assess.json", requireContext())
                 Functions().saveSharedPref("AddParentTitle", "Assessment", requireContext())
                 val intent = Intent(requireContext(), AssessmentActivity::class.java)
                 startActivity(intent)

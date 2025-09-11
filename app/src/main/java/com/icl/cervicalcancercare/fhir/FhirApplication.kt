@@ -14,6 +14,7 @@ import com.google.android.fhir.datacapture.XFhirQueryResolver
 import com.google.android.fhir.search.search // Import the local fhir
 import com.google.android.fhir.sync.Sync
 import com.google.android.fhir.sync.remote.HttpLogger
+import com.icl.cervicalcancercare.network.Constants.BASE_URL
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,7 +33,7 @@ class FhirApplication : Application(), DataCaptureConfig.Provider {
                 enableEncryptionIfSupported = false,
                 DatabaseErrorStrategy.RECREATE_AT_OPEN,
                 ServerConfiguration(
-                    "https://sfa.intellisoftkenya.com/hapi/fhir/",
+                    BASE_URL,
                     httpLogger =
                         HttpLogger(
                             HttpLogger.Configuration(

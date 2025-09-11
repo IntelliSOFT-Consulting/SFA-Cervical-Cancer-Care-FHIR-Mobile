@@ -19,6 +19,7 @@
         android:text="@string/go_to_diagnosis"
         android:textAllCaps="false"
         app:cornerRadius="30dp"
+        android:visibility="gone"
         app:strokeWidth="2dp" />
 
 </RelativeLayout>

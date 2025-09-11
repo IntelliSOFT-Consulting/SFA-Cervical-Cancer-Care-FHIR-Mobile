@@ -82,8 +82,8 @@ class AddPatientActivity : AppCompatActivity() {
             val jsonParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
             val questionnaireResponseString =
                 jsonParser.encodeResourceToString(questionnaireResponse)
-            Log.e("response", questionnaireResponseString)
-            println("Response $questionnaireResponseString")
+            Log.e("Registration Response", questionnaireResponseString)
+            println("Registration Response $questionnaireResponseString")
             saveCase(questionnaireFragment.getQuestionnaireResponse(), questionnaireResponseString)
         }
     }

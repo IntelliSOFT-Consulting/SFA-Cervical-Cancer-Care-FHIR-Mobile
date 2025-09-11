@@ -2,7 +2,6 @@ package com.icl.cervicalcancercare.viewmodels
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -13,11 +12,13 @@ import com.google.android.fhir.FhirEngine
 import com.google.android.fhir.datacapture.mapping.ResourceMapper
 import com.google.android.fhir.datacapture.validation.Invalid
 import com.google.android.fhir.datacapture.validation.QuestionnaireResponseValidator
+import com.google.android.fhir.search.search
 import com.icl.cervicalcancercare.fhir.FhirApplication
 import com.icl.cervicalcancercare.models.ExtractedData
 import com.icl.cervicalcancercare.models.Payload
 import com.icl.cervicalcancercare.network.FormatterClass
 import com.icl.cervicalcancercare.patients.AddPatientActivity.Companion.QUESTIONNAIRE_FILE_PATH_KEY
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.hl7.fhir.r4.model.BooleanType
 import org.hl7.fhir.r4.model.ClinicalImpression
@@ -31,7 +32,9 @@ import org.hl7.fhir.r4.model.Patient
 import org.hl7.fhir.r4.model.Questionnaire
 import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.model.Reference
+import org.hl7.fhir.r4.model.Resource
 import org.hl7.fhir.r4.model.StringType
+import org.json.JSONObject
 import java.util.Date
 import java.util.UUID
 
@@ -296,11 +299,86 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                 isPatientSaved.value = false
                 return@launch
             }
+            val patientId = generateUuid()
             val patient = entry.resource as Patient
-            patient.id = generateUuid()
+            patient.id = patientId
             fhirEngine.create(patient)
             isPatientSaved.value = true
+            launch(Dispatchers.IO) {
+                extractLocationFromResponseJson(fhirEngine, patientId, questionnaireResponseString)
+            }
+        }
+    }
 
+    private fun extractLocationFromResponseJson(
+        fhirEngine: FhirEngine,
+        patientId: String,
+        responseJson: String
+    ) {
+        try {
+            val root = JSONObject(responseJson)
+            val items = root.getJSONArray("item")
+
+            var county: String? = null
+            var subCounty: String? = null
+            var ward: String? = null
+
+            for (i in 0 until items.length()) {
+                val prItem = items.getJSONObject(i)
+                if (prItem.getString("linkId") == "PR") {
+                    val prSubItems = prItem.getJSONArray("item")
+                    for (j in 0 until prSubItems.length()) {
+                        val subItem = prSubItems.getJSONObject(j)
+                        if (subItem.getString("linkId") == "PR-address") {
+                            val addressItems = subItem.getJSONArray("item")
+                            for (k in 0 until addressItems.length()) {
+                                val addressItem = addressItems.getJSONObject(k)
+                                val linkId = addressItem.getString("linkId")
+                                val answer = addressItem.getJSONArray("answer")
+                                val valueReference =
+                                    answer.getJSONObject(0).getJSONObject("valueReference")
+                                val locationName = valueReference.getString("display")
+
+                                when (linkId) {
+                                    "county" -> county = locationName
+                                    "sub_county" -> subCounty = locationName
+                                    "ward" -> ward = locationName
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            println("Registration Response Extracted County: $county, Subcounty: $subCounty, Ward: $ward")
+
+            // TODO: You can save to DB or log to file or FHIR Location, etc.
+            viewModelScope.launch {
+                val searchResult =
+                    fhirEngine.search<Patient> {
+                        filter(Resource.RES_ID, { value = of(patientId) })
+                    }
+                if (searchResult.isNotEmpty()) {
+                    searchResult.first().let {
+                        val updatedPatient = it.resource.copy()
+                        updatedPatient.id = patientId
+
+                        updatedPatient.addressFirstRep.city = county
+                        updatedPatient.addressFirstRep.district = subCounty
+                        updatedPatient.addressFirstRep.state = ward
+
+                        updatedPatient.addressFirstRep.addLine(ward)
+                        updatedPatient.addressFirstRep.addLine(subCounty)
+                        updatedPatient.addressFirstRep.addLine(county)
+
+                        fhirEngine.update(updatedPatient)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            println("Registration Response ****** ${e.message}")
         }
     }
 

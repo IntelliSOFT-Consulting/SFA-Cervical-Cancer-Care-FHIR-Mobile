@@ -83,7 +83,7 @@
 
         {
           "linkId": "county",
-          "text": "County ",
+          "text": "County",
           "type": "reference",
           "required": true,
           "extension": [
@@ -112,7 +112,7 @@
         {
           "type": "reference",
           "linkId": "sub_county",
-          "text": "Subcounty ",
+          "text": "Subcounty",
           "required": true,
           "extension": [
             {
@@ -140,7 +140,7 @@
         {
           "type": "reference",
           "linkId": "ward",
-          "text": "Ward ",
+          "text": "Ward",
           "required": true,
           "extension": [
             {

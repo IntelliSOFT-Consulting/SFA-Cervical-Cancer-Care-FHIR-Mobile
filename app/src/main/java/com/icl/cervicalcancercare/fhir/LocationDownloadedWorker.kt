@@ -6,6 +6,8 @@ import androidx.work.WorkerParameters
 import com.google.android.fhir.FhirEngine
 import com.google.android.fhir.search.search
 import com.icl.cervicalcancercare.models.LocationResource
+import com.icl.cervicalcancercare.network.Constants.BASE_URL
+import com.icl.cervicalcancercare.network.Constants.LOCATION_STARTER
 import com.icl.cervicalcancercare.network.Interface
 import com.icl.cervicalcancercare.network.RetrofitBuilder
 import kotlinx.coroutines.Dispatchers
@@ -28,9 +30,7 @@ class LocationDownloadedWorker(
 
             val context: Context = applicationContext
             val fhirEngine = FhirApplication.Companion.fhirEngine(context)
-            val initialUrl =
-                "https://dsrfhir.intellisoftkenya.com/hapi/fhir/Location?_count=200" // first call
-            fetchAllPages(initialUrl, context = context, fhirEngine)
+            fetchAllPages(LOCATION_STARTER, context = context, fhirEngine)
             Result.success()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -39,9 +39,9 @@ class LocationDownloadedWorker(
     }
 
     private suspend fun fetchAllPages(url: String, context: Context, fhirEngine: FhirEngine) {
-        val baseUrl = "https://dsrfhir.intellisoftkenya.com/hapi/fhir/"
+
         val apiService =
-            RetrofitBuilder.getRetrofit(baseUrl, context).create(Interface::class.java)
+            RetrofitBuilder.getRetrofit(BASE_URL, context).create(Interface::class.java)
 
         withContext(Dispatchers.IO) {
             var nextUrl: String? = url
