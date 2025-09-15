@@ -188,6 +188,7 @@ class PatientDetailsActivity : AppCompatActivity() {
                 "Sending via: ${selectedChannels.joinToString()}",
                 Toast.LENGTH_SHORT
             ).show()
+            comingSoon()
             dialog.dismiss()
         }
 
