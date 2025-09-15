@@ -4,8 +4,11 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.icl.cervicalcancercare.MainActivity
+import com.icl.cervicalcancercare.R
 import com.icl.cervicalcancercare.auth.LocationDownloaderActivity
 import com.icl.cervicalcancercare.models.ExtractedData
 import com.icl.cervicalcancercare.models.Login
@@ -111,11 +114,19 @@ class RetrofitCallsAuthentication {
 
         val job1 = Job()
         CoroutineScope(Dispatchers.Main + job1).launch {
-            val progressDialog = ProgressDialog(context)
-            progressDialog.setTitle("Please wait..")
-            progressDialog.setMessage("Processing data...")
-            progressDialog.setCanceledOnTouchOutside(false)
-            progressDialog.show()
+
+            val dialogView = LayoutInflater.from(context).inflate(R.layout.loading_dialog, null)
+            val alertDialog = AlertDialog.Builder(context)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create()
+            alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            alertDialog.show()
+//            val progressDialog = ProgressDialog(context)
+//            progressDialog.setTitle("Please wait..")
+//            progressDialog.setMessage("Processing data...")
+//            progressDialog.setCanceledOnTouchOutside(false)
+//            progressDialog.show()
 
             var messageToast = ""
             val job = Job()
@@ -174,7 +185,9 @@ class RetrofitCallsAuthentication {
                 }
                 .join()
             CoroutineScope(Dispatchers.Main).launch {
-                progressDialog.dismiss()
+                if (alertDialog.isShowing) {
+                    alertDialog.dismiss()
+                }
                 Toast.makeText(context, messageToast, Toast.LENGTH_LONG).show()
             }
         }
@@ -293,7 +306,8 @@ class RetrofitCallsAuthentication {
                                     formatter.saveSharedPref("isLoggedIn", "true", context)
                                     formatter.saveSharedPref("userName", dbSignIn.username, context)
                                     messageToast = "Login successful.."
-                                    val intent = Intent(context, LocationDownloaderActivity::class.java)
+                                    val intent =
+                                        Intent(context, LocationDownloaderActivity::class.java)
                                     intent.addFlags(
                                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     )
