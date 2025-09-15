@@ -66,7 +66,8 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
         input: Map<String, String>,
         patientId: String,
         dataSource: Payload,
-        encounterId: String
+        encounterId: String,
+        questionnaireResponse: QuestionnaireResponse
     ) {
         viewModelScope.launch {
 
@@ -96,6 +97,11 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
             }
 
             fhirEngine.create(data)
+
+            questionnaireResponse.id = generateUuid()
+            questionnaireResponse.subject = subjectReference
+            questionnaireResponse.encounter = encounterReference
+            fhirEngine.create(questionnaireResponse)
         }
     }
 

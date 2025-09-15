@@ -3,6 +3,7 @@
     <style name="Base.Theme.CervicalCancerCare" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <item name="colorPrimary">@color/primary</item>
+<!--        <item name="questionnaire_theme">@style/Theme.MyQuestionnaire</item>-->
     </style>
 
 

@@ -7,7 +7,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.icl.cervicalcancercare.MainActivity
 import com.icl.cervicalcancercare.R
 import com.icl.cervicalcancercare.auth.LocationDownloaderActivity
 import com.icl.cervicalcancercare.models.ExtractedData
@@ -20,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.hl7.fhir.r4.model.QuestionnaireResponse
 
 class RetrofitCallsAuthentication {
     fun loginUser(context: Context, dbSignIn: Login) {
@@ -49,14 +49,21 @@ class RetrofitCallsAuthentication {
     fun performUpdatedAssessment(
         context: Context,
         result: Payload,
-        viewModel: AddPatientViewModel
+        viewModel: AddPatientViewModel,
+        questionnaireResponse: QuestionnaireResponse
     ) {
         CoroutineScope(Dispatchers.Main).launch {
             val job = Job()
             val encounterId = Functions().generateUuid()
             CoroutineScope(Dispatchers.IO + job).launch {
                 //   handleFhirProcessing(context, result, viewModel,encounterId)
-                handleUpdatedDataProcessing(context, result, viewModel, encounterId)
+                handleUpdatedDataProcessing(
+                    context,
+                    result,
+                    viewModel,
+                    encounterId,
+                    questionnaireResponse
+                )
             }
                 .join()
         }
@@ -109,7 +116,8 @@ class RetrofitCallsAuthentication {
         context: Context,
         data: Payload,
         viewModel: AddPatientViewModel,
-        encounterId: String
+        encounterId: String,
+        questionnaireResponse: QuestionnaireResponse
     ) {
 
         val job1 = Job()
@@ -160,7 +168,7 @@ class RetrofitCallsAuthentication {
                                         input,
                                         "$resourceId",
                                         data,
-                                        encounterId
+                                        encounterId, questionnaireResponse
                                     )
 
 
@@ -174,9 +182,9 @@ class RetrofitCallsAuthentication {
                                 messageToast = "Error: The request was not successful"
                             }
                         } else {
-                            apiInterface.errorBody()?.let {
+                            apiInterface.errorBody()?.let { message ->
                                 messageToast =
-                                    "Encountered problems processing data. Please try again."
+                                    "Encountered problems processing data. Please try again. $message"
                             }
                         }
                     } catch (e: Exception) {

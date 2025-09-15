@@ -661,7 +661,38 @@
           "linkId": "number_of_births",
           "text": "Number of Births (Parity)",
           "type": "integer",
-          "required": true
+          "required": true,
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-constraint",
+              "extension": [
+                {
+                  "url": "key",
+                  "valueId": "grav-parity"
+                },
+                {
+                  "url": "requirements",
+                  "valueString": "Parity must be less than or equal to gravidity"
+                },
+                {
+                  "url": "severity",
+                  "valueCode": "error"
+                },
+                {
+                  "url": "expression",
+                  "valueString": "%context.answer.value <= %resource.descendants().where(linkId='number_of_pregnancies').answer.value"
+                },
+                {
+                  "url": "human",
+                  "valueString": "Number of births cannot exceed number of pregnancies"
+                },
+                {
+                  "url": "location",
+                  "valueString": "number_of_pregnancies"
+                }
+              ]
+            }
+          ]
         },
         {
           "linkId": "age_first_sexual_intercourse",
@@ -1001,6 +1032,49 @@
               }
             }
           ]
+        },
+        {
+          "linkId": "bmi_warning",
+          "type": "display",
+          "extension": [
+            {
+              "url": "https://github.com/google/android-fhir/tree/master/datacapture/android-style",
+              "extension": [
+                {
+                  "url": "prefix_text_view",
+                  "valueString": "CustomStyle_1"
+                },
+                {
+                  "url": "question_text_view",
+                  "valueString": "CustomStyle_1"
+                },
+                {
+                  "url": "subtitle_text_view",
+                  "valueString": "CustomStyle_2"
+                }
+              ]
+            },
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-enableWhenExpression",
+              "valueExpression": {
+                "language": "text/fhirpath",
+                "expression": "iif(%resource.repeat(item).where(linkId='bmi').answer.first().value < 18.5 or %resource.repeat(item).where(linkId='bmi').answer.first().value > 24.9, true, false)"
+              }
+            },
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-itemControl",
+              "valueCodeableConcept": {
+                "coding": [
+                  {
+                    "system": "http://hl7.org/fhir/questionnaire-item-control",
+                    "code": "text",
+                    "display": "Text"
+                  }
+                ]
+              }
+            }
+          ],
+          "text": "⚠️ Your BMI is outside the normal range (18.5 - 24.9). Please consult a healthcare provider."
         },
         {
           "linkId": "waist_circumference_cm",

@@ -23,7 +23,6 @@ import com.icl.cervicalcancercare.databinding.ActivityAssessmentBinding
 import com.icl.cervicalcancercare.fhir.FhirApplication
 import com.icl.cervicalcancercare.models.BloodPressure
 import com.icl.cervicalcancercare.models.BpReading
-import com.icl.cervicalcancercare.models.BreastAction
 import com.icl.cervicalcancercare.models.BreastExam
 import com.icl.cervicalcancercare.models.BreastScreening
 import com.icl.cervicalcancercare.models.CervicalScreening
@@ -440,7 +439,7 @@ class AssessmentActivity : AppCompatActivity() {
             retrofitCallsAuthentication.performUpdatedAssessment(
                 this@AssessmentActivity,
                 payload,
-                viewModel
+                viewModel,questionnaireResponse
             )
         }
     }
