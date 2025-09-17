@@ -10,20 +10,28 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import ca.uhn.fhir.context.FhirContext
+import ca.uhn.fhir.context.FhirVersionEnum
 import com.google.android.fhir.datacapture.QuestionnaireFragment
 import com.icl.cervicalcancercare.R
 import com.icl.cervicalcancercare.SecondFragment.Companion.QUESTIONNAIRE_FRAGMENT_TAG
 import com.icl.cervicalcancercare.databinding.ActivityEditPatientBinding
+import com.icl.cervicalcancercare.network.FormatterClass
 import com.icl.cervicalcancercare.utils.Functions
 import com.icl.cervicalcancercare.viewmodels.EditPatientViewModel
+import com.icl.cervicalcancercare.viewmodels.EditResponseViewModel
+import com.icl.cervicalcancercare.viewmodels.factories.EditResponseViewModelFactory
 import kotlinx.coroutines.launch
+import org.hl7.fhir.r4.model.Questionnaire
 import kotlin.getValue
 
 class EditPatientActivity : AppCompatActivity() {
-    private val viewModel: EditPatientViewModel by viewModels()
+    private lateinit var viewModel: EditResponseViewModel
     private lateinit var binding: ActivityEditPatientBinding
+    var questionnaireJsonString: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +39,24 @@ class EditPatientActivity : AppCompatActivity() {
         binding = ActivityEditPatientBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-        savedInstanceState?.getString("patient_id")
-            ?: intent.getStringExtra("patient_id")
-            ?: throw IllegalArgumentException("Patient ID is required")
+        val questionnaireId: String = savedInstanceState?.getString("questionnaire_id")
+            ?: intent.getStringExtra("questionnaire_id")
+            ?: ""
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val titleName = Functions().getSharedPref("AddParentTitle", this@EditPatientActivity)
         supportActionBar.apply { title = "Edit Patient" }
+        val questionnaire =
+            FormatterClass().getSharedPref("questionnaire", this@EditPatientActivity)
+
+        questionnaireJsonString = getStringFromAssets("$questionnaire")
+
+        val factory = EditResponseViewModelFactory(
+            application = application,
+            questionnaireId = questionnaireId,
+            questionnaire = "$questionnaire"
+        )
+        viewModel = ViewModelProvider(this, factory)[EditResponseViewModel::class.java]
 
         updateArguments()
 
@@ -54,9 +73,8 @@ class EditPatientActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-
-        viewModel.livePatientData.observe(this) { addQuestionnaireFragment(it) }
-        viewModel.isPatientSaved.observe(this) {
+        viewModel.liveEditData.observe(this) { addQuestionnaireFragment(it) }
+        viewModel.isResourcesSaved.observe(this) {
             if (!it) {
                 Toast.makeText(
                     this@EditPatientActivity,
@@ -74,7 +92,9 @@ class EditPatientActivity : AppCompatActivity() {
             this.finish()
         }
     }
-
+    private fun getStringFromAssets(fileName: String): String {
+        return assets.open(fileName).bufferedReader().use { it.readText() }
+    }
 
     private fun addQuestionnaireFragment(pair: Pair<String, String>) {
         lifecycleScope.launch {
@@ -94,8 +114,23 @@ class EditPatientActivity : AppCompatActivity() {
     private fun onSubmitAction() {
         lifecycleScope.launch {
             val questionnaireFragment =
-                supportFragmentManager.findFragmentByTag(QUESTIONNAIRE_FRAGMENT_TAG) as QuestionnaireFragment
-            viewModel.updatePatient(questionnaireFragment.getQuestionnaireResponse())
+                supportFragmentManager.findFragmentByTag(AddPatientActivity.Companion.QUESTIONNAIRE_FRAGMENT_TAG)
+                        as QuestionnaireFragment
+
+            val questionnaireResponse = questionnaireFragment.getQuestionnaireResponse()
+            // Print the response to the log
+            val jsonParser = FhirContext.forCached(FhirVersionEnum.R4).newJsonParser()
+            val questionnaireResponseString =
+                jsonParser.encodeResourceToString(questionnaireResponse)
+            val questionnaire =
+                jsonParser.parseResource(questionnaireJsonString) as Questionnaire
+
+            viewModel.updatePatient(
+                context = this@EditPatientActivity,
+                questionnaireResponse = questionnaireFragment.getQuestionnaireResponse(),
+                questionnaire = questionnaire,
+                questionnaireResponseString = questionnaireResponseString
+            )
         }
     }
 

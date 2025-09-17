@@ -23,10 +23,11 @@ class TimestampBasedDownloadWorkManagerImpl(private val dataStore: DemoDataStore
     private val urls =
         LinkedList(
             listOf(
-                "Patient?_sort=_lastUpdated", "ClinicalImpression"
+                "Patient?_sort=_lastUpdated",
+                "ClinicalImpression?_sort=_lastUpdated",
+                "QuestionnaireResponse?_sort=_lastUpdated"
             )
         )
-//    private val urls = LinkedList(listOf("Patient?address-city=CANCER-CENTER-TEST&_sort=_lastUpdated","ClinicalImpression"))
 
     override suspend fun getNextRequest(): DownloadRequest? {
         var url = urls.poll() ?: return null

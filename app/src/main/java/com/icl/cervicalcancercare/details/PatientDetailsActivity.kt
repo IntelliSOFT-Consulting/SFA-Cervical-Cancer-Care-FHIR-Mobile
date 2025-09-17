@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
@@ -14,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.fhir.FhirEngine
+import com.google.android.fhir.sync.Sync
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.tabs.TabLayout
@@ -25,6 +28,7 @@ import com.icl.cervicalcancercare.adapters.ViewPagerAdapter
 import com.icl.cervicalcancercare.databinding.ActivityAddPatientBinding
 import com.icl.cervicalcancercare.databinding.ActivityPatientDetailsBinding
 import com.icl.cervicalcancercare.fhir.FhirApplication
+import com.icl.cervicalcancercare.fhir.FhirSyncWorker
 import com.icl.cervicalcancercare.models.PatientItem
 import com.icl.cervicalcancercare.network.FormatterClass
 import com.icl.cervicalcancercare.patients.AddPatientActivity
@@ -32,6 +36,9 @@ import com.icl.cervicalcancercare.patients.EditPatientActivity
 import com.icl.cervicalcancercare.utils.Functions
 import com.icl.cervicalcancercare.viewmodels.PatientDetailsViewModel
 import com.icl.cervicalcancercare.viewmodels.factories.PatientDetailsViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.Period
 
@@ -39,17 +46,14 @@ class PatientDetailsActivity : AppCompatActivity() {
     private lateinit var binding:
             ActivityPatientDetailsBinding
     private lateinit var fhirEngine: FhirEngine
+    private lateinit var editId: String
     private lateinit var patientDetailsViewModel: PatientDetailsViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityPatientDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
+
         setSupportActionBar(binding.toolbar)
         val patientId = Functions().getSharedPref("resourceId", this@PatientDetailsActivity)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -79,18 +83,10 @@ class PatientDetailsActivity : AppCompatActivity() {
                 else -> "Overview"
             }
         }.attach()
-
+        editId = ""
         patientDetailsViewModel.getPatientDetailData()
         patientDetailsViewModel.livePatientData.observe(this) { data ->
             if (data != null) {
-
-                data.impressions.forEach {
-                    println("Here is is impression:: ${it.status}")
-                    val dd = it.basis
-                    dd.forEach { k ->
-                        println("Here is is impression:: $k")
-                    }
-                }
                 binding.apply {
                     if (data.basic != null) {
                         val basic = data.basic
@@ -101,6 +97,12 @@ class PatientDetailsActivity : AppCompatActivity() {
                         tvIdentificationNumber.text = basic.identificationNumber
                         tvIdentificationType.text = basic.identificationType
                         tvAge.text = getFormattedAge(basic, tvAge.context.resources)
+
+                        editId =
+                            data.registrationResponse.find { c -> c.patientId == patientId }?.resourceId.toString()
+                        if (data.registrationResponse.isEmpty()) {
+                            btnEditPatient.visibility = View.GONE
+                        }
                         try {
                             val initials = Functions().getInitials(basic.name)
                             val avatarBitmap = Functions().createAvatar(initials)
@@ -131,12 +133,24 @@ class PatientDetailsActivity : AppCompatActivity() {
             }
         }
 
-
-
         binding.apply {
             btnEditPatient.apply {
                 setOnClickListener {
-                    comingSoon()
+                    if (editId.isNotEmpty()) {
+                        FormatterClass().saveSharedPref(
+                            "questionnaire",
+                            "add-patient.json",
+                            this@PatientDetailsActivity
+                        )
+                        startActivity(
+                            Intent(
+                                this@PatientDetailsActivity,
+                                EditPatientActivity::class.java
+                            ).putExtra("questionnaire_id", editId)
+                        )
+                    } else {
+                        comingSoon()
+                    }
                 }
             }
             btnContactPatient.apply {
@@ -144,6 +158,15 @@ class PatientDetailsActivity : AppCompatActivity() {
                     showContactOptions()
                 }
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        try {
+            patientDetailsViewModel.getPatientDetailData()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

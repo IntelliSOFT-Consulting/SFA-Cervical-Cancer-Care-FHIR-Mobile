@@ -4,6 +4,7 @@ import com.icl.cervicalcancercare.R
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Serializer
 import org.hl7.fhir.r4.model.Location
+import org.hl7.fhir.r4.model.QuestionnaireResponse
 import java.time.LocalDate
 
 data class Login(
@@ -33,6 +34,12 @@ data class FhirEntry(
     val fullUrl: String,
     val resource: LocationResource,
     val search: SearchInfo
+)
+
+data class QuestionnaireAnswer(
+    val linkId: String,
+    val text: String,
+    val answer: String
 )
 
 data class LocationResource(
@@ -138,7 +145,13 @@ data class PatientItem(
 
 data class PatientSummary(
     val basic: PatientItem?,
-    val impressions: List<PatientImpression> = emptyList()
+    val impressions: List<PatientImpression> = emptyList(),
+    val registrationResponse: List<QuestionnaireResponseItem> = emptyList()
+)
+
+data class QuestionnaireResponseItem(
+    val resourceId: String,
+    val patientId: String,
 )
 
 //@Serializable

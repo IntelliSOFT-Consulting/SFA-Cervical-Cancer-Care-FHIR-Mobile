@@ -18,6 +18,7 @@ import com.google.android.fhir.search.search
 import com.icl.cervicalcancercare.models.PatientImpression
 import com.icl.cervicalcancercare.models.PatientItem
 import com.icl.cervicalcancercare.models.PatientSummary
+import com.icl.cervicalcancercare.models.QuestionnaireResponseItem
 import com.icl.cervicalcancercare.models.Reco
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -35,6 +36,7 @@ import org.hl7.fhir.r4.model.ContactPoint
 import org.hl7.fhir.r4.model.Encounter
 import org.hl7.fhir.r4.model.Observation
 import org.hl7.fhir.r4.model.Patient
+import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.model.Resource
 import org.hl7.fhir.r4.model.ResourceType
 import kotlin.String
@@ -52,7 +54,6 @@ class PatientDetailsViewModel(
         }
     }
 
-
     private suspend fun getPatientDetailDataModel(
     ): PatientSummary {
         val searchResult =
@@ -61,15 +62,33 @@ class PatientDetailsViewModel(
                 revInclude<Observation>(Observation.SUBJECT)
                 revInclude<Condition>(Condition.SUBJECT)
                 revInclude<Encounter>(Encounter.SUBJECT)
+                revInclude<QuestionnaireResponse>(QuestionnaireResponse.SUBJECT)
                 revInclude<ClinicalImpression>(ClinicalImpression.SUBJECT)
             }
         var data = PatientSummary(
-            basic = null,
-
-            )
+            basic = null
+        )
+        val responsesCool = mutableListOf<QuestionnaireResponseItem>()
 
         searchResult.first().let {
+            it.revIncluded?.get(ResourceType.QuestionnaireResponse to QuestionnaireResponse.SUBJECT.paramName)
+                ?.let { resource ->
+                    val responses = resource.filterIsInstance<QuestionnaireResponse>()
 
+                    val registrationResponse =
+                        responses.filter { k -> k.identifier.value == patientId }
+
+                    registrationResponse.forEach { registration ->
+                        val questionnaireResponseItem = QuestionnaireResponseItem(
+                            resourceId = registration.idElement.idPart,
+                            patientId = patientId
+                        )
+                        responsesCool.add(questionnaireResponseItem)
+                    }
+                    data = data.copy(
+                        registrationResponse = responsesCool
+                    )
+                }
             it.revIncluded?.get(ResourceType.ClinicalImpression to ClinicalImpression.SUBJECT.paramName)
                 ?.let {
                     val impressions = it
@@ -151,9 +170,6 @@ class PatientDetailsViewModel(
                     ward = ward
                 )
             )
-
-            it.revIncluded?.get(ResourceType.Encounter to Encounter.SUBJECT.paramName)?.let {
-            }
         }
 
         return data

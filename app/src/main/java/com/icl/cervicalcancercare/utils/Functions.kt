@@ -22,10 +22,13 @@ import com.icl.cervicalcancercare.network.FormatterClass
 import java.util.UUID
 
 class Functions {
+    fun Context.readFileFromAssets(fileName: String): String =
+        assets.open(fileName).bufferedReader().use { it.readText() }
 
-      fun generateUuid(): String {
+    fun generateUuid(): String {
         return UUID.randomUUID().toString()
     }
+
     fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

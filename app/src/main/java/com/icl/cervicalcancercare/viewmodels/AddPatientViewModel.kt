@@ -308,7 +308,45 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
             val patientId = generateUuid()
             val patient = entry.resource as Patient
             patient.id = patientId
+
+
+            val identifierSystem = Identifier()
+            val typeCodeableConcept = CodeableConcept()
+            val codingList = ArrayList<Coding>()
+            val coding = Coding()
+            coding.system = "system-creation"
+            coding.code = "system_creation"
+            coding.display = "System Creation"
+            codingList.add(coding)
+            typeCodeableConcept.coding = codingList
+
+            identifierSystem.value = patientId
+            identifierSystem.system = "system-creation"
+            identifierSystem.type = typeCodeableConcept
+            patient.identifier.add(identifierSystem)
             fhirEngine.create(patient)
+            // Let's add patient subject reference to the questionnaire response & an identifier
+            val responseIdentifier = Identifier()
+            val responseType = CodeableConcept()
+            val responseCoding = Coding().apply {
+                system = "http://hl7.org/fhir/identifier-type"
+                code = "patient-id"
+                display = "Patient Registration"
+            }
+            val responseList = ArrayList<Coding>()
+            responseList.add(responseCoding)
+
+            responseType.coding = responseList
+            responseIdentifier.value = patientId
+            responseIdentifier.type = responseType
+            responseIdentifier.system = "patient-id"
+
+            val subjectReference = Reference("Patient/$patientId")
+            questionnaireResponse.subject = subjectReference
+            questionnaireResponse.identifier = responseIdentifier
+            questionnaireResponse.id = generateUuid()
+
+            fhirEngine.create(questionnaireResponse)
             isPatientSaved.value = true
             launch(Dispatchers.IO) {
                 extractLocationFromResponseJson(fhirEngine, patientId, questionnaireResponseString)
@@ -355,9 +393,6 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
                     }
                 }
             }
-
-
-            println("Registration Response Extracted County: $county, Subcounty: $subCounty, Ward: $ward")
 
             // TODO: You can save to DB or log to file or FHIR Location, etc.
             viewModelScope.launch {

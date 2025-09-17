@@ -27,6 +27,12 @@ class LocationDownloaderActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityLocationDownloaderBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.apply {
+            animationView.playAnimation()
+            cancelButton.setOnClickListener {
+                // Handle cancellation logic here
+            }
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

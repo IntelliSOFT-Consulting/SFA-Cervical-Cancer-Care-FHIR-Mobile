@@ -12,9 +12,11 @@ import com.google.android.fhir.ServerConfiguration
 import com.google.android.fhir.datacapture.DataCaptureConfig
 import com.google.android.fhir.datacapture.XFhirQueryResolver
 import com.google.android.fhir.search.search // Import the local fhir
+import com.google.android.fhir.sync.HttpAuthenticationMethod
 import com.google.android.fhir.sync.Sync
 import com.google.android.fhir.sync.remote.HttpLogger
 import com.icl.cervicalcancercare.network.Constants.BASE_URL
+import com.icl.cervicalcancercare.network.FormatterClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,10 +26,10 @@ class FhirApplication : Application(), DataCaptureConfig.Provider {
     private val fhirEngine: FhirEngine by lazy { constructFhirEngine() }
     private var dataCaptureConfig: DataCaptureConfig? = null
     private val dataStore by lazy { DemoDataStore(this) }
+    val formatter = FormatterClass()
 
     override fun onCreate() {
         super.onCreate()
-
         FhirEngineProvider.init(
             FhirEngineConfiguration(
                 enableEncryptionIfSupported = false,
@@ -42,7 +44,16 @@ class FhirApplication : Application(), DataCaptureConfig.Provider {
                         ) {
                             Log.e("App-HttpLog", it)
                         },
-                    networkConfiguration = NetworkConfiguration(uploadWithGzip = false),
+                    networkConfiguration = NetworkConfiguration(uploadWithGzip = true),
+                    authenticator = {
+                        HttpAuthenticationMethod.Bearer(
+                            formatter.getSharedPref(
+                                "access_token",
+                                this
+                            )!!
+                        )
+                    },
+//                    authenticator = { HttpAuthenticationMethod.Basic("username", "password") }
                 ),
             ),
         )
