@@ -114,6 +114,7 @@ class EditResponseViewModel(
 
             val patient = entry.resource as Patient
             patient.id = resourceId
+            patient.gender = Enumerations.AdministrativeGender.FEMALE
             val identifierSystem = Identifier()
             val typeCodeableConcept = CodeableConcept()
             val codingList = ArrayList<Coding>()

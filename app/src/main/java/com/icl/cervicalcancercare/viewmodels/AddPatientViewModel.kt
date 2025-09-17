@@ -25,6 +25,7 @@ import org.hl7.fhir.r4.model.ClinicalImpression
 import org.hl7.fhir.r4.model.CodeableConcept
 import org.hl7.fhir.r4.model.Coding
 import org.hl7.fhir.r4.model.Encounter
+import org.hl7.fhir.r4.model.Enumerations
 import org.hl7.fhir.r4.model.Identifier
 import org.hl7.fhir.r4.model.IntegerType
 import org.hl7.fhir.r4.model.Observation
@@ -34,6 +35,7 @@ import org.hl7.fhir.r4.model.QuestionnaireResponse
 import org.hl7.fhir.r4.model.Reference
 import org.hl7.fhir.r4.model.Resource
 import org.hl7.fhir.r4.model.StringType
+import org.hl7.fhir.r4.model.codesystems.AdministrativeGender
 import org.json.JSONObject
 import java.util.Date
 import java.util.UUID
@@ -308,7 +310,7 @@ class AddPatientViewModel(application: Application, private val state: SavedStat
             val patientId = generateUuid()
             val patient = entry.resource as Patient
             patient.id = patientId
-
+            patient.gender = Enumerations.AdministrativeGender.FEMALE
 
             val identifierSystem = Identifier()
             val typeCodeableConcept = CodeableConcept()
