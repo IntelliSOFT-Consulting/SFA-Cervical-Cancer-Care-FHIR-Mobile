@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Login screen palette (night) -->
+    <color name="login_bg_top">#060B1A</color>
+    <color name="login_bg_bottom">#020611</color>
+    <color name="login_header_text">#F8FAFC</color>
+    <color name="login_header_subtext">#AFC4E8</color>
+    <color name="login_surface">#121B2F</color>
+    <color name="login_surface_stroke">#2A3954</color>
+    <color name="login_text_primary">#E2E8F0</color>
+    <color name="login_text_secondary">#9DB0CC</color>
+    <color name="login_hint">#8297B8</color>
+    <color name="login_field_background">#0B1324</color>
+    <color name="login_field_stroke">#374965</color>
+    <color name="login_field_stroke_disabled">#2A3954</color>
+    <color name="login_accent">#60A5FA</color>
+    <color name="login_accent_on">#0B1324</color>
+    <color name="login_link">#93C5FD</color>
+    <color name="login_logo_bg">#0B1324</color>
+    <color name="login_logo_stroke">#31415E</color>
+    <color name="login_logo_tint">#93C5FD</color>
+
+    <!-- Landing screen palette -->
+    <color name="landing_title_text">#F8FAFC</color>
+    <color name="landing_subtitle_text">#AFC4E8</color>
+    <color name="landing_card_background">#7A0E182D</color>
+    <color name="landing_card_stroke">#66558AD1</color>
+    <color name="landing_card_text">#D8E6FF</color>
+    <color name="landing_status_text">#9FB7DD</color>
+    <color name="landing_loader_indicator">#60A5FA</color>
+    <color name="landing_loader_track">#3341628E</color>
+    <color name="landing_orb_primary">#4D2A66CC</color>
+    <color name="landing_orb_primary_center">#404285F4</color>
+    <color name="landing_orb_secondary">#47309AD8</color>
+    <color name="landing_orb_secondary_center">#3344B8F4</color>
+
+    <!-- Location sync screen -->
+    <color name="location_card_background">#7A09142A</color>
+    <color name="location_card_stroke">#665488C6</color>
+    <color name="location_badge_background">#2DFFFFFF</color>
+    <color name="location_badge_stroke">#4D8AAEE0</color>
+    <color name="location_badge_text">#D8E7FF</color>
+    <color name="location_animation_background">#332C4473</color>
+    <color name="location_animation_stroke">#665174A8</color>
+    <color name="location_status_text_primary">#E8F0FF</color>
+    <color name="location_status_text_secondary">#9FB8DD</color>
+    <color name="location_progress_indicator">#60A5FA</color>
+    <color name="location_progress_track">#333D5C89</color>
+    <color name="location_action_button_bg">#60A5FA</color>
+    <color name="location_action_button_text">#061427</color>
+
+    <!-- Home dashboard -->
+    <color name="home_header_card_background">#80111B31</color>
+    <color name="home_header_card_stroke">#664C7CB7</color>
+    <color name="home_badge_text">#DBE8FF</color>
+    <color name="home_icon_button_background">#29FFFFFF</color>
+    <color name="home_icon_button_stroke">#4D8DAEDC</color>
+    <color name="home_icon_tint">#D8E7FF</color>
+    <color name="home_logout_button_background">#33496FA6</color>
+    <color name="home_logout_button_text">#DCE9FF</color>
+    <color name="home_avatar_background">#26FFFFFF</color>
+    <color name="home_avatar_stroke">#4D8CAEDB</color>
+    <color name="home_greeting_text">@color/white</color>
+    <color name="home_title_text">@color/white</color>
+    <color name="home_search_card_background">#660A1429</color>
+    <color name="home_search_card_stroke">#66466697</color>
+    <color name="home_search_icon_tint">#A8BFE4</color>
+    <color name="home_search_text">#E8F0FF</color>
+    <color name="home_search_hint">#7F98BF</color>
+    <color name="home_count_text">#C5D7F2</color>
+    <color name="home_patient_card_background">#7A0A1326</color>
+    <color name="home_patient_card_stroke">#663B5D8C</color>
+    <color name="home_patient_name_text">#E9F1FF</color>
+    <color name="home_patient_meta_text">#A4BDDE</color>
+    <color name="home_patient_meta_muted_text">#7F99BF</color>
+    <color name="home_chevron_tint">#7DA0CF</color>
+    <color name="home_fab_background">#60A5FA</color>
+    <color name="home_fab_icon">#03152D</color>
+    <color name="home_fab_ripple">#99FFFFFF</color>
+</resources>

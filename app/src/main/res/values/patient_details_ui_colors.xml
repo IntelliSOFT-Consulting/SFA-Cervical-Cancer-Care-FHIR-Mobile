@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="patient_details_header_title_text">#FFFFFFFF</color>
+    <color name="patient_details_header_secondary_text">#E6FFFFFF</color>
+    <color name="patient_details_header_stat_fill">#1FFFFFFF</color>
+    <color name="patient_details_header_stat_stroke">#33FFFFFF</color>
+    <color name="patient_details_header_button_fill">#14FFFFFF</color>
+    <color name="patient_details_header_button_stroke">#59FFFFFF</color>
+    <color name="patient_details_tab_container_fill">#F7F9FD</color>
+    <color name="patient_details_tab_container_stroke">#D6DFEC</color>
+    <color name="patient_details_tab_indicator_fill">#E7F0FF</color>
+    <color name="patient_details_tab_indicator_stroke">#CCE0FF</color>
+    <color name="patient_details_tab_text">#5F7291</color>
+    <color name="patient_details_tab_selected_text">#1546A8</color>
+    <color name="patient_details_tab_ripple">#142563EB</color>
+</resources>

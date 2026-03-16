@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="patient_details_toolbar_title">Patient details</string>
+    <string name="patient_details_badge">Patient profile</string>
+    <string name="patient_details_profile_image">Patient profile image</string>
+    <string name="patient_details_age">Age</string>
+    <string name="patient_details_dob">Date of birth</string>
+    <string name="patient_details_identifier">Identifier</string>
+    <string name="patient_details_edit_profile">Edit profile</string>
+    <string name="patient_details_contact_patient">Contact patient</string>
+    <string name="patient_details_tab_overview">Overview</string>
+    <string name="patient_details_tab_recommendations">Recommendations</string>
+    <string name="patient_details_tab_diagnosis">Diagnosis</string>
+    <string name="patient_details_no_name">Unknown patient</string>
+    <string name="patient_details_no_email">No email on file</string>
+    <string name="patient_details_no_phone">No phone on file</string>
+    <string name="patient_details_no_identifier">No identifier recorded</string>
+    <string name="patient_details_unavailable">Not available</string>
+    <string name="patient_details_coming_title">This action is almost ready</string>
+    <string name="patient_details_coming_message">We are still wiring this part of the workflow. You can keep reviewing the patient profile for now.</string>
+    <string name="patient_details_coming_ok">Okay</string>
+    <string name="patient_details_contact_title">Reach out to the patient</string>
+    <string name="patient_details_contact_subtitle">Choose the channels you want to use for recommendations and follow-up.</string>
+    <string name="patient_details_channel_whatsapp">WhatsApp</string>
+    <string name="patient_details_channel_email">Email</string>
+    <string name="patient_details_channel_sms">SMS</string>
+    <string name="patient_details_send_recommendations">Send recommendations</string>
+    <string name="patient_details_toast_sending">Sending via: %1$s</string>
+    <string name="patient_details_no_channel_selected">Choose at least one channel first.</string>
+</resources>
