@@ -4,56 +4,68 @@
     android:id="@+id/confirmDialogLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/dialog_background"
+    android:background="@drawable/confirm_dialog_background"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="24dp">
 
-    <!-- Title -->
     <TextView
         android:id="@+id/dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="Confirm Action"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textColor="@color/confirm_dialog_title"
+        android:textSize="20sp"
+        android:fontFamily="@font/montserratsemi" />
 
-    <!-- Message -->
     <TextView
         android:id="@+id/dialogMessage"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:gravity="center"
         android:text="Are you sure you want to proceed?"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:textColor="@color/confirm_dialog_message"
+        android:textSize="15sp"
+        android:fontFamily="@font/montserratregular"
+        android:lineSpacingExtra="2dp" />
 
-    <!-- Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="end"
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancelButton"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/montserratsemi"
             android:text="Cancel"
-            app:cornerRadius="30dp" />
+            android:textAllCaps="false"
+            android:textColor="@color/confirm_dialog_cancel_text"
+            app:backgroundTint="@color/confirm_dialog_cancel_background"
+            app:cornerRadius="18dp"
+            app:rippleColor="@color/confirm_dialog_cancel_ripple"
+            app:strokeColor="@color/confirm_dialog_cancel_stroke"
+            app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/confirmButton"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/montserratsemi"
             android:text="Confirm"
-            app:cornerRadius="30dp" />
+            android:textAllCaps="false"
+            android:textColor="@color/confirm_dialog_confirm_text"
+            app:backgroundTint="@color/confirm_dialog_confirm_background"
+            app:cornerRadius="18dp"
+            app:rippleColor="@color/confirm_dialog_confirm_ripple" />
 
     </LinearLayout>
 </LinearLayout>

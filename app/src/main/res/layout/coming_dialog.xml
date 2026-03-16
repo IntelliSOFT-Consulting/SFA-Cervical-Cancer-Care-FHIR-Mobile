@@ -47,13 +47,18 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_finish"
+            style="@style/Widget.Material3.Button"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="@color/patient_details_dialog_button_background"
+            android:fontFamily="@font/montserratsemi"
             android:text="Okay"
             android:textAllCaps="false"
-            android:textColor="?attr/colorOnPrimary"
-            app:cornerRadius="32dp" />
+            android:textColor="@color/patient_details_dialog_button_text"
+            app:cornerRadius="32dp"
+            app:rippleColor="@color/patient_details_dialog_button_ripple"
+            app:strokeColor="@color/patient_details_dialog_button_stroke"
+            app:strokeWidth="1dp" />
     </LinearLayout>
 </LinearLayout>

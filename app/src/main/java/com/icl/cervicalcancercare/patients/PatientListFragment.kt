@@ -129,6 +129,7 @@ class PatientListFragment : Fragment() {
             .setView(dialogView)
             .setCancelable(false)
             .create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         val confirmButton = dialogView.findViewById<MaterialButton>(R.id.confirmButton)
         val cancelButton = dialogView.findViewById<MaterialButton>(R.id.cancelButton)

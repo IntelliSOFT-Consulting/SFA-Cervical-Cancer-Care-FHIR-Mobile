@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="overview_action_button_background">#24466F</color>
+    <color name="overview_action_button_text">#F4F8FF</color>
+    <color name="overview_action_button_icon">#F4F8FF</color>
+    <color name="overview_action_button_stroke">#3E679A</color>
+    <color name="overview_action_button_ripple">#40FFFFFF</color>
+</resources>

@@ -65,6 +65,7 @@ class Functions {
             .setView(view)
             .setCancelable(false)
             .create()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         confirmButton.setOnClickListener {
             onConfirm()

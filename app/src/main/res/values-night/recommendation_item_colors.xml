@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="recommendation_item_background">#142236</color>
+    <color name="recommendation_item_stroke">#30455D</color>
+    <color name="recommendation_item_title">#F4F8FF</color>
+    <color name="recommendation_item_meta">#A0B3CF</color>
+    <color name="recommendation_item_chip_background">#24466F</color>
+    <color name="recommendation_item_chip_stroke">#3E679A</color>
+    <color name="recommendation_item_chip_text">#F4F8FF</color>
+    <color name="recommendation_item_arrow_background">#1B2C43</color>
+    <color name="recommendation_item_arrow_stroke">#33567D</color>
+    <color name="recommendation_item_arrow_tint">#D3E3FA</color>
+    <color name="recommendation_item_ripple">#40FFFFFF</color>
+</resources>

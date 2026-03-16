@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="recommendation_item_tap_to_review">Tap to review this recommendation</string>
+    <string name="recommendation_item_action_count">%1$d action item(s)</string>
+</resources>

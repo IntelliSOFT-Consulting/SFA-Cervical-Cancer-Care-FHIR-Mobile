@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -223,6 +224,8 @@ class PatientDetailsActivity : AppCompatActivity() {
         }
 
         dialog.setContentView(view)
+        dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+            ?.setBackgroundResource(android.R.color.transparent)
         dialog.show()
     }
 

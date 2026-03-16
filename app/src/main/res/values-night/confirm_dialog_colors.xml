@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="confirm_dialog_surface">#121C30</color>
+    <color name="confirm_dialog_stroke">#31445E</color>
+    <color name="confirm_dialog_title">#F4F8FF</color>
+    <color name="confirm_dialog_message">#A8BCD8</color>
+    <color name="confirm_dialog_cancel_background">#1B2A42</color>
+    <color name="confirm_dialog_cancel_stroke">#3A567C</color>
+    <color name="confirm_dialog_cancel_text">#DCE9FF</color>
+    <color name="confirm_dialog_confirm_background">#60A5FA</color>
+    <color name="confirm_dialog_confirm_text">#061427</color>
+    <color name="confirm_dialog_confirm_ripple">#40FFFFFF</color>
+    <color name="confirm_dialog_cancel_ripple">#24FFFFFF</color>
+</resources>

@@ -1,15 +1,12 @@
 package com.icl.cervicalcancercare.details.child
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.fhir.FhirEngine
 import com.google.gson.Gson
@@ -94,11 +91,6 @@ class RecommendationFragment : Fragment() {
             patientRecycler.adapter = adapter1
             outlinedButton.visibility = View.GONE
             patientRecycler.layoutManager = LinearLayoutManager(requireContext())
-            patientRecycler.addItemDecoration(
-                DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).apply {
-                    setDrawable(ColorDrawable(Color.LTGRAY))
-                },
-            )
         }
         patientDetailsViewModel.livePatientData.observe(viewLifecycleOwner) {
             it.impressions.forEach {

@@ -1,48 +1,52 @@
 package com.icl.cervicalcancercare.holders
 
-import android.content.res.Resources
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.icl.cervicalcancercare.R
-import com.icl.cervicalcancercare.databinding.ItemPatientBinding
 import com.icl.cervicalcancercare.databinding.ItemPatientImpressionBinding
 import com.icl.cervicalcancercare.models.PatientImpression
-import com.icl.cervicalcancercare.models.PatientItem
-import com.icl.cervicalcancercare.utils.Functions
-import java.time.LocalDate
-import java.time.Period
+import java.util.Locale
 
-
-class PatientImpressionItemViewHolder(binding: ItemPatientImpressionBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-    val textLabel: TextView = binding.textLabel
+class PatientImpressionItemViewHolder(
+    private val binding: ItemPatientImpressionBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bindTo(
         patientItem: PatientImpression,
         onItemClicked: (PatientImpression) -> Unit,
-    ) {
-        this.textLabel.text = patientItem.summary
-        this.itemView.setOnClickListener { onItemClicked(patientItem) }
+    ) = with(binding) {
+        textLabel.text = patientItem.summary
+        detailText.text = buildSubtitle(patientItem)
 
+        statusChip.isVisible = patientItem.status.isNotBlank()
+        if (statusChip.isVisible) {
+            statusChip.text = patientItem.status.toDisplayStatus()
+        }
+
+        itemView.setOnClickListener { onItemClicked(patientItem) }
     }
 
-    private fun getFormattedAge(
-        patientItem: PatientItem,
-        resources: Resources,
-    ): String {
-        if (patientItem.dob == null) return ""
-        return Period.between(patientItem.dob, LocalDate.now()).let {
-            when {
-                it.years > 0 -> resources.getQuantityString(R.plurals.ageYear, it.years, it.years)
-                it.months > 0 -> resources.getQuantityString(
-                    R.plurals.ageMonth,
-                    it.months,
-                    it.months
-                )
+    private fun buildSubtitle(patientItem: PatientImpression): String {
+        val context = binding.root.context
+        val firstBasis = patientItem.basis.firstOrNull()?.trim().orEmpty()
+        val actionCount = patientItem.updatedData.size
 
-                else -> resources.getQuantityString(R.plurals.ageDay, it.days, it.days)
-            }
+        return when {
+            actionCount > 0 && firstBasis.isNotBlank() ->
+                context.getString(R.string.recommendation_item_action_count, actionCount) +
+                    " • " + firstBasis
+
+            actionCount > 0 ->
+                context.getString(R.string.recommendation_item_action_count, actionCount)
+
+            firstBasis.isNotBlank() -> firstBasis
+            else -> context.getString(R.string.recommendation_item_tap_to_review)
+        }
+    }
+
+    private fun String.toDisplayStatus(): String {
+        return lowercase(Locale.getDefault()).replaceFirstChar { char ->
+            if (char.isLowerCase()) char.titlecase(Locale.getDefault()) else char.toString()
         }
     }
 }

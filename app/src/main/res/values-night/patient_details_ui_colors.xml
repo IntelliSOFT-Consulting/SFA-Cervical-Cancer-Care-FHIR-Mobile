@@ -2,6 +2,7 @@
 <resources>
     <color name="patient_details_header_title_text">#FFFFFFFF</color>
     <color name="patient_details_header_secondary_text">#DDEBFF</color>
+    <color name="patient_details_header_info_divider">#52FFFFFF</color>
     <color name="patient_details_header_stat_fill">#22FFFFFF</color>
     <color name="patient_details_header_stat_stroke">#40FFFFFF</color>
     <color name="patient_details_header_button_fill">#1CFFFFFF</color>
@@ -13,4 +14,12 @@
     <color name="patient_details_tab_text">#9CB0CC</color>
     <color name="patient_details_tab_selected_text">#F4F8FF</color>
     <color name="patient_details_tab_ripple">#2693C5FD</color>
+    <color name="patient_details_sheet_button_background">#24466F</color>
+    <color name="patient_details_sheet_button_text">#F4F8FF</color>
+    <color name="patient_details_sheet_button_stroke">#3E679A</color>
+    <color name="patient_details_sheet_button_ripple">#40FFFFFF</color>
+    <color name="patient_details_dialog_button_background">#24466F</color>
+    <color name="patient_details_dialog_button_text">#F4F8FF</color>
+    <color name="patient_details_dialog_button_stroke">#3E679A</color>
+    <color name="patient_details_dialog_button_ripple">#40FFFFFF</color>
 </resources>

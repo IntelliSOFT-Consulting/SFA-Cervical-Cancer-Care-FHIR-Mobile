@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:padding="20dp"
+    android:paddingStart="20dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="20dp"
     tools:context=".details.child.RecommendationFragment">
 
     <!-- Content Stack: RecyclerView + Send Button -->
@@ -20,6 +23,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingTop="0dp"
+            android:paddingBottom="8dp"
             tools:listitem="@layout/item_patient_impression" />
 
         <com.google.android.material.button.MaterialButton
