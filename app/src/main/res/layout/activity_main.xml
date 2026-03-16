@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -28,9 +27,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="16dp"
-        android:background="@color/primary"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="@string/add_recommendation"
+        app:backgroundTint="@color/home_fab_background"
+        app:elevation="4dp"
+        app:maxImageSize="24dp"
+        app:rippleColor="@color/home_fab_ripple"
+        app:srcCompat="@drawable/baseline_add_circle_outline_24"
+        app:tint="@color/home_fab_icon" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

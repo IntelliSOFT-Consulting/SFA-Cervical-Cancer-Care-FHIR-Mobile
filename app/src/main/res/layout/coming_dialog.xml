@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="20dp"
-    android:background="@drawable/dialog_background"
+    android:background="@drawable/patient_details_dialog_background"
     android:orientation="vertical">
 
     <com.airbnb.lottie.LottieAnimationView
@@ -33,25 +33,27 @@
             android:id="@+id/btn_cancel"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
             android:text="Cancel"
-            android:textColor="@android:color/black"
+            android:textAllCaps="false"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="14sp"
             android:visibility="invisible"
             app:cornerRadius="32dp"
-            app:strokeColor="@color/primary"
-            app:strokeWidth="2dp" />
+            app:strokeColor="?attr/colorOutline"
+            app:strokeWidth="1dp" />
 
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_finish"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/primary"
+            android:backgroundTint="?attr/colorPrimary"
             android:text="Okay"
-            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:textColor="?attr/colorOnPrimary"
             app:cornerRadius="32dp" />
     </LinearLayout>
 </LinearLayout>

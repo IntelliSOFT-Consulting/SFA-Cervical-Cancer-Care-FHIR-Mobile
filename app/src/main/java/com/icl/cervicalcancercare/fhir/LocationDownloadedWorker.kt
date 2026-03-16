@@ -17,6 +17,8 @@ import kotlinx.coroutines.withContext
 import org.hl7.fhir.r4.model.Location
 import org.hl7.fhir.r4.model.Reference
 import org.hl7.fhir.r4.model.Resource
+import javax.net.ssl.SSLHandshakeException
+import javax.net.ssl.SSLPeerUnverifiedException
 
 
 class LocationDownloadedWorker(
@@ -32,6 +34,14 @@ class LocationDownloadedWorker(
             val fhirEngine = FhirApplication.Companion.fhirEngine(context)
             fetchAllPages(LOCATION_STARTER, context = context, fhirEngine)
             Result.success()
+        } catch (e: SSLHandshakeException) {
+            // TLS certificate issues won't resolve with retries; fail fast.
+            e.printStackTrace()
+            Result.failure()
+        } catch (e: SSLPeerUnverifiedException) {
+            // Peer trust failures also require server/client cert updates.
+            e.printStackTrace()
+            Result.failure()
         } catch (e: Exception) {
             e.printStackTrace()
             Result.retry()

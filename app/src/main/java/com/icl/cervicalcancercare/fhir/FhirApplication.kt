@@ -28,6 +28,15 @@ class FhirApplication : Application(), DataCaptureConfig.Provider {
     private val dataStore by lazy { DemoDataStore(this) }
     val formatter = FormatterClass()
 
+    companion object {
+        private const val TAG = "FhirApplication"
+
+        fun fhirEngine(context: Context) =
+            (context.applicationContext as FhirApplication).fhirEngine
+
+        fun dataStore(context: Context) = (context.applicationContext as FhirApplication).dataStore
+    }
+
     override fun onCreate() {
         super.onCreate()
         FhirEngineProvider.init(
@@ -46,12 +55,13 @@ class FhirApplication : Application(), DataCaptureConfig.Provider {
                         },
                     networkConfiguration = NetworkConfiguration(uploadWithGzip = true),
                     authenticator = {
-                        HttpAuthenticationMethod.Bearer(
-                            formatter.getSharedPref(
-                                "access_token",
-                                this
-                            )!!
-                        )
+                        val accessToken = formatter.getSharedPref("access_token", this)
+                        if (accessToken.isNullOrBlank()) {
+                            Log.w(TAG, "Missing access token for FHIR request; using empty bearer token.")
+                            HttpAuthenticationMethod.Bearer("")
+                        } else {
+                            HttpAuthenticationMethod.Bearer(accessToken)
+                        }
                     },
 //                    authenticator = { HttpAuthenticationMethod.Basic("username", "password") }
                 ),
@@ -69,18 +79,23 @@ class FhirApplication : Application(), DataCaptureConfig.Provider {
             e.printStackTrace()
         }
 
-        CoroutineScope(Dispatchers.IO).launch { Sync.oneTimeSync<FhirSyncWorker>(this@FhirApplication) }
+        CoroutineScope(Dispatchers.IO).launch {
+            val accessToken = formatter.getSharedPref("access_token", this@FhirApplication)
+            if (accessToken.isNullOrBlank()) {
+                Log.i(TAG, "Skipping initial FHIR sync because access token is missing.")
+                return@launch
+            }
+
+            runCatching {
+                Sync.oneTimeSync<FhirSyncWorker>(this@FhirApplication)
+            }.onFailure { error ->
+                Log.e(TAG, "Initial FHIR sync failed.", error)
+            }
+        }
     }
 
     private fun constructFhirEngine(): FhirEngine {
         return FhirEngineProvider.getInstance(this)
-    }
-
-    companion object {
-        fun fhirEngine(context: Context) =
-            (context.applicationContext as FhirApplication).fhirEngine
-
-        fun dataStore(context: Context) = (context.applicationContext as FhirApplication).dataStore
     }
 
     override fun getDataCaptureConfig(): DataCaptureConfig =

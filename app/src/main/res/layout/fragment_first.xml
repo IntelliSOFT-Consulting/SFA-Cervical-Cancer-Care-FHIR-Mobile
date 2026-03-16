@@ -4,178 +4,206 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/landing_screen_background"
     android:clipToPadding="false"
-    android:fitsSystemWindows="true"
+    android:fillViewport="true"
+    android:paddingBottom="96dp"
     tools:context=".patients.PatientListFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <!-- Header with background -->
-        <RelativeLayout
-            android:id="@+id/header"
-            android:layout_width="0dp"
-            android:layout_height="180dp"
-            android:background="@color/primary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <!-- Profile Info -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_navigation_info"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@color/primary"> <!-- Replace with your blue -->
-
-                <!-- Back Arrow Icon -->
-                <ImageView
-                    android:id="@+id/backIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:contentDescription="Back"
-                    android:src="@drawable/baseline_arrow_back_24"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/white" />
-
-                <!-- Settings Gear Icon -->
-                <ImageView
-                    android:id="@+id/settingsIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:contentDescription="Settings"
-                    android:src="@drawable/baseline_logout_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/white" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/headerCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/home_header_card_background"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/home_header_card_stroke"
+            app:strokeWidth="1dp">
 
             <LinearLayout
-                android:id="@+id/profileSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/layout_navigation_info"
-                android:layout_centerInParent="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="24dp">
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <ImageView
-                    android:id="@+id/img_user_profile"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/circle_background"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/profile" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Hello, Welcome"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_user_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="John James Doe"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Search bar -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/searchCard"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@+id/profileSection"
-                android:layout_alignParentBottom="true"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="25dp"
-                app:cardElevation="6dp">
-
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="2dp">
+
+                    <TextView
+                        android:id="@+id/headerBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:background="@drawable/location_badge_background"
+                        android:fontFamily="@font/montserratsemi"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/home_badge"
+                        android:textColor="@color/home_badge_text"
+                        android:textSize="11sp"
+                        android:visibility="invisible" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/settingsIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:backgroundTint="@color/home_logout_button_background"
+                        android:fontFamily="@font/montserratsemi"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:minWidth="0dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:textAllCaps="false"
+                        android:textColor="@color/home_logout_button_text"
+                        android:textSize="12sp"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/baseline_logout_24"
+                        app:iconGravity="textStart"
+                        app:iconPadding="6dp"
+                        app:iconSize="16dp"
+                        app:iconTint="@color/home_logout_button_text" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/profileSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="6dp">
+                    android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_search"
-                        app:tint="@android:color/darker_gray" />
+                        android:id="@+id/img_user_profile"
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:background="@drawable/home_avatar_background"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/profile" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/searchInput"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
                         android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="Search Patient"
-                        android:padding="8dp" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/greetingText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserratregular"
+                            android:text="@string/home_greeting"
+                            android:textColor="@color/home_greeting_text"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/tv_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/montserratbold"
+                            android:text="John James Doe"
+                            android:textColor="@color/home_title_text"
+                            android:textSize="21sp"
+                            android:textStyle="bold"
+                            tools:text="Grace Achieng" />
+                    </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </RelativeLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Filter chips -->
-        <LinearLayout
-            android:id="@+id/filterChips"
-            android:layout_width="0dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/searchCard"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header">
+            android:layout_margin="10dp"
+            android:layout_marginTop="14dp"
+            app:cardBackgroundColor="@color/home_search_card_background"
+            app:cardCornerRadius="18dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/home_search_card_stroke"
+            app:strokeWidth="1dp">
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="14dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="8dp">
 
-        <!-- RecyclerView for list -->
-        <RelativeLayout
-            android:layout_width="0dp"
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_search"
+                    app:tint="@color/home_search_icon_tint" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/searchInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/montserratregular"
+                    android:hint="@string/home_search_hint"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:textColor="@color/home_search_text"
+                    android:textColorHint="@color/home_search_hint"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/patientCountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserratsemi"
+            android:text="@string/home_patients_overview"
+            android:textColor="@color/home_count_text"
+            android:textSize="15sp"
+            tools:text="24 active patients" />
+
+        <FrameLayout
+
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filterChips">
-
+            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/patientRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
                 android:clipToPadding="false"
-                android:paddingHorizontal="16dp"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="8dp"
                 tools:listitem="@layout/item_patient" />
 
-            <!--            circular progress-->
             <ProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:indeterminate="true" />
-        </RelativeLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+    </LinearLayout>
 </androidx.core.widget.NestedScrollView>

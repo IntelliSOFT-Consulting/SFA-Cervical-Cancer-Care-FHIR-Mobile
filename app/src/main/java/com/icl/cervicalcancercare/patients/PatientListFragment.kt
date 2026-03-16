@@ -3,8 +3,6 @@ package com.icl.cervicalcancercare.patients
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +14,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.fhir.FhirEngine
 import com.google.android.material.button.MaterialButton
@@ -72,6 +69,8 @@ class PatientListFragment : Fragment() {
             val user = FormatterClass().getSharedPref("userName", requireContext())
             if (user != null) {
                 tvUserName.text = user.replaceFirstChar { it.uppercaseChar() }
+            } else {
+                tvUserName.text = getString(R.string.home_default_user)
             }
             val userName = tvUserName.text.toString()
 
@@ -100,6 +99,7 @@ class PatientListFragment : Fragment() {
         binding.searchInput.apply {
             addTextChangedListener(
                 onTextChanged = { text, _, _, _ ->
+                    binding.progressBar.visibility = View.VISIBLE
                     patientListViewModel.setPatientGivenName(text.toString())
                 },
             )
@@ -110,20 +110,15 @@ class PatientListFragment : Fragment() {
             }
         }
         val adapter1 = PatientAdapter(this::onPatientItemClicked)
-        patientListViewModel.patientCount.observe(viewLifecycleOwner) {
-//            binding.patientCount.text = "$it Patient(s)"
-        }
+        binding.progressBar.visibility = View.VISIBLE
         patientListViewModel.liveSearchedPatients.observe(viewLifecycleOwner) {
             binding.progressBar.visibility = View.GONE
+            binding.patientCountText.text =
+                getString(R.string.home_patients_count, it.size)
             adapter1.submitList(it)
         }
         binding.patientRecycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(
-                DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).apply {
-                    setDrawable(ColorDrawable(Color.LTGRAY))
-                },
-            )
             adapter = adapter1
         }
     }

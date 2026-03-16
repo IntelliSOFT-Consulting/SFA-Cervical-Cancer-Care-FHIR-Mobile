@@ -1,10 +1,13 @@
 package com.icl.cervicalcancercare.auth
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.doAfterTextChanged
 import com.icl.cervicalcancercare.R
 import com.icl.cervicalcancercare.databinding.ActivityLoginBinding
 import com.icl.cervicalcancercare.models.Login
@@ -22,25 +25,45 @@ class LoginActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        applySystemBarAppearance()
+        val initialPaddingLeft = binding.main.paddingLeft
+        val initialPaddingTop = binding.main.paddingTop
+        val initialPaddingRight = binding.main.paddingRight
+        val initialPaddingBottom = binding.main.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(
+                initialPaddingLeft + systemBars.left,
+                initialPaddingTop + systemBars.top,
+                initialPaddingRight + systemBars.right,
+                initialPaddingBottom + systemBars.bottom
+            )
             insets
         }
 
         binding.apply {
+            usernameEditText.doAfterTextChanged {
+                usernameInputLayout.error = null
+            }
+
+            passwordEditText.doAfterTextChanged {
+                passwordInputLayout.error = null
+            }
+
             loginButton.apply {
                 setOnClickListener {
                     val email = binding.usernameEditText.text.toString()
                     val password = binding.passwordEditText.text.toString()
 
                     if (email.isEmpty()) {
-                        binding.usernameInputLayout.error = "Please enter username"
+                        binding.usernameInputLayout.error =
+                            getString(R.string.login_error_username_required)
                         return@setOnClickListener
                     }
                     // check password
                     if (password.isEmpty()) {
-                        binding.passwordInputLayout.error = "Please enter password"
+                        binding.passwordInputLayout.error =
+                            getString(R.string.login_error_password_required)
                         return@setOnClickListener
                     }
 
@@ -49,8 +72,8 @@ class LoginActivity : AppCompatActivity() {
 
                         Functions().showConnectionAlertDialog(
                             context = this@LoginActivity,
-                            title = "No Internet Connection",
-                            message = "An active internet connection is required.\nPlease check your internet connection and try again.",
+                            title = getString(R.string.login_no_internet_title),
+                            message = getString(R.string.login_no_internet_message),
                             onConfirm = {
                                 // Perform delete logic
                             },
@@ -68,6 +91,16 @@ class LoginActivity : AppCompatActivity() {
 
                 }
             }
+        }
+    }
+
+    private fun applySystemBarAppearance() {
+        val isNightMode =
+            (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
+                    Configuration.UI_MODE_NIGHT_YES
+        WindowCompat.getInsetsController(window, window.decorView)?.apply {
+            isAppearanceLightStatusBars = !isNightMode
+            isAppearanceLightNavigationBars = !isNightMode
         }
     }
 }

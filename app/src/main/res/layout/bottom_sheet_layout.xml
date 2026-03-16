@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="20dp"
-    android:background="@drawable/bottom_sheet_background"
+    android:background="@drawable/patient_details_sheet_background"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -14,7 +15,7 @@
         android:layout_height="4dp"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/drag_indicator_bg" />
+        android:background="@drawable/patient_details_sheet_drag_indicator" />
 
     <!-- Title -->
     <TextView
@@ -25,6 +26,7 @@
         android:text="Send Recommendations to Patient"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="?attr/colorOnSurface"
         android:textStyle="bold" />
 
     <!-- Subtitle -->
@@ -34,27 +36,33 @@
         android:paddingBottom="16dp"
         android:text="Choose how you want to send recommendations to the patient"
         android:textAlignment="center"
-
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="14sp" />
 
     <!-- Communication Options -->
-    <CheckBox
+    <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/whatsappCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="WhatsApp" />
+        android:text="WhatsApp"
+        android:textColor="?attr/colorOnSurface"
+        app:useMaterialThemeColors="true" />
 
-    <CheckBox
+    <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/emailCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email" />
+        android:text="Email"
+        android:textColor="?attr/colorOnSurface"
+        app:useMaterialThemeColors="true" />
 
-    <CheckBox
+    <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/smsCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SMS" />
+        android:text="SMS"
+        android:textColor="?attr/colorOnSurface"
+        app:useMaterialThemeColors="true" />
 
     <!-- Send Button -->
     <com.google.android.material.button.MaterialButton
@@ -62,7 +70,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:backgroundTint="@color/primary"
+        android:backgroundTint="?attr/colorPrimary"
         android:text="Send Recommendations"
-        android:textColor="@android:color/white" />
+        android:textAllCaps="false"
+        android:textColor="?attr/colorOnPrimary" />
 </LinearLayout>

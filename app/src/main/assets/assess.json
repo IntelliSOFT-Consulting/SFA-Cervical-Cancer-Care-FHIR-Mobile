@@ -1,11 +1,6 @@
 {
   "resourceType": "Questionnaire",
   "id": "cervical-cancer-clinical-assessment",
-  "meta": {
-    "profile": [
-      "http://hl7.org/fhir/4.0/StructureDefinition/Questionnaire"
-    ]
-  },
   "extension": [
     {
       "url": "http://hl7.org/fhir/StructureDefinition/variable",
@@ -22,6 +17,18 @@
         "language": "text/fhirpath",
         "expression": "%resource.descendants().where(linkId='sub_county').answer.value.reference"
       }
+    },
+    {
+      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-itemExtractionContext",
+      "valueExpression": {
+        "language": "application/x-fhir-query",
+        "expression": "Encounter",
+        "name": "encounter"
+      }
+    },
+    {
+      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-entryMode",
+      "valueCode": "prior-edit"
     }
   ],
   "version": "v.1.1",
@@ -32,6 +39,9 @@
   "purpose": "Perform Patient Screening",
   "approvalDate": "2025-09-15",
   "lastReviewDate": "2025-09-15",
+  "subjectType": [
+    "Encounter"
+  ],
   "item": [
     {
       "item": [
@@ -1021,17 +1031,7 @@
           "linkId": "bmi",
           "text": "BMI",
           "type": "decimal",
-          "required": true,
-          "readOnly": true,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-calculatedExpression",
-              "valueExpression": {
-                "language": "text/fhirpath",
-                "expression": "iif(%resource.repeat(item).where(linkId='weight_kg').answer.empty() or %resource.repeat(item).where(linkId='height_cm').answer.empty(), {}, (%resource.repeat(item).where(linkId='weight_kg').answer.first().value) / ((%resource.repeat(item).where(linkId='height_cm').answer.first().value / 100.0) * (%resource.repeat(item).where(linkId='height_cm').answer.first().value / 100.0)))"
-              }
-            }
-          ]
+          "required": true
         },
         {
           "linkId": "bmi_warning",
@@ -1058,7 +1058,7 @@
               "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-enableWhenExpression",
               "valueExpression": {
                 "language": "text/fhirpath",
-                "expression": "iif(%resource.repeat(item).where(linkId='bmi').answer.first().value < 18.5 or %resource.repeat(item).where(linkId='bmi').answer.first().value > 24.9, true, false)"
+                "expression": "iif(%resource.repeat(item).where(linkId='bmi').answer.valueDecimal.empty(), false, %resource.repeat(item).where(linkId='bmi').answer.valueDecimal.first() < 18.5 or %resource.repeat(item).where(linkId='bmi').answer.valueDecimal.first() > 24.9)"
               }
             },
             {

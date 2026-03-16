@@ -1,43 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_pattern"
+    android:background="@drawable/landing_screen_background"
+    android:paddingStart="24dp"
+    android:paddingTop="24dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="24dp"
     tools:context=".auth.SplashActivity">
 
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/montserratbold"
-        android:text="@string/support_tool"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/contentContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="50dp"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/getStartedButton"
+        <ImageView
+            android:id="@+id/landingLogo"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:background="@drawable/login_logo_background"
+            android:contentDescription="@string/app_name"
+            android:padding="16dp"
+            android:src="@mipmap/ic_launcher"  />
+
+        <TextView
+            android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#E6F0FF"
-            android:text="Get Started"
-            android:textColor="#007AFF"
-            android:visibility="gone"
-            app:cornerRadius="20dp" />
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/montserratbold"
+            android:text="@string/landing_title"
+            android:textColor="@color/landing_title_text"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/montserratregular"
+            android:gravity="center"
+            android:text="@string/landing_subtitle"
+            android:textColor="@color/landing_subtitle_text"
+            android:textSize="15sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:cardBackgroundColor="@color/landing_card_background"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/landing_card_stroke"
+            app:strokeWidth="1dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserratsemi"
+                android:gravity="center"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="16dp"
+                android:text="@string/landing_card_text"
+                android:textColor="@color/landing_card_text"
+                android:textSize="14sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/loadingIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="30dp"
+            android:indeterminate="true"
+            app:indicatorColor="@color/landing_loader_indicator"
+            app:trackColor="@color/landing_loader_track"
+            app:trackCornerRadius="3dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/montserratregular"
+            android:text="@string/landing_loading_text"
+            android:textColor="@color/landing_status_text"
+            android:textSize="13sp" />
     </LinearLayout>
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

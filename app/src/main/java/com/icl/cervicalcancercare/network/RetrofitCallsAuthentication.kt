@@ -7,8 +7,10 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.google.android.fhir.sync.Sync
 import com.icl.cervicalcancercare.R
 import com.icl.cervicalcancercare.auth.LocationDownloaderActivity
+import com.icl.cervicalcancercare.fhir.FhirSyncWorker
 import com.icl.cervicalcancercare.models.ExtractedData
 import com.icl.cervicalcancercare.models.Login
 import com.icl.cervicalcancercare.models.Payload
@@ -314,6 +316,7 @@ class RetrofitCallsAuthentication {
                                     formatter.saveSharedPref("isLoggedIn", "true", context)
                                     formatter.saveSharedPref("userName", dbSignIn.username, context)
                                     messageToast = "Login successful.."
+
                                     val intent =
                                         Intent(context, LocationDownloaderActivity::class.java)
                                     intent.addFlags(

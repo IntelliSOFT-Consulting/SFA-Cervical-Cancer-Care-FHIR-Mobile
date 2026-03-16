@@ -48,6 +48,10 @@
         "expression": "Patient",
         "name": "patient"
       }
+    },
+    {
+      "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire-entryMode",
+      "valueCode": "prior-edit"
     }
   ],
   "item": [
@@ -259,7 +263,7 @@
                   }
                 }
               ],
-              "linkId": "PR-telecom-value",
+              "linkId": "PR-identification-value",
               "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.identifier.value",
               "type": "string",
               "required": true,
@@ -341,7 +345,7 @@
                   "valueInteger": 10
                 }
               ],
-              "linkId": "PR-telecom-value",
+              "linkId": "PR-telecom-value-phone",
               "definition": "http://hl7.org/fhir/StructureDefinition/Patient#Patient.telecom.value",
               "type": "string",
               "required": true,

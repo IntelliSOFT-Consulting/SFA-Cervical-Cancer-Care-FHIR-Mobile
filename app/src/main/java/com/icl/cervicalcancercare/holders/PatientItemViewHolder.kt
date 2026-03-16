@@ -22,15 +22,20 @@ class PatientItemViewHolder(binding: ItemPatientBinding) :
         patientItem: PatientItem,
         onItemClicked: (PatientItem) -> Unit,
     ) {
+        val dobTextValue = patientItem.dob?.toString() ?: "--"
         this.name.text = patientItem.name
-        this.dobAge.text = " DOB: ${patientItem.dob}  (${
-            getFormattedAge(
-                patientItem,
-                this.dobAge.context.resources
+        this.dobAge.text =
+            this.dobAge.context.getString(
+                R.string.home_patient_dob_age,
+                dobTextValue,
+                getFormattedAge(patientItem, this.dobAge.context.resources)
             )
-        })"
         this.nationalId.text =
-            " ${patientItem.identificationType} :  ${patientItem.identificationNumber}"
+            this.nationalId.context.getString(
+                R.string.home_patient_identifier,
+                patientItem.identificationType,
+                patientItem.identificationNumber
+            )
         try {
             val initials = Functions().getInitials(patientItem.name)
             val avatarBitmap = Functions().createAvatar(initials)
