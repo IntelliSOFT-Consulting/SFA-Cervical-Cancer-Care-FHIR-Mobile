@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="recommendation_details_toolbar_background">#FFFFFF</color>
+    <color name="recommendation_details_toolbar_text">#102241</color>
+    <color name="recommendation_details_toolbar_icon">#102241</color>
+</resources>

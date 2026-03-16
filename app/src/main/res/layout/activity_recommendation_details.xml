@@ -5,27 +5,36 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     android:fitsSystemWindows="false"
     tools:context=".details.child.RecommendationDetailsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/recommendation_details_toolbar_background">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:titleTextColor="?attr/colorOnPrimary" />
+            android:background="@color/recommendation_details_toolbar_background"
+            app:navigationIconTint="@color/recommendation_details_toolbar_icon"
+            app:titleTextColor="@color/recommendation_details_toolbar_text" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
+        android:id="@+id/contentScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?attr/colorSurface"
         android:orientation="vertical"
-        android:padding="25dp"
+        android:paddingStart="25dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="25dp"
+        android:paddingBottom="25dp"
         android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

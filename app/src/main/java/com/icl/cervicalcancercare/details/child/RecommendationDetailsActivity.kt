@@ -1,13 +1,16 @@
 package com.icl.cervicalcancercare.details.child
 
 import android.os.Bundle
+import android.content.res.Configuration
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.gson.Gson
 import com.icl.cervicalcancercare.R
@@ -22,14 +25,11 @@ class RecommendationDetailsActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityRecommendationDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar.apply { title = "Recommendation" }
+
+        applySystemBarAppearance()
+        applyWindowInsets()
+        setupToolbar()
+
         val json = intent.getStringExtra("impression_json")
         val impression = Gson().fromJson(json, PatientImpression::class.java)
 
@@ -53,6 +53,61 @@ class RecommendationDetailsActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        applySystemBarAppearance()
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.apply {
+            title = "Recommendation"
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
+        }
+        binding.toolbar.navigationIcon?.setTint(
+            ContextCompat.getColor(this, R.color.recommendation_details_toolbar_icon)
+        )
+    }
+
+    private fun applyWindowInsets() {
+        val initialAppBarLeft = binding.appBarLayout.paddingLeft
+        val initialAppBarTop = binding.appBarLayout.paddingTop
+        val initialAppBarRight = binding.appBarLayout.paddingRight
+        val initialContentLeft = binding.contentScroll.paddingLeft
+        val initialContentRight = binding.contentScroll.paddingRight
+        val initialContentBottom = binding.contentScroll.paddingBottom
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { _, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            binding.appBarLayout.setPadding(
+                initialAppBarLeft + systemBars.left,
+                initialAppBarTop + systemBars.top,
+                initialAppBarRight + systemBars.right,
+                binding.appBarLayout.paddingBottom
+            )
+
+            binding.contentScroll.setPadding(
+                initialContentLeft + systemBars.left,
+                binding.contentScroll.paddingTop,
+                initialContentRight + systemBars.right,
+                initialContentBottom + systemBars.bottom
+            )
+            insets
+        }
+    }
+
+    private fun applySystemBarAppearance() {
+        val isNightMode =
+            (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
+                Configuration.UI_MODE_NIGHT_YES
+        WindowCompat.getInsetsController(window, window.decorView).apply {
+            isAppearanceLightStatusBars = !isNightMode
+            isAppearanceLightNavigationBars = !isNightMode
+        }
     }
 
     private fun createCustomField(string: String, isBold: Boolean): View {
