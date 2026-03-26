@@ -67,18 +67,18 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // FHIR Package + Networking
-    implementation("com.google.android.fhir:engine:1.2.0")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
-    implementation("com.google.android.fhir:data-capture:1.3.1")
-    implementation("androidx.datastore:datastore-preferences:1.1.4")
-    implementation("androidx.work:work-runtime-ktx:2.11.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
-    implementation("com.squareup.retrofit2:retrofit:3.0.0")
-    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.3.2")
-    implementation("com.squareup.retrofit2:converter-moshi:3.0.0")
+    implementation(libs.engine)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+    implementation(libs.data.capture)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.converter.moshi)
 
 //    Lottie
-    implementation("com.airbnb.android:lottie:6.7.1")
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation(libs.lottie)
+    implementation(libs.mpandroidchart)
 }
